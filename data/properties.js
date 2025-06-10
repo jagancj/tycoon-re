@@ -6,7 +6,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 43000,
     askingPrice: 56000,
-    renovationCost: 12500,
+    renovationCost: {
+      materials: Math.round(12500 * 0.57),
+      labor: Math.round(12500 * 0.39),
+      permits: Math.round(12500 * 0.04),
+      total: 12500
+    },
     valueIncreaseAfterReno: 17500,
     hiddenDamageCost: 4000,
     areaAverageValue: 68500,
@@ -22,7 +27,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 65500,
     askingPrice: 72500,
-    renovationCost: 15500,
+    renovationCost: {
+      materials: Math.round(15500 * 0.57),
+      labor: Math.round(15500 * 0.39),
+      permits: Math.round(15500 * 0.04),
+      total: 15500
+    },
     valueIncreaseAfterReno: 22500,
     hiddenDamageCost: 8000,
     areaAverageValue: 81000,
@@ -38,7 +48,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 51500,
     askingPrice: 63500,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 18000,
     hiddenDamageCost: 8000,
     areaAverageValue: 80000,
@@ -53,7 +68,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 69000,
     askingPrice: 83000,
-    renovationCost: 8000,
+    renovationCost: {
+      materials: Math.round(8000 * 0.57),
+      labor: Math.round(8000 * 0.39),
+      permits: Math.round(8000 * 0.04),
+      total: 8000
+    },
     valueIncreaseAfterReno: 20500,
     hiddenDamageCost: 4000,
     areaAverageValue: 91000,
@@ -68,7 +88,12 @@ export const PROPERTY_LIST = [
     minLevel: 9,
     baseValue: 35000,
     askingPrice: 44500,
-    renovationCost: 18000,
+    renovationCost: {
+      materials: Math.round(18000 * 0.57),
+      labor: Math.round(18000 * 0.39),
+      permits: Math.round(18000 * 0.04),
+      total: 18000
+    },
     valueIncreaseAfterReno: 25000,
     hiddenDamageCost: 10000,
     areaAverageValue: 57500,
@@ -84,7 +109,12 @@ export const PROPERTY_LIST = [
     minLevel: 4,
     baseValue: 61000,
     askingPrice: 67000,
-    renovationCost: 15500,
+    renovationCost: {
+      materials: Math.round(15500 * 0.57),
+      labor: Math.round(15500 * 0.39),
+      permits: Math.round(15500 * 0.04),
+      total: 15500
+    },
     valueIncreaseAfterReno: 26000,
     hiddenDamageCost: 6000,
     areaAverageValue: 74000,
@@ -99,7 +129,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 61000,
     askingPrice: 72500,
-    renovationCost: 11000,
+    renovationCost: {
+      materials: Math.round(11000 * 0.57),
+      labor: Math.round(11000 * 0.39),
+      permits: Math.round(11000 * 0.04),
+      total: 11000
+    },
     valueIncreaseAfterReno: 24500,
     hiddenDamageCost: 4000,
     areaAverageValue: 80500,
@@ -115,7 +150,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 84000,
     askingPrice: 97500,
-    renovationCost: 11000,
+    renovationCost: {
+      materials: Math.round(11000 * 0.57),
+      labor: Math.round(11000 * 0.39),
+      permits: Math.round(11000 * 0.04),
+      total: 11000
+    },
     valueIncreaseAfterReno: 24000,
     hiddenDamageCost: 6000,
     areaAverageValue: 111000,
@@ -131,7 +171,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 56500,
     askingPrice: 67000,
-    renovationCost: 9000,
+    renovationCost: {
+      materials: Math.round(9000 * 0.57),
+      labor: Math.round(9000 * 0.39),
+      permits: Math.round(9000 * 0.04),
+      total: 9000
+    },
     valueIncreaseAfterReno: 14500,
     hiddenDamageCost: 9000,
     areaAverageValue: 81000,
@@ -147,7 +192,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 70000,
     askingPrice: 78000,
-    renovationCost: 10000,
+    renovationCost: {
+      materials: Math.round(10000 * 0.57),
+      labor: Math.round(10000 * 0.39),
+      permits: Math.round(10000 * 0.04),
+      total: 10000
+    },
     valueIncreaseAfterReno: 19500,
     hiddenDamageCost: 4500,
     areaAverageValue: 97500,
@@ -162,7 +212,12 @@ export const PROPERTY_LIST = [
     minLevel: 6,
     baseValue: 73000,
     askingPrice: 88000,
-    renovationCost: 12000,
+    renovationCost: {
+      materials: Math.round(12000 * 0.57),
+      labor: Math.round(12000 * 0.39),
+      permits: Math.round(12000 * 0.04),
+      total: 12000
+    },
     valueIncreaseAfterReno: 21000,
     hiddenDamageCost: 4000,
     areaAverageValue: 94000,
@@ -178,7 +233,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 34500,
     askingPrice: 41500,
-    renovationCost: 14000,
+    renovationCost: {
+      materials: Math.round(14000 * 0.57),
+      labor: Math.round(14000 * 0.39),
+      permits: Math.round(14000 * 0.04),
+      total: 14000
+    },
     valueIncreaseAfterReno: 27000,
     hiddenDamageCost: 6000,
     areaAverageValue: 61000,
@@ -193,7 +253,12 @@ export const PROPERTY_LIST = [
     minLevel: 2,
     baseValue: 78000,
     askingPrice: 86500,
-    renovationCost: 16000,
+    renovationCost: {
+      materials: Math.round(16000 * 0.57),
+      labor: Math.round(16000 * 0.39),
+      permits: Math.round(16000 * 0.04),
+      total: 16000
+    },
     valueIncreaseAfterReno: 23500,
     hiddenDamageCost: 10000,
     areaAverageValue: 104500,
@@ -209,7 +274,12 @@ export const PROPERTY_LIST = [
     minLevel: 7,
     baseValue: 40500,
     askingPrice: 48500,
-    renovationCost: 13500,
+    renovationCost: {
+      materials: Math.round(13500 * 0.57),
+      labor: Math.round(13500 * 0.39),
+      permits: Math.round(13500 * 0.04),
+      total: 13500
+    },
     valueIncreaseAfterReno: 25500,
     hiddenDamageCost: 9000,
     areaAverageValue: 64000,
@@ -224,7 +294,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 40500,
     askingPrice: 51500,
-    renovationCost: 10000,
+    renovationCost: {
+      materials: Math.round(10000 * 0.57),
+      labor: Math.round(10000 * 0.39),
+      permits: Math.round(10000 * 0.04),
+      total: 10000
+    },
     valueIncreaseAfterReno: 21500,
     hiddenDamageCost: 9000,
     areaAverageValue: 65000,
@@ -239,7 +314,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 71000,
     askingPrice: 81000,
-    renovationCost: 13500,
+    renovationCost: {
+      materials: Math.round(13500 * 0.57),
+      labor: Math.round(13500 * 0.39),
+      permits: Math.round(13500 * 0.04),
+      total: 13500
+    },
     valueIncreaseAfterReno: 23000,
     hiddenDamageCost: 3500,
     areaAverageValue: 97000,
@@ -254,7 +334,12 @@ export const PROPERTY_LIST = [
     minLevel: 7,
     baseValue: 55000,
     askingPrice: 70000,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 23500,
     hiddenDamageCost: 3000,
     areaAverageValue: 83000,
@@ -270,7 +355,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 71000,
     askingPrice: 78500,
-    renovationCost: 13500,
+    renovationCost: {
+      materials: Math.round(13500 * 0.57),
+      labor: Math.round(13500 * 0.39),
+      permits: Math.round(13500 * 0.04),
+      total: 13500
+    },
     valueIncreaseAfterReno: 24000,
     hiddenDamageCost: 3000,
     areaAverageValue: 92500,
@@ -285,7 +375,12 @@ export const PROPERTY_LIST = [
     minLevel: 4,
     baseValue: 79500,
     askingPrice: 90000,
-    renovationCost: 12000,
+    renovationCost: {
+      materials: Math.round(12000 * 0.57),
+      labor: Math.round(12000 * 0.39),
+      permits: Math.round(12000 * 0.04),
+      total: 12000
+    },
     valueIncreaseAfterReno: 25000,
     hiddenDamageCost: 5000,
     areaAverageValue: 107000,
@@ -300,7 +395,12 @@ export const PROPERTY_LIST = [
     minLevel: 2,
     baseValue: 83500,
     askingPrice: 89500,
-    renovationCost: 14500,
+    renovationCost: {
+      materials: Math.round(14500 * 0.57),
+      labor: Math.round(14500 * 0.39),
+      permits: Math.round(14500 * 0.04),
+      total: 14500
+    },
     valueIncreaseAfterReno: 28000,
     hiddenDamageCost: 8500,
     areaAverageValue: 105000,
@@ -315,7 +415,12 @@ export const PROPERTY_LIST = [
     minLevel: 8,
     baseValue: 58000,
     askingPrice: 66500,
-    renovationCost: 17500,
+    renovationCost: {
+      materials: Math.round(17500 * 0.57),
+      labor: Math.round(17500 * 0.39),
+      permits: Math.round(17500 * 0.04),
+      total: 17500
+    },
     valueIncreaseAfterReno: 23500,
     hiddenDamageCost: 6000,
     areaAverageValue: 77000,
@@ -331,7 +436,12 @@ export const PROPERTY_LIST = [
     minLevel: 6,
     baseValue: 40000,
     askingPrice: 46000,
-    renovationCost: 18000,
+    renovationCost: {
+      materials: Math.round(18000 * 0.57),
+      labor: Math.round(18000 * 0.39),
+      permits: Math.round(18000 * 0.04),
+      total: 18000
+    },
     valueIncreaseAfterReno: 27500,
     hiddenDamageCost: 6000,
     areaAverageValue: 57000,
@@ -347,7 +457,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 60000,
     askingPrice: 73500,
-    renovationCost: 16000,
+    renovationCost: {
+      materials: Math.round(16000 * 0.57),
+      labor: Math.round(16000 * 0.39),
+      permits: Math.round(16000 * 0.04),
+      total: 16000
+    },
     valueIncreaseAfterReno: 28500,
     hiddenDamageCost: 4000,
     areaAverageValue: 84500,
@@ -363,7 +478,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 36000,
     askingPrice: 45500,
-    renovationCost: 19500,
+    renovationCost: {
+      materials: Math.round(19500 * 0.57),
+      labor: Math.round(19500 * 0.39),
+      permits: Math.round(19500 * 0.04),
+      total: 19500
+    },
     valueIncreaseAfterReno: 32500,
     hiddenDamageCost: 9500,
     areaAverageValue: 63500,
@@ -379,7 +499,12 @@ export const PROPERTY_LIST = [
     minLevel: 8,
     baseValue: 47000,
     askingPrice: 60000,
-    renovationCost: 10000,
+    renovationCost: {
+      materials: Math.round(10000 * 0.57),
+      labor: Math.round(10000 * 0.39),
+      permits: Math.round(10000 * 0.04),
+      total: 10000
+    },
     valueIncreaseAfterReno: 25000,
     hiddenDamageCost: 6000,
     areaAverageValue: 73000,
@@ -395,7 +520,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 46500,
     askingPrice: 54500,
-    renovationCost: 12500,
+    renovationCost: {
+      materials: Math.round(12500 * 0.57),
+      labor: Math.round(12500 * 0.39),
+      permits: Math.round(12500 * 0.04),
+      total: 12500
+    },
     valueIncreaseAfterReno: 20500,
     hiddenDamageCost: 7000,
     areaAverageValue: 66500,
@@ -410,7 +540,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 44000,
     askingPrice: 52000,
-    renovationCost: 14500,
+    renovationCost: {
+      materials: Math.round(14500 * 0.57),
+      labor: Math.round(14500 * 0.39),
+      permits: Math.round(14500 * 0.04),
+      total: 14500
+    },
     valueIncreaseAfterReno: 23500,
     hiddenDamageCost: 3500,
     areaAverageValue: 71500,
@@ -425,7 +560,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 66500,
     askingPrice: 77000,
-    renovationCost: 18000,
+    renovationCost: {
+      materials: Math.round(18000 * 0.57),
+      labor: Math.round(18000 * 0.39),
+      permits: Math.round(18000 * 0.04),
+      total: 18000
+    },
     valueIncreaseAfterReno: 30000,
     hiddenDamageCost: 8500,
     areaAverageValue: 83000,
@@ -440,7 +580,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 83500,
     askingPrice: 93000,
-    renovationCost: 11000,
+    renovationCost: {
+      materials: Math.round(11000 * 0.57),
+      labor: Math.round(11000 * 0.39),
+      permits: Math.round(11000 * 0.04),
+      total: 11000
+    },
     valueIncreaseAfterReno: 19500,
     hiddenDamageCost: 10000,
     areaAverageValue: 106000,
@@ -456,7 +601,12 @@ export const PROPERTY_LIST = [
     minLevel: 10,
     baseValue: 47000,
     askingPrice: 53000,
-    renovationCost: 17500,
+    renovationCost: {
+      materials: Math.round(17500 * 0.57),
+      labor: Math.round(17500 * 0.39),
+      permits: Math.round(17500 * 0.04),
+      total: 17500
+    },
     valueIncreaseAfterReno: 29500,
     hiddenDamageCost: 4000,
     areaAverageValue: 64500,
@@ -471,7 +621,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 44000,
     askingPrice: 56000,
-    renovationCost: 20000,
+    renovationCost: {
+      materials: Math.round(20000 * 0.57),
+      labor: Math.round(20000 * 0.39),
+      permits: Math.round(20000 * 0.04),
+      total: 20000
+    },
     valueIncreaseAfterReno: 25000,
     hiddenDamageCost: 9000,
     areaAverageValue: 75000,
@@ -487,7 +642,12 @@ export const PROPERTY_LIST = [
     minLevel: 10,
     baseValue: 63000,
     askingPrice: 76500,
-    renovationCost: 11500,
+    renovationCost: {
+      materials: Math.round(11500 * 0.57),
+      labor: Math.round(11500 * 0.39),
+      permits: Math.round(11500 * 0.04),
+      total: 11500
+    },
     valueIncreaseAfterReno: 22000,
     hiddenDamageCost: 5000,
     areaAverageValue: 82000,
@@ -503,7 +663,12 @@ export const PROPERTY_LIST = [
     minLevel: 9,
     baseValue: 81500,
     askingPrice: 94000,
-    renovationCost: 11000,
+    renovationCost: {
+      materials: Math.round(11000 * 0.57),
+      labor: Math.round(11000 * 0.39),
+      permits: Math.round(11000 * 0.04),
+      total: 11000
+    },
     valueIncreaseAfterReno: 23000,
     hiddenDamageCost: 3500,
     areaAverageValue: 104000,
@@ -519,7 +684,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 72000,
     askingPrice: 83500,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 24500,
     hiddenDamageCost: 8000,
     areaAverageValue: 96500,
@@ -534,7 +704,12 @@ export const PROPERTY_LIST = [
     minLevel: 6,
     baseValue: 42000,
     askingPrice: 53500,
-    renovationCost: 12500,
+    renovationCost: {
+      materials: Math.round(12500 * 0.57),
+      labor: Math.round(12500 * 0.39),
+      permits: Math.round(12500 * 0.04),
+      total: 12500
+    },
     valueIncreaseAfterReno: 26000,
     hiddenDamageCost: 7500,
     areaAverageValue: 61000,
@@ -550,7 +725,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 82500,
     askingPrice: 95000,
-    renovationCost: 14500,
+    renovationCost: {
+      materials: Math.round(14500 * 0.57),
+      labor: Math.round(14500 * 0.39),
+      permits: Math.round(14500 * 0.04),
+      total: 14500
+    },
     valueIncreaseAfterReno: 27000,
     hiddenDamageCost: 5500,
     areaAverageValue: 111000,
@@ -566,7 +746,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 40500,
     askingPrice: 47500,
-    renovationCost: 11000,
+    renovationCost: {
+      materials: Math.round(11000 * 0.57),
+      labor: Math.round(11000 * 0.39),
+      permits: Math.round(11000 * 0.04),
+      total: 11000
+    },
     valueIncreaseAfterReno: 16000,
     hiddenDamageCost: 3500,
     areaAverageValue: 62000,
@@ -581,7 +766,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 81500,
     askingPrice: 92000,
-    renovationCost: 19500,
+    renovationCost: {
+      materials: Math.round(19500 * 0.57),
+      labor: Math.round(19500 * 0.39),
+      permits: Math.round(19500 * 0.04),
+      total: 19500
+    },
     valueIncreaseAfterReno: 29000,
     hiddenDamageCost: 3500,
     areaAverageValue: 104000,
@@ -597,7 +787,12 @@ export const PROPERTY_LIST = [
     minLevel: 1,
     baseValue: 62000,
     askingPrice: 68500,
-    renovationCost: 19500,
+    renovationCost: {
+      materials: Math.round(19500 * 0.57),
+      labor: Math.round(19500 * 0.39),
+      permits: Math.round(19500 * 0.04),
+      total: 19500
+    },
     valueIncreaseAfterReno: 26000,
     hiddenDamageCost: 3500,
     areaAverageValue: 79500,
@@ -613,7 +808,12 @@ export const PROPERTY_LIST = [
     minLevel: 3,
     baseValue: 51500,
     askingPrice: 65500,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 17000,
     hiddenDamageCost: 9000,
     areaAverageValue: 76500,
@@ -629,7 +829,12 @@ export const PROPERTY_LIST = [
     minLevel: 9,
     baseValue: 37000,
     askingPrice: 46500,
-    renovationCost: 10000,
+    renovationCost: {
+      materials: Math.round(10000 * 0.57),
+      labor: Math.round(10000 * 0.39),
+      permits: Math.round(10000 * 0.04),
+      total: 10000
+    },
     valueIncreaseAfterReno: 25000,
     hiddenDamageCost: 6000,
     areaAverageValue: 60500,
@@ -645,7 +850,12 @@ export const PROPERTY_LIST = [
     minLevel: 2,
     baseValue: 34500,
     askingPrice: 40500,
-    renovationCost: 9000,
+    renovationCost: {
+      materials: Math.round(9000 * 0.57),
+      labor: Math.round(9000 * 0.39),
+      permits: Math.round(9000 * 0.04),
+      total: 9000
+    },
     valueIncreaseAfterReno: 17500,
     hiddenDamageCost: 7000,
     areaAverageValue: 48500,
@@ -661,7 +871,12 @@ export const PROPERTY_LIST = [
     minLevel: 5,
     baseValue: 66500,
     askingPrice: 81000,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 21000,
     hiddenDamageCost: 8000,
     areaAverageValue: 87500,
@@ -676,7 +891,12 @@ export const PROPERTY_LIST = [
     minLevel: 9,
     baseValue: 40000,
     askingPrice: 47500,
-    renovationCost: 11500,
+    renovationCost: {
+      materials: Math.round(11500 * 0.57),
+      labor: Math.round(11500 * 0.39),
+      permits: Math.round(11500 * 0.04),
+      total: 11500
+    },
     valueIncreaseAfterReno: 22000,
     hiddenDamageCost: 4500,
     areaAverageValue: 54000,
@@ -692,7 +912,12 @@ export const PROPERTY_LIST = [
     minLevel: 6,
     baseValue: 65500,
     askingPrice: 72500,
-    renovationCost: 19000,
+    renovationCost: {
+      materials: Math.round(19000 * 0.57),
+      labor: Math.round(19000 * 0.39),
+      permits: Math.round(19000 * 0.04),
+      total: 19000
+    },
     valueIncreaseAfterReno: 27500,
     hiddenDamageCost: 4500,
     areaAverageValue: 77500,
@@ -708,7 +933,12 @@ export const PROPERTY_LIST = [
     minLevel: 8,
     baseValue: 33000,
     askingPrice: 45000,
-    renovationCost: 9500,
+    renovationCost: {
+      materials: Math.round(9500 * 0.57),
+      labor: Math.round(9500 * 0.39),
+      permits: Math.round(9500 * 0.04),
+      total: 9500
+    },
     valueIncreaseAfterReno: 15000,
     hiddenDamageCost: 6000,
     areaAverageValue: 62500,
@@ -724,7 +954,12 @@ export const PROPERTY_LIST = [
     minLevel: 9,
     baseValue: 80000,
     askingPrice: 94000,
-    renovationCost: 18000,
+    renovationCost: {
+      materials: Math.round(18000 * 0.57),
+      labor: Math.round(18000 * 0.39),
+      permits: Math.round(18000 * 0.04),
+      total: 18000
+    },
     valueIncreaseAfterReno: 25500,
     hiddenDamageCost: 4000,
     areaAverageValue: 110000,
@@ -740,7 +975,12 @@ export const PROPERTY_LIST = [
     minLevel: 6,
     baseValue: 64000,
     askingPrice: 74500,
-    renovationCost: 11500,
+    renovationCost: {
+      materials: Math.round(11500 * 0.57),
+      labor: Math.round(11500 * 0.39),
+      permits: Math.round(11500 * 0.04),
+      total: 11500
+    },
     valueIncreaseAfterReno: 25500,
     hiddenDamageCost: 9500,
     areaAverageValue: 92000,
@@ -755,7 +995,12 @@ export const PROPERTY_LIST = [
     minLevel: 8,
     baseValue: 84000,
     askingPrice: 97000,
-    renovationCost: 10500,
+    renovationCost: {
+      materials: Math.round(10500 * 0.57),
+      labor: Math.round(10500 * 0.39),
+      permits: Math.round(10500 * 0.04),
+      total: 10500
+    },
     valueIncreaseAfterReno: 16500,
     hiddenDamageCost: 3500,
     areaAverageValue: 114000,
@@ -770,7 +1015,12 @@ export const PROPERTY_LIST = [
     minLevel: 8,
     baseValue: 70500,
     askingPrice: 82000,
-    renovationCost: 17000,
+    renovationCost: {
+      materials: Math.round(17000 * 0.57),
+      labor: Math.round(17000 * 0.39),
+      permits: Math.round(17000 * 0.04),
+      total: 17000
+    },
     valueIncreaseAfterReno: 23500,
     hiddenDamageCost: 9000,
     areaAverageValue: 94000,
@@ -786,7 +1036,12 @@ export const PROPERTY_LIST = [
     minLevel: 21,
     baseValue: 127500,
     askingPrice: 150000,
-    renovationCost: 27500,
+    renovationCost: {
+      materials: Math.round(27500 * 0.57),
+      labor: Math.round(27500 * 0.39),
+      permits: Math.round(27500 * 0.04),
+      total: 27500
+    },
     valueIncreaseAfterReno: 45500,
     hiddenDamageCost: 8500,
     areaAverageValue: 164000,
@@ -802,7 +1057,12 @@ export const PROPERTY_LIST = [
     minLevel: 10,
     baseValue: 121000,
     askingPrice: 137000,
-    renovationCost: 39000,
+    renovationCost: {
+      materials: Math.round(39000 * 0.57),
+      labor: Math.round(39000 * 0.39),
+      permits: Math.round(39000 * 0.04),
+      total: 39000
+    },
     valueIncreaseAfterReno: 59000,
     hiddenDamageCost: 9500,
     areaAverageValue: 151500,
@@ -817,7 +1077,12 @@ export const PROPERTY_LIST = [
     minLevel: 11,
     baseValue: 192500,
     askingPrice: 216500,
-    renovationCost: 21500,
+    renovationCost: {
+      materials: Math.round(21500 * 0.57),
+      labor: Math.round(21500 * 0.39),
+      permits: Math.round(21500 * 0.04),
+      total: 21500
+    },
     valueIncreaseAfterReno: 41000,
     hiddenDamageCost: 17000,
     areaAverageValue: 238500,
@@ -834,7 +1099,12 @@ export const PROPERTY_LIST = [
     minLevel: 15,
     baseValue: 110000,
     askingPrice: 121000,
-    renovationCost: 19000,
+    renovationCost: {
+      materials: Math.round(19000 * 0.57),
+      labor: Math.round(19000 * 0.39),
+      permits: Math.round(19000 * 0.04),
+      total: 19000
+    },
     valueIncreaseAfterReno: 50500,
     hiddenDamageCost: 19500,
     areaAverageValue: 149500,
@@ -849,7 +1119,12 @@ export const PROPERTY_LIST = [
     minLevel: 17,
     baseValue: 142500,
     askingPrice: 154000,
-    renovationCost: 25500,
+    renovationCost: {
+      materials: Math.round(25500 * 0.57),
+      labor: Math.round(25500 * 0.39),
+      permits: Math.round(25500 * 0.04),
+      total: 25500
+    },
     valueIncreaseAfterReno: 55000,
     hiddenDamageCost: 14500,
     areaAverageValue: 183000,
@@ -865,7 +1140,12 @@ export const PROPERTY_LIST = [
     minLevel: 13,
     baseValue: 114500,
     askingPrice: 137000,
-    renovationCost: 24000,
+    renovationCost: {
+      materials: Math.round(24000 * 0.57),
+      labor: Math.round(24000 * 0.39),
+      permits: Math.round(24000 * 0.04),
+      total: 24000
+    },
     valueIncreaseAfterReno: 52000,
     hiddenDamageCost: 14500,
     areaAverageValue: 150000,
@@ -880,7 +1160,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 105500,
     askingPrice: 129000,
-    renovationCost: 40000,
+    renovationCost: {
+      materials: Math.round(40000 * 0.57),
+      labor: Math.round(40000 * 0.39),
+      permits: Math.round(40000 * 0.04),
+      total: 40000
+    },
     valueIncreaseAfterReno: 66500,
     hiddenDamageCost: 10500,
     areaAverageValue: 156000,
@@ -897,7 +1182,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 199000,
     askingPrice: 221500,
-    renovationCost: 29000,
+    renovationCost: {
+      materials: Math.round(29000 * 0.57),
+      labor: Math.round(29000 * 0.39),
+      permits: Math.round(29000 * 0.04),
+      total: 29000
+    },
     valueIncreaseAfterReno: 65500,
     hiddenDamageCost: 17000,
     areaAverageValue: 247000,
@@ -912,7 +1202,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 204500,
     askingPrice: 227000,
-    renovationCost: 29000,
+    renovationCost: {
+      materials: Math.round(29000 * 0.57),
+      labor: Math.round(29000 * 0.39),
+      permits: Math.round(29000 * 0.04),
+      total: 29000
+    },
     valueIncreaseAfterReno: 45000,
     hiddenDamageCost: 12000,
     areaAverageValue: 237500,
@@ -927,7 +1222,12 @@ export const PROPERTY_LIST = [
     minLevel: 10,
     baseValue: 125000,
     askingPrice: 137500,
-    renovationCost: 28000,
+    renovationCost: {
+      materials: Math.round(28000 * 0.57),
+      labor: Math.round(28000 * 0.39),
+      permits: Math.round(28000 * 0.04),
+      total: 28000
+    },
     valueIncreaseAfterReno: 43500,
     hiddenDamageCost: 9000,
     areaAverageValue: 154000,
@@ -943,7 +1243,12 @@ export const PROPERTY_LIST = [
     minLevel: 16,
     baseValue: 165000,
     askingPrice: 179500,
-    renovationCost: 20000,
+    renovationCost: {
+      materials: Math.round(20000 * 0.57),
+      labor: Math.round(20000 * 0.39),
+      permits: Math.round(20000 * 0.04),
+      total: 20000
+    },
     valueIncreaseAfterReno: 54000,
     hiddenDamageCost: 6000,
     areaAverageValue: 208500,
@@ -960,7 +1265,12 @@ export const PROPERTY_LIST = [
     minLevel: 21,
     baseValue: 112500,
     askingPrice: 128000,
-    renovationCost: 16500,
+    renovationCost: {
+      materials: Math.round(16500 * 0.57),
+      labor: Math.round(16500 * 0.39),
+      permits: Math.round(16500 * 0.04),
+      total: 16500
+    },
     valueIncreaseAfterReno: 35500,
     hiddenDamageCost: 19500,
     areaAverageValue: 154500,
@@ -976,7 +1286,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 108000,
     askingPrice: 122000,
-    renovationCost: 28500,
+    renovationCost: {
+      materials: Math.round(28500 * 0.57),
+      labor: Math.round(28500 * 0.39),
+      permits: Math.round(28500 * 0.04),
+      total: 28500
+    },
     valueIncreaseAfterReno: 55500,
     hiddenDamageCost: 10000,
     areaAverageValue: 146500,
@@ -991,7 +1306,12 @@ export const PROPERTY_LIST = [
     minLevel: 14,
     baseValue: 174000,
     askingPrice: 193500,
-    renovationCost: 24000,
+    renovationCost: {
+      materials: Math.round(24000 * 0.57),
+      labor: Math.round(24000 * 0.39),
+      permits: Math.round(24000 * 0.04),
+      total: 24000
+    },
     valueIncreaseAfterReno: 58000,
     hiddenDamageCost: 7500,
     areaAverageValue: 212000,
@@ -1006,7 +1326,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 105000,
     askingPrice: 117500,
-    renovationCost: 27500,
+    renovationCost: {
+      materials: Math.round(27500 * 0.57),
+      labor: Math.round(27500 * 0.39),
+      permits: Math.round(27500 * 0.04),
+      total: 27500
+    },
     valueIncreaseAfterReno: 58500,
     hiddenDamageCost: 10000,
     areaAverageValue: 133000,
@@ -1021,7 +1346,12 @@ export const PROPERTY_LIST = [
     minLevel: 16,
     baseValue: 188000,
     askingPrice: 204000,
-    renovationCost: 21500,
+    renovationCost: {
+      materials: Math.round(21500 * 0.57),
+      labor: Math.round(21500 * 0.39),
+      permits: Math.round(21500 * 0.04),
+      total: 21500
+    },
     valueIncreaseAfterReno: 38500,
     hiddenDamageCost: 12500,
     areaAverageValue: 214500,
@@ -1037,7 +1367,12 @@ export const PROPERTY_LIST = [
     minLevel: 21,
     baseValue: 126500,
     askingPrice: 140500,
-    renovationCost: 22000,
+    renovationCost: {
+      materials: Math.round(22000 * 0.57),
+      labor: Math.round(22000 * 0.39),
+      permits: Math.round(22000 * 0.04),
+      total: 22000
+    },
     valueIncreaseAfterReno: 38000,
     hiddenDamageCost: 12500,
     areaAverageValue: 168500,
@@ -1053,7 +1388,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 185000,
     askingPrice: 195000,
-    renovationCost: 34500,
+    renovationCost: {
+      materials: Math.round(34500 * 0.57),
+      labor: Math.round(34500 * 0.39),
+      permits: Math.round(34500 * 0.04),
+      total: 34500
+    },
     valueIncreaseAfterReno: 67500,
     hiddenDamageCost: 11500,
     areaAverageValue: 221000,
@@ -1069,7 +1409,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 206500,
     askingPrice: 231000,
-    renovationCost: 23000,
+    renovationCost: {
+      materials: Math.round(23000 * 0.57),
+      labor: Math.round(23000 * 0.39),
+      permits: Math.round(23000 * 0.04),
+      total: 23000
+    },
     valueIncreaseAfterReno: 54000,
     hiddenDamageCost: 9500,
     areaAverageValue: 244000,
@@ -1085,7 +1430,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 137000,
     askingPrice: 155000,
-    renovationCost: 34000,
+    renovationCost: {
+      materials: Math.round(34000 * 0.57),
+      labor: Math.round(34000 * 0.39),
+      permits: Math.round(34000 * 0.04),
+      total: 34000
+    },
     valueIncreaseAfterReno: 60000,
     hiddenDamageCost: 11000,
     areaAverageValue: 166000,
@@ -1101,7 +1451,12 @@ export const PROPERTY_LIST = [
     minLevel: 13,
     baseValue: 193000,
     askingPrice: 214000,
-    renovationCost: 31000,
+    renovationCost: {
+      materials: Math.round(31000 * 0.57),
+      labor: Math.round(31000 * 0.39),
+      permits: Math.round(31000 * 0.04),
+      total: 31000
+    },
     valueIncreaseAfterReno: 56500,
     hiddenDamageCost: 19000,
     areaAverageValue: 242500,
@@ -1116,7 +1471,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 168500,
     askingPrice: 180500,
-    renovationCost: 17000,
+    renovationCost: {
+      materials: Math.round(17000 * 0.57),
+      labor: Math.round(17000 * 0.39),
+      permits: Math.round(17000 * 0.04),
+      total: 17000
+    },
     valueIncreaseAfterReno: 35500,
     hiddenDamageCost: 14500,
     areaAverageValue: 210000,
@@ -1132,7 +1492,12 @@ export const PROPERTY_LIST = [
     minLevel: 16,
     baseValue: 134500,
     askingPrice: 158000,
-    renovationCost: 18500,
+    renovationCost: {
+      materials: Math.round(18500 * 0.57),
+      labor: Math.round(18500 * 0.39),
+      permits: Math.round(18500 * 0.04),
+      total: 18500
+    },
     valueIncreaseAfterReno: 52000,
     hiddenDamageCost: 5500,
     areaAverageValue: 186500,
@@ -1148,7 +1513,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 191500,
     askingPrice: 209500,
-    renovationCost: 19500,
+    renovationCost: {
+      materials: Math.round(19500 * 0.57),
+      labor: Math.round(19500 * 0.39),
+      permits: Math.round(19500 * 0.04),
+      total: 19500
+    },
     valueIncreaseAfterReno: 38000,
     hiddenDamageCost: 17500,
     areaAverageValue: 222000,
@@ -1163,7 +1533,12 @@ export const PROPERTY_LIST = [
     minLevel: 17,
     baseValue: 144500,
     askingPrice: 158500,
-    renovationCost: 32000,
+    renovationCost: {
+      materials: Math.round(32000 * 0.57),
+      labor: Math.round(32000 * 0.39),
+      permits: Math.round(32000 * 0.04),
+      total: 32000
+    },
     valueIncreaseAfterReno: 49000,
     hiddenDamageCost: 10000,
     areaAverageValue: 170000,
@@ -1180,7 +1555,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 111000,
     askingPrice: 130000,
-    renovationCost: 24000,
+    renovationCost: {
+      materials: Math.round(24000 * 0.57),
+      labor: Math.round(24000 * 0.39),
+      permits: Math.round(24000 * 0.04),
+      total: 24000
+    },
     valueIncreaseAfterReno: 53000,
     hiddenDamageCost: 10000,
     areaAverageValue: 143500,
@@ -1195,7 +1575,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 138500,
     askingPrice: 157500,
-    renovationCost: 25500,
+    renovationCost: {
+      materials: Math.round(25500 * 0.57),
+      labor: Math.round(25500 * 0.39),
+      permits: Math.round(25500 * 0.04),
+      total: 25500
+    },
     valueIncreaseAfterReno: 59500,
     hiddenDamageCost: 9500,
     areaAverageValue: 177500,
@@ -1210,7 +1595,12 @@ export const PROPERTY_LIST = [
     minLevel: 10,
     baseValue: 169000,
     askingPrice: 179000,
-    renovationCost: 16500,
+    renovationCost: {
+      materials: Math.round(16500 * 0.57),
+      labor: Math.round(16500 * 0.39),
+      permits: Math.round(16500 * 0.04),
+      total: 16500
+    },
     valueIncreaseAfterReno: 54500,
     hiddenDamageCost: 9500,
     areaAverageValue: 203500,
@@ -1225,7 +1615,12 @@ export const PROPERTY_LIST = [
     minLevel: 18,
     baseValue: 191000,
     askingPrice: 204500,
-    renovationCost: 36500,
+    renovationCost: {
+      materials: Math.round(36500 * 0.57),
+      labor: Math.round(36500 * 0.39),
+      permits: Math.round(36500 * 0.04),
+      total: 36500
+    },
     valueIncreaseAfterReno: 72000,
     hiddenDamageCost: 10500,
     areaAverageValue: 232500,
@@ -1240,7 +1635,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 196000,
     askingPrice: 219000,
-    renovationCost: 32500,
+    renovationCost: {
+      materials: Math.round(32500 * 0.57),
+      labor: Math.round(32500 * 0.39),
+      permits: Math.round(32500 * 0.04),
+      total: 32500
+    },
     valueIncreaseAfterReno: 56000,
     hiddenDamageCost: 9500,
     areaAverageValue: 245500,
@@ -1256,7 +1656,12 @@ export const PROPERTY_LIST = [
     minLevel: 18,
     baseValue: 144500,
     askingPrice: 162500,
-    renovationCost: 34000,
+    renovationCost: {
+      materials: Math.round(34000 * 0.57),
+      labor: Math.round(34000 * 0.39),
+      permits: Math.round(34000 * 0.04),
+      total: 34000
+    },
     valueIncreaseAfterReno: 63000,
     hiddenDamageCost: 9500,
     areaAverageValue: 187000,
@@ -1272,7 +1677,12 @@ export const PROPERTY_LIST = [
     minLevel: 16,
     baseValue: 122500,
     askingPrice: 134000,
-    renovationCost: 20500,
+    renovationCost: {
+      materials: Math.round(20500 * 0.57),
+      labor: Math.round(20500 * 0.39),
+      permits: Math.round(20500 * 0.04),
+      total: 20500
+    },
     valueIncreaseAfterReno: 49500,
     hiddenDamageCost: 17000,
     areaAverageValue: 154500,
@@ -1287,7 +1697,12 @@ export const PROPERTY_LIST = [
     minLevel: 11,
     baseValue: 137500,
     askingPrice: 158500,
-    renovationCost: 35500,
+    renovationCost: {
+      materials: Math.round(35500 * 0.57),
+      labor: Math.round(35500 * 0.39),
+      permits: Math.round(35500 * 0.04),
+      total: 35500
+    },
     valueIncreaseAfterReno: 67500,
     hiddenDamageCost: 16000,
     areaAverageValue: 188000,
@@ -1304,7 +1719,12 @@ export const PROPERTY_LIST = [
     minLevel: 16,
     baseValue: 135500,
     askingPrice: 159500,
-    renovationCost: 30500,
+    renovationCost: {
+      materials: Math.round(30500 * 0.57),
+      labor: Math.round(30500 * 0.39),
+      permits: Math.round(30500 * 0.04),
+      total: 30500
+    },
     valueIncreaseAfterReno: 61000,
     hiddenDamageCost: 12000,
     areaAverageValue: 172000,
@@ -1320,7 +1740,12 @@ export const PROPERTY_LIST = [
     minLevel: 20,
     baseValue: 125500,
     askingPrice: 138000,
-    renovationCost: 35000,
+    renovationCost: {
+      materials: Math.round(35000 * 0.57),
+      labor: Math.round(35000 * 0.39),
+      permits: Math.round(35000 * 0.04),
+      total: 35000
+    },
     valueIncreaseAfterReno: 56000,
     hiddenDamageCost: 8500,
     areaAverageValue: 157000,
@@ -1335,7 +1760,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 135000,
     askingPrice: 146500,
-    renovationCost: 32000,
+    renovationCost: {
+      materials: Math.round(32000 * 0.57),
+      labor: Math.round(32000 * 0.39),
+      permits: Math.round(32000 * 0.04),
+      total: 32000
+    },
     valueIncreaseAfterReno: 71000,
     hiddenDamageCost: 8000,
     areaAverageValue: 157500,
@@ -1352,7 +1782,12 @@ export const PROPERTY_LIST = [
     minLevel: 12,
     baseValue: 129000,
     askingPrice: 140000,
-    renovationCost: 37500,
+    renovationCost: {
+      materials: Math.round(37500 * 0.57),
+      labor: Math.round(37500 * 0.39),
+      permits: Math.round(37500 * 0.04),
+      total: 37500
+    },
     valueIncreaseAfterReno: 74000,
     hiddenDamageCost: 14500,
     areaAverageValue: 155000,
@@ -1369,7 +1804,12 @@ export const PROPERTY_LIST = [
     minLevel: 21,
     baseValue: 206000,
     askingPrice: 216000,
-    renovationCost: 39500,
+    renovationCost: {
+      materials: Math.round(39500 * 0.57),
+      labor: Math.round(39500 * 0.39),
+      permits: Math.round(39500 * 0.04),
+      total: 39500
+    },
     valueIncreaseAfterReno: 73000,
     hiddenDamageCost: 19500,
     areaAverageValue: 244500,
@@ -1384,7 +1824,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 118000,
     askingPrice: 132500,
-    renovationCost: 25000,
+    renovationCost: {
+      materials: Math.round(25000 * 0.57),
+      labor: Math.round(25000 * 0.39),
+      permits: Math.round(25000 * 0.04),
+      total: 25000
+    },
     valueIncreaseAfterReno: 64500,
     hiddenDamageCost: 5500,
     areaAverageValue: 156000,
@@ -1400,7 +1845,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 151500,
     askingPrice: 161500,
-    renovationCost: 39000,
+    renovationCost: {
+      materials: Math.round(39000 * 0.57),
+      labor: Math.round(39000 * 0.39),
+      permits: Math.round(39000 * 0.04),
+      total: 39000
+    },
     valueIncreaseAfterReno: 61500,
     hiddenDamageCost: 13000,
     areaAverageValue: 180000,
@@ -1417,7 +1867,12 @@ export const PROPERTY_LIST = [
     minLevel: 20,
     baseValue: 132500,
     askingPrice: 156000,
-    renovationCost: 28500,
+    renovationCost: {
+      materials: Math.round(28500 * 0.57),
+      labor: Math.round(28500 * 0.39),
+      permits: Math.round(28500 * 0.04),
+      total: 28500
+    },
     valueIncreaseAfterReno: 44000,
     hiddenDamageCost: 9500,
     areaAverageValue: 182500,
@@ -1432,7 +1887,12 @@ export const PROPERTY_LIST = [
     minLevel: 13,
     baseValue: 107000,
     askingPrice: 126000,
-    renovationCost: 24500,
+    renovationCost: {
+      materials: Math.round(24500 * 0.57),
+      labor: Math.round(24500 * 0.39),
+      permits: Math.round(24500 * 0.04),
+      total: 24500
+    },
     valueIncreaseAfterReno: 40000,
     hiddenDamageCost: 18000,
     areaAverageValue: 138000,
@@ -1448,7 +1908,12 @@ export const PROPERTY_LIST = [
     minLevel: 13,
     baseValue: 186000,
     askingPrice: 199000,
-    renovationCost: 39000,
+    renovationCost: {
+      materials: Math.round(39000 * 0.57),
+      labor: Math.round(39000 * 0.39),
+      permits: Math.round(39000 * 0.04),
+      total: 39000
+    },
     valueIncreaseAfterReno: 60000,
     hiddenDamageCost: 6000,
     areaAverageValue: 219000,
@@ -1465,7 +1930,12 @@ export const PROPERTY_LIST = [
     minLevel: 14,
     baseValue: 150500,
     askingPrice: 162000,
-    renovationCost: 24500,
+    renovationCost: {
+      materials: Math.round(24500 * 0.57),
+      labor: Math.round(24500 * 0.39),
+      permits: Math.round(24500 * 0.04),
+      total: 24500
+    },
     valueIncreaseAfterReno: 47000,
     hiddenDamageCost: 9500,
     areaAverageValue: 188500,
@@ -1482,7 +1952,12 @@ export const PROPERTY_LIST = [
     minLevel: 19,
     baseValue: 181000,
     askingPrice: 191500,
-    renovationCost: 39500,
+    renovationCost: {
+      materials: Math.round(39500 * 0.57),
+      labor: Math.round(39500 * 0.39),
+      permits: Math.round(39500 * 0.04),
+      total: 39500
+    },
     valueIncreaseAfterReno: 75000,
     hiddenDamageCost: 10000,
     areaAverageValue: 202000,
@@ -1497,7 +1972,12 @@ export const PROPERTY_LIST = [
     minLevel: 12,
     baseValue: 132500,
     askingPrice: 143500,
-    renovationCost: 16000,
+    renovationCost: {
+      materials: Math.round(16000 * 0.57),
+      labor: Math.round(16000 * 0.39),
+      permits: Math.round(16000 * 0.04),
+      total: 16000
+    },
     valueIncreaseAfterReno: 53500,
     hiddenDamageCost: 19000,
     areaAverageValue: 167500,
@@ -1514,7 +1994,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 130000,
     askingPrice: 141500,
-    renovationCost: 23000,
+    renovationCost: {
+      materials: Math.round(23000 * 0.57),
+      labor: Math.round(23000 * 0.39),
+      permits: Math.round(23000 * 0.04),
+      total: 23000
+    },
     valueIncreaseAfterReno: 46000,
     hiddenDamageCost: 19000,
     areaAverageValue: 158000,
@@ -1530,7 +2015,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 177000,
     askingPrice: 189000,
-    renovationCost: 29500,
+    renovationCost: {
+      materials: Math.round(29500 * 0.57),
+      labor: Math.round(29500 * 0.39),
+      permits: Math.round(29500 * 0.04),
+      total: 29500
+    },
     valueIncreaseAfterReno: 51500,
     hiddenDamageCost: 5500,
     areaAverageValue: 207500,
@@ -1546,7 +2036,12 @@ export const PROPERTY_LIST = [
     minLevel: 14,
     baseValue: 170500,
     askingPrice: 181500,
-    renovationCost: 27000,
+    renovationCost: {
+      materials: Math.round(27000 * 0.57),
+      labor: Math.round(27000 * 0.39),
+      permits: Math.round(27000 * 0.04),
+      total: 27000
+    },
     valueIncreaseAfterReno: 67000,
     hiddenDamageCost: 5500,
     areaAverageValue: 205500,
@@ -1562,7 +2057,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 118000,
     askingPrice: 135000,
-    renovationCost: 38500,
+    renovationCost: {
+      materials: Math.round(38500 * 0.57),
+      labor: Math.round(38500 * 0.39),
+      permits: Math.round(38500 * 0.04),
+      total: 38500
+    },
     valueIncreaseAfterReno: 61000,
     hiddenDamageCost: 12500,
     areaAverageValue: 160000,
@@ -1579,7 +2079,12 @@ export const PROPERTY_LIST = [
     minLevel: 35,
     baseValue: 308000,
     askingPrice: 334000,
-    renovationCost: 40000,
+    renovationCost: {
+      materials: Math.round(40000 * 0.57),
+      labor: Math.round(40000 * 0.39),
+      permits: Math.round(40000 * 0.04),
+      total: 40000
+    },
     valueIncreaseAfterReno: 122500,
     hiddenDamageCost: 12500,
     areaAverageValue: 403500,
@@ -1595,7 +2100,12 @@ export const PROPERTY_LIST = [
     minLevel: 22,
     baseValue: 325000,
     askingPrice: 371500,
-    renovationCost: 43000,
+    renovationCost: {
+      materials: Math.round(43000 * 0.57),
+      labor: Math.round(43000 * 0.39),
+      permits: Math.round(43000 * 0.04),
+      total: 43000
+    },
     valueIncreaseAfterReno: 114500,
     hiddenDamageCost: 10500,
     areaAverageValue: 421500,
@@ -1612,7 +2122,12 @@ export const PROPERTY_LIST = [
     minLevel: 33,
     baseValue: 282500,
     askingPrice: 334000,
-    renovationCost: 43000,
+    renovationCost: {
+      materials: Math.round(43000 * 0.57),
+      labor: Math.round(43000 * 0.39),
+      permits: Math.round(43000 * 0.04),
+      total: 43000
+    },
     valueIncreaseAfterReno: 90000,
     hiddenDamageCost: 23000,
     areaAverageValue: 374000,
@@ -1628,7 +2143,12 @@ export const PROPERTY_LIST = [
     minLevel: 34,
     baseValue: 305000,
     askingPrice: 356000,
-    renovationCost: 55500,
+    renovationCost: {
+      materials: Math.round(55500 * 0.57),
+      labor: Math.round(55500 * 0.39),
+      permits: Math.round(55500 * 0.04),
+      total: 55500
+    },
     valueIncreaseAfterReno: 99000,
     hiddenDamageCost: 20500,
     areaAverageValue: 416500,
@@ -1644,7 +2164,12 @@ export const PROPERTY_LIST = [
     minLevel: 39,
     baseValue: 366000,
     askingPrice: 413000,
-    renovationCost: 57500,
+    renovationCost: {
+      materials: Math.round(57500 * 0.57),
+      labor: Math.round(57500 * 0.39),
+      permits: Math.round(57500 * 0.04),
+      total: 57500
+    },
     valueIncreaseAfterReno: 103000,
     hiddenDamageCost: 24500,
     areaAverageValue: 469000,
@@ -1660,7 +2185,12 @@ export const PROPERTY_LIST = [
     minLevel: 30,
     baseValue: 298500,
     askingPrice: 320000,
-    renovationCost: 39500,
+    renovationCost: {
+      materials: Math.round(39500 * 0.57),
+      labor: Math.round(39500 * 0.39),
+      permits: Math.round(39500 * 0.04),
+      total: 39500
+    },
     valueIncreaseAfterReno: 83500,
     hiddenDamageCost: 17000,
     areaAverageValue: 376000,
@@ -1677,7 +2207,12 @@ export const PROPERTY_LIST = [
     minLevel: 26,
     baseValue: 340000,
     askingPrice: 397500,
-    renovationCost: 47000,
+    renovationCost: {
+      materials: Math.round(47000 * 0.57),
+      labor: Math.round(47000 * 0.39),
+      permits: Math.round(47000 * 0.04),
+      total: 47000
+    },
     valueIncreaseAfterReno: 134000,
     hiddenDamageCost: 12000,
     areaAverageValue: 455000,
@@ -1694,7 +2229,12 @@ export const PROPERTY_LIST = [
     minLevel: 31,
     baseValue: 291000,
     askingPrice: 330000,
-    renovationCost: 30000,
+    renovationCost: {
+      materials: Math.round(30000 * 0.57),
+      labor: Math.round(30000 * 0.39),
+      permits: Math.round(30000 * 0.04),
+      total: 30000
+    },
     valueIncreaseAfterReno: 95500,
     hiddenDamageCost: 14500,
     areaAverageValue: 352500,
@@ -1711,7 +2251,12 @@ export const PROPERTY_LIST = [
     minLevel: 26,
     baseValue: 327000,
     askingPrice: 381000,
-    renovationCost: 58500,
+    renovationCost: {
+      materials: Math.round(58500 * 0.57),
+      labor: Math.round(58500 * 0.39),
+      permits: Math.round(58500 * 0.04),
+      total: 58500
+    },
     valueIncreaseAfterReno: 110000,
     hiddenDamageCost: 20500,
     areaAverageValue: 431000,
@@ -1728,7 +2273,12 @@ export const PROPERTY_LIST = [
     minLevel: 39,
     baseValue: 280000,
     askingPrice: 306000,
-    renovationCost: 56500,
+    renovationCost: {
+      materials: Math.round(56500 * 0.57),
+      labor: Math.round(56500 * 0.39),
+      permits: Math.round(56500 * 0.04),
+      total: 56500
+    },
     valueIncreaseAfterReno: 111000,
     hiddenDamageCost: 16500,
     areaAverageValue: 362000,
@@ -1744,7 +2294,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 380500,
     askingPrice: 418000,
-    renovationCost: 61000,
+    renovationCost: {
+      materials: Math.round(61000 * 0.57),
+      labor: Math.round(61000 * 0.39),
+      permits: Math.round(61000 * 0.04),
+      total: 61000
+    },
     valueIncreaseAfterReno: 119000,
     hiddenDamageCost: 24500,
     areaAverageValue: 470500,
@@ -1761,7 +2316,12 @@ export const PROPERTY_LIST = [
     minLevel: 34,
     baseValue: 437500,
     askingPrice: 474000,
-    renovationCost: 60500,
+    renovationCost: {
+      materials: Math.round(60500 * 0.57),
+      labor: Math.round(60500 * 0.39),
+      permits: Math.round(60500 * 0.04),
+      total: 60500
+    },
     valueIncreaseAfterReno: 130500,
     hiddenDamageCost: 10000,
     areaAverageValue: 540500,
@@ -1777,7 +2337,12 @@ export const PROPERTY_LIST = [
     minLevel: 26,
     baseValue: 338500,
     askingPrice: 391500,
-    renovationCost: 58000,
+    renovationCost: {
+      materials: Math.round(58000 * 0.57),
+      labor: Math.round(58000 * 0.39),
+      permits: Math.round(58000 * 0.04),
+      total: 58000
+    },
     valueIncreaseAfterReno: 146500,
     hiddenDamageCost: 13500,
     areaAverageValue: 424500,
@@ -1793,7 +2358,12 @@ export const PROPERTY_LIST = [
     minLevel: 28,
     baseValue: 400500,
     askingPrice: 439500,
-    renovationCost: 68500,
+    renovationCost: {
+      materials: Math.round(68500 * 0.57),
+      labor: Math.round(68500 * 0.39),
+      permits: Math.round(68500 * 0.04),
+      total: 68500
+    },
     valueIncreaseAfterReno: 152000,
     hiddenDamageCost: 26500,
     areaAverageValue: 470000,
@@ -1809,7 +2379,12 @@ export const PROPERTY_LIST = [
     minLevel: 33,
     baseValue: 384000,
     askingPrice: 404500,
-    renovationCost: 52000,
+    renovationCost: {
+      materials: Math.round(52000 * 0.57),
+      labor: Math.round(52000 * 0.39),
+      permits: Math.round(52000 * 0.04),
+      total: 52000
+    },
     valueIncreaseAfterReno: 140000,
     hiddenDamageCost: 29500,
     areaAverageValue: 449000,
@@ -1825,7 +2400,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 303500,
     askingPrice: 327000,
-    renovationCost: 64500,
+    renovationCost: {
+      materials: Math.round(64500 * 0.57),
+      labor: Math.round(64500 * 0.39),
+      permits: Math.round(64500 * 0.04),
+      total: 64500
+    },
     valueIncreaseAfterReno: 126500,
     hiddenDamageCost: 11500,
     areaAverageValue: 351500,
@@ -1841,7 +2421,12 @@ export const PROPERTY_LIST = [
     minLevel: 29,
     baseValue: 349000,
     askingPrice: 380500,
-    renovationCost: 34000,
+    renovationCost: {
+      materials: Math.round(34000 * 0.57),
+      labor: Math.round(34000 * 0.39),
+      permits: Math.round(34000 * 0.04),
+      total: 34000
+    },
     valueIncreaseAfterReno: 121000,
     hiddenDamageCost: 11500,
     areaAverageValue: 409500,
@@ -1858,7 +2443,12 @@ export const PROPERTY_LIST = [
     minLevel: 32,
     baseValue: 350500,
     askingPrice: 400000,
-    renovationCost: 61500,
+    renovationCost: {
+      materials: Math.round(61500 * 0.57),
+      labor: Math.round(61500 * 0.39),
+      permits: Math.round(61500 * 0.04),
+      total: 61500
+    },
     valueIncreaseAfterReno: 120500,
     hiddenDamageCost: 13000,
     areaAverageValue: 468500,
@@ -1875,7 +2465,12 @@ export const PROPERTY_LIST = [
     minLevel: 29,
     baseValue: 421000,
     askingPrice: 480000,
-    renovationCost: 64500,
+    renovationCost: {
+      materials: Math.round(64500 * 0.57),
+      labor: Math.round(64500 * 0.39),
+      permits: Math.round(64500 * 0.04),
+      total: 64500
+    },
     valueIncreaseAfterReno: 125500,
     hiddenDamageCost: 23500,
     areaAverageValue: 545500,
@@ -1892,7 +2487,12 @@ export const PROPERTY_LIST = [
     minLevel: 28,
     baseValue: 433500,
     askingPrice: 476500,
-    renovationCost: 42500,
+    renovationCost: {
+      materials: Math.round(42500 * 0.57),
+      labor: Math.round(42500 * 0.39),
+      permits: Math.round(42500 * 0.04),
+      total: 42500
+    },
     valueIncreaseAfterReno: 91500,
     hiddenDamageCost: 28000,
     areaAverageValue: 534500,
@@ -1909,7 +2509,12 @@ export const PROPERTY_LIST = [
     minLevel: 37,
     baseValue: 293000,
     askingPrice: 329000,
-    renovationCost: 64000,
+    renovationCost: {
+      materials: Math.round(64000 * 0.57),
+      labor: Math.round(64000 * 0.39),
+      permits: Math.round(64000 * 0.04),
+      total: 64000
+    },
     valueIncreaseAfterReno: 145500,
     hiddenDamageCost: 13000,
     areaAverageValue: 394500,
@@ -1925,7 +2530,12 @@ export const PROPERTY_LIST = [
     minLevel: 20,
     baseValue: 307000,
     askingPrice: 328000,
-    renovationCost: 38000,
+    renovationCost: {
+      materials: Math.round(38000 * 0.57),
+      labor: Math.round(38000 * 0.39),
+      permits: Math.round(38000 * 0.04),
+      total: 38000
+    },
     valueIncreaseAfterReno: 120000,
     hiddenDamageCost: 12000,
     areaAverageValue: 348500,
@@ -1942,7 +2552,12 @@ export const PROPERTY_LIST = [
     minLevel: 31,
     baseValue: 402500,
     askingPrice: 437000,
-    renovationCost: 61500,
+    renovationCost: {
+      materials: Math.round(61500 * 0.57),
+      labor: Math.round(61500 * 0.39),
+      permits: Math.round(61500 * 0.04),
+      total: 61500
+    },
     valueIncreaseAfterReno: 99000,
     hiddenDamageCost: 26000,
     areaAverageValue: 486000,
@@ -1958,7 +2573,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 423000,
     askingPrice: 470500,
-    renovationCost: 41000,
+    renovationCost: {
+      materials: Math.round(41000 * 0.57),
+      labor: Math.round(41000 * 0.39),
+      permits: Math.round(41000 * 0.04),
+      total: 41000
+    },
     valueIncreaseAfterReno: 76000,
     hiddenDamageCost: 10500,
     areaAverageValue: 493500,
@@ -1975,7 +2595,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 369000,
     askingPrice: 392000,
-    renovationCost: 48000,
+    renovationCost: {
+      materials: Math.round(48000 * 0.57),
+      labor: Math.round(48000 * 0.39),
+      permits: Math.round(48000 * 0.04),
+      total: 48000
+    },
     valueIncreaseAfterReno: 96000,
     hiddenDamageCost: 13000,
     areaAverageValue: 433000,
@@ -1991,7 +2616,12 @@ export const PROPERTY_LIST = [
     minLevel: 34,
     baseValue: 341500,
     askingPrice: 401500,
-    renovationCost: 40500,
+    renovationCost: {
+      materials: Math.round(40500 * 0.57),
+      labor: Math.round(40500 * 0.39),
+      permits: Math.round(40500 * 0.04),
+      total: 40500
+    },
     valueIncreaseAfterReno: 94000,
     hiddenDamageCost: 15000,
     areaAverageValue: 433500,
@@ -2008,7 +2638,12 @@ export const PROPERTY_LIST = [
     minLevel: 21,
     baseValue: 448000,
     askingPrice: 496000,
-    renovationCost: 68500,
+    renovationCost: {
+      materials: Math.round(68500 * 0.57),
+      labor: Math.round(68500 * 0.39),
+      permits: Math.round(68500 * 0.04),
+      total: 68500
+    },
     valueIncreaseAfterReno: 150500,
     hiddenDamageCost: 19500,
     areaAverageValue: 554000,
@@ -2025,7 +2660,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 343500,
     askingPrice: 396500,
-    renovationCost: 30500,
+    renovationCost: {
+      materials: Math.round(30500 * 0.57),
+      labor: Math.round(30500 * 0.39),
+      permits: Math.round(30500 * 0.04),
+      total: 30500
+    },
     valueIncreaseAfterReno: 62500,
     hiddenDamageCost: 18500,
     areaAverageValue: 442500,
@@ -2041,7 +2681,12 @@ export const PROPERTY_LIST = [
     minLevel: 37,
     baseValue: 375500,
     askingPrice: 432500,
-    renovationCost: 44500,
+    renovationCost: {
+      materials: Math.round(44500 * 0.57),
+      labor: Math.round(44500 * 0.39),
+      permits: Math.round(44500 * 0.04),
+      total: 44500
+    },
     valueIncreaseAfterReno: 105000,
     hiddenDamageCost: 19500,
     areaAverageValue: 495000,
@@ -2058,7 +2703,12 @@ export const PROPERTY_LIST = [
     minLevel: 25,
     baseValue: 259000,
     askingPrice: 301000,
-    renovationCost: 37000,
+    renovationCost: {
+      materials: Math.round(37000 * 0.57),
+      labor: Math.round(37000 * 0.39),
+      permits: Math.round(37000 * 0.04),
+      total: 37000
+    },
     valueIncreaseAfterReno: 74000,
     hiddenDamageCost: 17500,
     areaAverageValue: 361500,
@@ -2075,7 +2725,12 @@ export const PROPERTY_LIST = [
     minLevel: 33,
     baseValue: 334000,
     askingPrice: 375500,
-    renovationCost: 30500,
+    renovationCost: {
+      materials: Math.round(71000 * 0.57),
+      labor: Math.round(71000 * 0.39),
+      permits: Math.round(71000 * 0.04),
+      total: 71000
+    },
     valueIncreaseAfterReno: 71000,
     hiddenDamageCost: 11500,
     areaAverageValue: 437000,
@@ -2091,7 +2746,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 366500,
     askingPrice: 415000,
-    renovationCost: 55500,
+    renovationCost: {
+      materials: Math.round(55500 * 0.57),
+      labor: Math.round(55500 * 0.39),
+      permits: Math.round(55500 * 0.04),
+      total: 55500
+    },
     valueIncreaseAfterReno: 127500,
     hiddenDamageCost: 21000,
     areaAverageValue: 453500,
@@ -2107,7 +2767,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 365500,
     askingPrice: 417000,
-    renovationCost: 34000,
+    renovationCost: {
+      materials: Math.round(24500 * 0.57),
+      labor: Math.round(24500 * 0.39),
+      permits: Math.round(24500 * 0.04),
+      total: 24500
+    },
     valueIncreaseAfterReno: 75000,
     hiddenDamageCost: 24000,
     areaAverageValue: 440500,
@@ -2123,7 +2788,12 @@ export const PROPERTY_LIST = [
     minLevel: 34,
     baseValue: 368000,
     askingPrice: 418500,
-    renovationCost: 56500,
+    renovationCost: {
+      materials: Math.round(56500 * 0.57),
+      labor: Math.round(56500 * 0.39),
+      permits: Math.round(56500 * 0.04),
+      total: 56500
+    },
     valueIncreaseAfterReno: 130000,
     hiddenDamageCost: 23500,
     areaAverageValue: 444500,
@@ -2140,7 +2810,12 @@ export const PROPERTY_LIST = [
     minLevel: 32,
     baseValue: 442500,
     askingPrice: 485000,
-    renovationCost: 53500,
+    renovationCost: {
+      materials: Math.round(53500 * 0.57),
+      labor: Math.round(53500 * 0.39),
+      permits: Math.round(53500 * 0.04),
+      total: 53500
+    },
     valueIncreaseAfterReno: 102000,
     hiddenDamageCost: 12500,
     areaAverageValue: 514000,
@@ -2157,7 +2832,12 @@ export const PROPERTY_LIST = [
     minLevel: 32,
     baseValue: 423000,
     askingPrice: 454000,
-    renovationCost: 47500,
+    renovationCost: {
+      materials: Math.round(47500 * 0.57),
+      labor: Math.round(47500 * 0.39),
+      permits: Math.round(47500 * 0.04),
+      total: 47500
+    },
     valueIncreaseAfterReno: 108500,
     hiddenDamageCost: 25500,
     areaAverageValue: 514500,
@@ -2173,7 +2853,12 @@ export const PROPERTY_LIST = [
     minLevel: 32,
     baseValue: 301000,
     askingPrice: 345500,
-    renovationCost: 61000,
+    renovationCost: {
+      materials: Math.round(61000 * 0.57),
+      labor: Math.round(61000 * 0.39),
+      permits: Math.round(61000 * 0.04),
+      total: 61000
+    },
     valueIncreaseAfterReno: 143500,
     hiddenDamageCost: 23000,
     areaAverageValue: 369000,
@@ -2189,7 +2874,12 @@ export const PROPERTY_LIST = [
     minLevel: 34,
     baseValue: 290000,
     askingPrice: 335000,
-    renovationCost: 68500,
+    renovationCost: {
+      materials: Math.round(68500 * 0.57),
+      labor: Math.round(68500 * 0.39),
+      permits: Math.round(68500 * 0.04),
+      total: 68500
+    },
     valueIncreaseAfterReno: 147000,
     hiddenDamageCost: 30000,
     areaAverageValue: 404000,
@@ -2205,7 +2895,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 338500,
     askingPrice: 362000,
-    renovationCost: 62500,
+    renovationCost: {
+      materials: Math.round(62500 * 0.57),
+      labor: Math.round(62500 * 0.39),
+      permits: Math.round(62500 * 0.04),
+      total: 62500
+    },
     valueIncreaseAfterReno: 128500,
     hiddenDamageCost: 23000,
     areaAverageValue: 403500,
@@ -2222,7 +2917,12 @@ export const PROPERTY_LIST = [
     minLevel: 29,
     baseValue: 394000,
     askingPrice: 449500,
-    renovationCost: 48500,
+    renovationCost: {
+      materials: Math.round(48500 * 0.57),
+      labor: Math.round(48500 * 0.39),
+      permits: Math.round(48500 * 0.04),
+      total: 48500
+    },
     valueIncreaseAfterReno: 116000,
     hiddenDamageCost: 17000,
     areaAverageValue: 470000,
@@ -2238,7 +2938,12 @@ export const PROPERTY_LIST = [
     minLevel: 37,
     baseValue: 267000,
     askingPrice: 296000,
-    renovationCost: 58500,
+    renovationCost: {
+      materials: Math.round(58500 * 0.57),
+      labor: Math.round(58500 * 0.39),
+      permits: Math.round(58500 * 0.04),
+      total: 58500
+    },
     valueIncreaseAfterReno: 126000,
     hiddenDamageCost: 22000,
     areaAverageValue: 345500,
@@ -2255,7 +2960,12 @@ export const PROPERTY_LIST = [
     minLevel: 35,
     baseValue: 302000,
     askingPrice: 336000,
-    renovationCost: 43500,
+    renovationCost: {
+      materials: Math.round(43500 * 0.57),
+      labor: Math.round(43500 * 0.39),
+      permits: Math.round(43500 * 0.04),
+      total: 43500
+    },
     valueIncreaseAfterReno: 85500,
     hiddenDamageCost: 20500,
     areaAverageValue: 406000,
@@ -2272,7 +2982,12 @@ export const PROPERTY_LIST = [
     minLevel: 39,
     baseValue: 445500,
     askingPrice: 498000,
-    renovationCost: 64500,
+    renovationCost: {
+      materials: Math.round(64500 * 0.57),
+      labor: Math.round(64500 * 0.39),
+      permits: Math.round(64500 * 0.04),
+      total: 64500
+    },
     valueIncreaseAfterReno: 139500,
     hiddenDamageCost: 17500,
     areaAverageValue: 555000,
@@ -2289,7 +3004,12 @@ export const PROPERTY_LIST = [
     minLevel: 38,
     baseValue: 273500,
     askingPrice: 320500,
-    renovationCost: 66500,
+    renovationCost: {
+      materials: Math.round(66500 * 0.57),
+      labor: Math.round(66500 * 0.39),
+      permits: Math.round(66500 * 0.04),
+      total: 66500
+    },
     valueIncreaseAfterReno: 110500,
     hiddenDamageCost: 11500,
     areaAverageValue: 357500,
@@ -2306,7 +3026,12 @@ export const PROPERTY_LIST = [
     minLevel: 35,
     baseValue: 258500,
     askingPrice: 290000,
-    renovationCost: 32000,
+    renovationCost: {
+      materials: Math.round(32000 * 0.57),
+      labor: Math.round(32000 * 0.39),
+      permits: Math.round(32000 * 0.04),
+      total: 32000
+    },
     valueIncreaseAfterReno: 70000,
     hiddenDamageCost: 10500,
     areaAverageValue: 325000,
@@ -2323,7 +3048,12 @@ export const PROPERTY_LIST = [
     minLevel: 23,
     baseValue: 267500,
     askingPrice: 318500,
-    renovationCost: 36500,
+    renovationCost: {
+      materials: Math.round(36500 * 0.57),
+      labor: Math.round(36500 * 0.39),
+      permits: Math.round(36500 * 0.04),
+      total: 36500
+    },
     valueIncreaseAfterReno: 95000,
     hiddenDamageCost: 21000,
     areaAverageValue: 380500,
@@ -2339,7 +3069,12 @@ export const PROPERTY_LIST = [
     minLevel: 27,
     baseValue: 263500,
     askingPrice: 304000,
-    renovationCost: 59000,
+    renovationCost: {
+      materials: Math.round(59000 * 0.57),
+      labor: Math.round(59000 * 0.39),
+      permits: Math.round(59000 * 0.04),
+      total: 59000
+    },
     valueIncreaseAfterReno: 140500,
     hiddenDamageCost: 15500,
     areaAverageValue: 329000,
@@ -2356,7 +3091,12 @@ export const PROPERTY_LIST = [
     minLevel: 24,
     baseValue: 305000,
     askingPrice: 357500,
-    renovationCost: 66500,
+    renovationCost: {
+      materials: Math.round(66500 * 0.57),
+      labor: Math.round(66500 * 0.39),
+      permits: Math.round(66500 * 0.04),
+      total: 66500
+    },
     valueIncreaseAfterReno: 117500,
     hiddenDamageCost: 27000,
     areaAverageValue: 402000,
@@ -2373,7 +3113,12 @@ export const PROPERTY_LIST = [
     minLevel: 33,
     baseValue: 430500,
     askingPrice: 451500,
-    renovationCost: 34000,
+    renovationCost: {
+      materials: Math.round(34000 * 0.57),
+      labor: Math.round(34000 * 0.39),
+      permits: Math.round(34000 * 0.04),
+      total: 34000
+    },
     valueIncreaseAfterReno: 73000,
     hiddenDamageCost: 28500,
     areaAverageValue: 488000,
@@ -2390,7 +3135,12 @@ export const PROPERTY_LIST = [
     minLevel: 26,
     baseValue: 339000,
     askingPrice: 364000,
-    renovationCost: 45500,
+    renovationCost: {
+      materials: Math.round(45500 * 0.57),
+      labor: Math.round(45500 * 0.39),
+      permits: Math.round(45500 * 0.04),
+      total: 45500
+    },
     valueIncreaseAfterReno: 113500,
     hiddenDamageCost: 12000,
     areaAverageValue: 424500,
@@ -2406,7 +3156,12 @@ export const PROPERTY_LIST = [
     minLevel: 45,
     baseValue: 1573000,
     askingPrice: 1757000,
-    renovationCost: 56500,
+    renovationCost: {
+      materials: Math.round(56500 * 0.57),
+      labor: Math.round(56500 * 0.39),
+      permits: Math.round(56500 * 0.04),
+      total: 56500
+    },
     valueIncreaseAfterReno: 317500,
     hiddenDamageCost: 36500,
     areaAverageValue: 1942500,
@@ -2424,7 +3179,12 @@ export const PROPERTY_LIST = [
     minLevel: 44,
     baseValue: 7752000,
     askingPrice: 7913500,
-    renovationCost: 121500,
+    renovationCost: {
+      materials: Math.round(121500 * 0.57),
+      labor: Math.round(121500 * 0.39),
+      permits: Math.round(121500 * 0.04),
+      total: 121500
+    },
     valueIncreaseAfterReno: 396000,
     hiddenDamageCost: 38500,
     areaAverageValue: 8155000,
@@ -2441,7 +3201,12 @@ export const PROPERTY_LIST = [
     minLevel: 44,
     baseValue: 7223000,
     askingPrice: 7323500,
-    renovationCost: 155500,
+    renovationCost: {
+      materials: Math.round(155500 * 0.57),
+      labor: Math.round(155500 * 0.39),
+      permits: Math.round(155500 * 0.04),
+      total: 155500
+    },
     valueIncreaseAfterReno: 414000,
     hiddenDamageCost: 41000,
     areaAverageValue: 7427500,
@@ -2457,7 +3222,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 7182000,
     askingPrice: 7364000,
-    renovationCost: 82500,
+    renovationCost: {
+      materials: Math.round(82500 * 0.57),
+      labor: Math.round(82500 * 0.39),
+      permits: Math.round(82500 * 0.04),
+      total: 82500
+    },
     valueIncreaseAfterReno: 236000,
     hiddenDamageCost: 23000,
     areaAverageValue: 7525000,
@@ -2473,7 +3243,12 @@ export const PROPERTY_LIST = [
     minLevel: 54,
     baseValue: 2487000,
     askingPrice: 2598000,
-    renovationCost: 91500,
+    renovationCost: {
+      materials: Math.round(91500 * 0.57),
+      labor: Math.round(91500 * 0.39),
+      permits: Math.round(91500 * 0.04),
+      total: 91500
+    },
     valueIncreaseAfterReno: 345000,
     hiddenDamageCost: 56500,
     areaAverageValue: 2757000,
@@ -2491,7 +3266,12 @@ export const PROPERTY_LIST = [
     minLevel: 43,
     baseValue: 3684000,
     askingPrice: 3818000,
-    renovationCost: 197000,
+    renovationCost: {
+      materials: Math.round(197000 * 0.57),
+      labor: Math.round(197000 * 0.39),
+      permits: Math.round(197000 * 0.04),
+      total: 197000
+    },
     valueIncreaseAfterReno: 417500,
     hiddenDamageCost: 38500,
     areaAverageValue: 3930000,
@@ -2509,7 +3289,12 @@ export const PROPERTY_LIST = [
     minLevel: 41,
     baseValue: 647000,
     askingPrice: 745500,
-    renovationCost: 126000,
+    renovationCost: {
+      materials: Math.round(126000 * 0.57),
+      labor: Math.round(126000 * 0.39),
+      permits: Math.round(126000 * 0.04),
+      total: 126000
+    },
     valueIncreaseAfterReno: 281000,
     hiddenDamageCost: 30000,
     areaAverageValue: 940500,
@@ -2527,7 +3312,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 744000,
     askingPrice: 849000,
-    renovationCost: 140500,
+    renovationCost: {
+      materials: Math.round(140500 * 0.57),
+      labor: Math.round(140500 * 0.39),
+      permits: Math.round(140500 * 0.04),
+      total: 140500
+    },
     valueIncreaseAfterReno: 289500,
     hiddenDamageCost: 50000,
     areaAverageValue: 950500,
@@ -2545,7 +3335,12 @@ export const PROPERTY_LIST = [
     minLevel: 56,
     baseValue: 2823000,
     askingPrice: 3017000,
-    renovationCost: 152000,
+    renovationCost: {
+      materials: Math.round(152000 * 0.57),
+      labor: Math.round(152000 * 0.39),
+      permits: Math.round(152000 * 0.04),
+      total: 152000
+    },
     valueIncreaseAfterReno: 388000,
     hiddenDamageCost: 58500,
     areaAverageValue: 3193500,
@@ -2561,7 +3356,12 @@ export const PROPERTY_LIST = [
     minLevel: 43,
     baseValue: 8513000,
     askingPrice: 8700000,
-    renovationCost: 61500,
+    renovationCost: {
+      materials: Math.round(61500 * 0.57),
+      labor: Math.round(61500 * 0.39),
+      permits: Math.round(61500 * 0.04),
+      total: 61500
+    },
     valueIncreaseAfterReno: 186500,
     hiddenDamageCost: 25500,
     areaAverageValue: 8922500,
@@ -2578,7 +3378,12 @@ export const PROPERTY_LIST = [
     minLevel: 44,
     baseValue: 4134000,
     askingPrice: 4280000,
-    renovationCost: 79500,
+    renovationCost: {
+      materials: Math.round(79500 * 0.57),
+      labor: Math.round(79500 * 0.39),
+      permits: Math.round(79500 * 0.04),
+      total: 79500
+    },
     valueIncreaseAfterReno: 205000,
     hiddenDamageCost: 46000,
     areaAverageValue: 4402500,
@@ -2595,7 +3400,12 @@ export const PROPERTY_LIST = [
     minLevel: 48,
     baseValue: 3913000,
     askingPrice: 4070000,
-    renovationCost: 122000,
+    renovationCost: {
+      materials: Math.round(122000 * 0.57),
+      labor: Math.round(122000 * 0.39),
+      permits: Math.round(122000 * 0.04),
+      total: 122000
+    },
     valueIncreaseAfterReno: 217500,
     hiddenDamageCost: 38000,
     areaAverageValue: 4126500,
@@ -2611,7 +3421,12 @@ export const PROPERTY_LIST = [
     minLevel: 55,
     baseValue: 6018000,
     askingPrice: 6170000,
-    renovationCost: 64000,
+    renovationCost: {
+      materials: Math.round(64000 * 0.57),
+      labor: Math.round(64000 * 0.39),
+      permits: Math.round(64000 * 0.04),
+      total: 64000
+    },
     valueIncreaseAfterReno: 223000,
     hiddenDamageCost: 43500,
     areaAverageValue: 6231500,
@@ -2629,7 +3444,12 @@ export const PROPERTY_LIST = [
     minLevel: 54,
     baseValue: 6453000,
     askingPrice: 6585000,
-    renovationCost: 124500,
+    renovationCost: {
+      materials: Math.round(124500 * 0.57),
+      labor: Math.round(124500 * 0.39),
+      permits: Math.round(124500 * 0.04),
+      total: 124500
+    },
     valueIncreaseAfterReno: 302000,
     hiddenDamageCost: 48000,
     areaAverageValue: 6782500,
@@ -2644,9 +3464,14 @@ export const PROPERTY_LIST = [
     name: 'Sunset Manor',
     type: 'Mansion',
     minLevel: 51,
-    baseValue: 7929000,
-    askingPrice: 8089000,
-    renovationCost: 134000,
+    baseValue: 1573000,
+    askingPrice: 1757000,
+    renovationCost: {
+      materials: Math.round(134000 * 0.57),
+      labor: Math.round(134000 * 0.39),
+      permits: Math.round(134000 * 0.04),
+      total: 134000
+    },
     valueIncreaseAfterReno: 257000,
     hiddenDamageCost: 24000,
     areaAverageValue: 8335000,
@@ -2663,7 +3488,12 @@ export const PROPERTY_LIST = [
     minLevel: 59,
     baseValue: 1594500,
     askingPrice: 1691000,
-    renovationCost: 119000,
+    renovationCost: {
+      materials: Math.round(119000 * 0.57),
+      labor: Math.round(119000 * 0.39),
+      permits: Math.round(119000 * 0.04),
+      total: 119000
+    },
     valueIncreaseAfterReno: 291000,
     hiddenDamageCost: 37000,
     areaAverageValue: 1912500,
@@ -2679,7 +3509,12 @@ export const PROPERTY_LIST = [
     minLevel: 38,
     baseValue: 7062500,
     askingPrice: 7128500,
-    renovationCost: 60000,
+    renovationCost: {
+      materials: Math.round(60000 * 0.57),
+      labor: Math.round(60000 * 0.39),
+      permits: Math.round(60000 * 0.04),
+      total: 60000
+    },
     valueIncreaseAfterReno: 180500,
     hiddenDamageCost: 60000,
     areaAverageValue: 7393500,
@@ -2696,7 +3531,12 @@ export const PROPERTY_LIST = [
     minLevel: 39,
     baseValue: 4641500,
     askingPrice: 4777000,
-    renovationCost: 138000,
+    renovationCost: {
+      materials: Math.round(138000 * 0.57),
+      labor: Math.round(138000 * 0.39),
+      permits: Math.round(138000 * 0.04),
+      total: 138000
+    },
     valueIncreaseAfterReno: 229000,
     hiddenDamageCost: 59000,
     areaAverageValue: 4957500,
@@ -2714,7 +3554,12 @@ export const PROPERTY_LIST = [
     minLevel: 54,
     baseValue: 8047500,
     askingPrice: 8105500,
-    renovationCost: 93000,
+    renovationCost: {
+      materials: Math.round(93000 * 0.57),
+      labor: Math.round(93000 * 0.39),
+      permits: Math.round(93000 * 0.04),
+      total: 93000
+    },
     valueIncreaseAfterReno: 347500,
     hiddenDamageCost: 29000,
     areaAverageValue: 8390000,
@@ -2730,7 +3575,12 @@ export const PROPERTY_LIST = [
     minLevel: 59,
     baseValue: 9441500,
     askingPrice: 9493500,
-    renovationCost: 58000,
+    renovationCost: {
+      materials: Math.round(58000 * 0.57),
+      labor: Math.round(58000 * 0.39),
+      permits: Math.round(58000 * 0.04),
+      total: 58000
+    },
     valueIncreaseAfterReno: 222500,
     hiddenDamageCost: 41500,
     areaAverageValue: 9752000,
@@ -2746,7 +3596,12 @@ export const PROPERTY_LIST = [
     minLevel: 47,
     baseValue: 5745500,
     askingPrice: 5942500,
-    renovationCost: 66500,
+    renovationCost: {
+      materials: Math.round(66500 * 0.57),
+      labor: Math.round(66500 * 0.39),
+      permits: Math.round(66500 * 0.04),
+      total: 66500
+    },
     valueIncreaseAfterReno: 280000,
     hiddenDamageCost: 26000,
     areaAverageValue: 6207500,
@@ -2762,7 +3617,12 @@ export const PROPERTY_LIST = [
     minLevel: 35,
     baseValue: 5048000,
     askingPrice: 5115500,
-    renovationCost: 67000,
+    renovationCost: {
+      materials: Math.round(67000 * 0.57),
+      labor: Math.round(67000 * 0.39),
+      permits: Math.round(67000 * 0.04),
+      total: 67000
+    },
     valueIncreaseAfterReno: 326500,
     hiddenDamageCost: 28500,
     areaAverageValue: 5301500,
@@ -2778,7 +3638,12 @@ export const PROPERTY_LIST = [
     minLevel: 44,
     baseValue: 567500,
     askingPrice: 738500,
-    renovationCost: 186500,
+    renovationCost: {
+      materials: Math.round(186500 * 0.57),
+      labor: Math.round(186500 * 0.39),
+      permits: Math.round(186500 * 0.04),
+      total: 186500
+    },
     valueIncreaseAfterReno: 463500,
     hiddenDamageCost: 30500,
     areaAverageValue: 852500,
@@ -2796,7 +3661,12 @@ export const PROPERTY_LIST = [
     minLevel: 50,
     baseValue: 3426000,
     askingPrice: 3573500,
-    renovationCost: 108000,
+    renovationCost: {
+      materials: Math.round(108000 * 0.57),
+      labor: Math.round(108000 * 0.39),
+      permits: Math.round(108000 * 0.04),
+      total: 108000
+    },
     valueIncreaseAfterReno: 329500,
     hiddenDamageCost: 43000,
     areaAverageValue: 3724500,
@@ -2814,7 +3684,12 @@ export const PROPERTY_LIST = [
     minLevel: 35,
     baseValue: 5690000,
     askingPrice: 5793000,
-    renovationCost: 56000,
+    renovationCost: {
+      materials: Math.round(56000 * 0.57),
+      labor: Math.round(56000 * 0.39),
+      permits: Math.round(56000 * 0.04),
+      total: 56000
+    },
     valueIncreaseAfterReno: 308000,
     hiddenDamageCost: 29000,
     areaAverageValue: 6054000,
@@ -2830,7 +3705,12 @@ export const PROPERTY_LIST = [
     minLevel: 43,
     baseValue: 6074500,
     askingPrice: 6231500,
-    renovationCost: 177500,
+    renovationCost: {
+      materials: Math.round(177500 * 0.57),
+      labor: Math.round(177500 * 0.39),
+      permits: Math.round(177500 * 0.04),
+      total: 177500
+    },
     valueIncreaseAfterReno: 444500,
     hiddenDamageCost: 53500,
     areaAverageValue: 6502000,
@@ -2847,7 +3727,12 @@ export const PROPERTY_LIST = [
     minLevel: 37,
     baseValue: 2273000,
     askingPrice: 2443000,
-    renovationCost: 114500,
+    renovationCost: {
+      materials: Math.round(114500 * 0.57),
+      labor: Math.round(114500 * 0.39),
+      permits: Math.round(114500 * 0.04),
+      total: 114500
+    },
     valueIncreaseAfterReno: 196000,
     hiddenDamageCost: 30500,
     areaAverageValue: 2574000,
@@ -2863,7 +3748,12 @@ export const PROPERTY_LIST = [
     minLevel: 47,
     baseValue: 4712500,
     askingPrice: 4861500,
-    renovationCost: 157000,
+    renovationCost: {
+      materials: Math.round(157000 * 0.57),
+      labor: Math.round(157000 * 0.39),
+      permits: Math.round(157000 * 0.04),
+      total: 157000
+    },
     valueIncreaseAfterReno: 327000,
     hiddenDamageCost: 47000,
     areaAverageValue: 4956500,
@@ -2880,7 +3770,12 @@ export const PROPERTY_LIST = [
     minLevel: 49,
     baseValue: 1183000,
     askingPrice: 1257000,
-    renovationCost: 95000,
+    renovationCost: {
+      materials: Math.round(95000 * 0.57),
+      labor: Math.round(95000 * 0.39),
+      permits: Math.round(95000 * 0.04),
+      total: 95000
+    },
     valueIncreaseAfterReno: 345000,
     hiddenDamageCost: 27000,
     areaAverageValue: 1484000,
@@ -2897,7 +3792,12 @@ export const PROPERTY_LIST = [
     minLevel: 42,
     baseValue: 7541000,
     askingPrice: 7612000,
-    renovationCost: 170000,
+    renovationCost: {
+      materials: Math.round(170000 * 0.57),
+      labor: Math.round(170000 * 0.39),
+      permits: Math.round(170000 * 0.04),
+      total: 170000
+    },
     valueIncreaseAfterReno: 307500,
     hiddenDamageCost: 59500,
     areaAverageValue: 7906500,
@@ -2914,7 +3814,12 @@ export const PROPERTY_LIST = [
     minLevel: 41,
     baseValue: 6606500,
     askingPrice: 6748000,
-    renovationCost: 164000,
+    renovationCost: {
+      materials: Math.round(164000 * 0.57),
+      labor: Math.round(164000 * 0.39),
+      permits: Math.round(164000 * 0.04),
+      total: 164000
+    },
     valueIncreaseAfterReno: 340500,
     hiddenDamageCost: 32000,
     areaAverageValue: 6874000,
@@ -2931,7 +3836,12 @@ export const PROPERTY_LIST = [
     minLevel: 43,
     baseValue: 8783500,
     askingPrice: 8870000,
-    renovationCost: 124000,
+    renovationCost: {
+      materials: Math.round(124000 * 0.57),
+      labor: Math.round(124000 * 0.39),
+      permits: Math.round(124000 * 0.04),
+      total: 124000
+    },
     valueIncreaseAfterReno: 251000,
     hiddenDamageCost: 57500,
     areaAverageValue: 8956000,
@@ -2949,7 +3859,12 @@ export const PROPERTY_LIST = [
     minLevel: 48,
     baseValue: 3045500,
     askingPrice: 3234500,
-    renovationCost: 91500,
+    renovationCost: {
+      materials: Math.round(91500 * 0.57),
+      labor: Math.round(91500 * 0.39),
+      permits: Math.round(91500 * 0.04),
+      total: 91500
+    },
     valueIncreaseAfterReno: 205000,
     hiddenDamageCost: 36500,
     areaAverageValue: 3303500,
@@ -2965,7 +3880,12 @@ export const PROPERTY_LIST = [
     minLevel: 47,
     baseValue: 6411000,
     askingPrice: 6581500,
-    renovationCost: 150000,
+    renovationCost: {
+      materials: Math.round(150000 * 0.57),
+      labor: Math.round(150000 * 0.39),
+      permits: Math.round(150000 * 0.04),
+      total: 150000
+    },
     valueIncreaseAfterReno: 354500,
     hiddenDamageCost: 38000,
     areaAverageValue: 6745000,
@@ -2982,7 +3902,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 9796000,
     askingPrice: 9989000,
-    renovationCost: 90500,
+    renovationCost: {
+      materials: Math.round(90500 * 0.57),
+      labor: Math.round(90500 * 0.39),
+      permits: Math.round(90500 * 0.04),
+      total: 90500
+    },
     valueIncreaseAfterReno: 216500,
     hiddenDamageCost: 48000,
     areaAverageValue: 10134500,
@@ -2998,7 +3923,12 @@ export const PROPERTY_LIST = [
     minLevel: 48,
     baseValue: 993000,
     askingPrice: 1167500,
-    renovationCost: 78000,
+    renovationCost: {
+      materials: Math.round(78000 * 0.57),
+      labor: Math.round(78000 * 0.39),
+      permits: Math.round(78000 * 0.04),
+      total: 78000
+    },
     valueIncreaseAfterReno: 190500,
     hiddenDamageCost: 43500,
     areaAverageValue: 1260000,
@@ -3016,7 +3946,12 @@ export const PROPERTY_LIST = [
     minLevel: 37,
     baseValue: 4693500,
     askingPrice: 4803500,
-    renovationCost: 180000,
+    renovationCost: {
+      materials: Math.round(180000 * 0.57),
+      labor: Math.round(180000 * 0.39),
+      permits: Math.round(180000 * 0.04),
+      total: 180000
+    },
     valueIncreaseAfterReno: 414500,
     hiddenDamageCost: 49500,
     areaAverageValue: 4936500,
@@ -3034,7 +3969,12 @@ export const PROPERTY_LIST = [
     minLevel: 51,
     baseValue: 5278500,
     askingPrice: 5340000,
-    renovationCost: 116000,
+    renovationCost: {
+      materials: Math.round(116000 * 0.57),
+      labor: Math.round(116000 * 0.39),
+      permits: Math.round(116000 * 0.04),
+      total: 116000
+    },
     valueIncreaseAfterReno: 314500,
     hiddenDamageCost: 34000,
     areaAverageValue: 5599500,
@@ -3052,7 +3992,12 @@ export const PROPERTY_LIST = [
     minLevel: 36,
     baseValue: 2921000,
     askingPrice: 2994000,
-    renovationCost: 127000,
+    renovationCost: {
+      materials: Math.round(127000 * 0.57),
+      labor: Math.round(127000 * 0.39),
+      permits: Math.round(127000 * 0.04),
+      total: 127000
+    },
     valueIncreaseAfterReno: 298000,
     hiddenDamageCost: 43000,
     areaAverageValue: 3130500,
@@ -3070,7 +4015,12 @@ export const PROPERTY_LIST = [
     minLevel: 56,
     baseValue: 1012000,
     askingPrice: 1157000,
-    renovationCost: 102000,
+    renovationCost: {
+      materials: Math.round(102000 * 0.57),
+      labor: Math.round(102000 * 0.39),
+      permits: Math.round(102000 * 0.04),
+      total: 102000
+    },
     valueIncreaseAfterReno: 335000,
     hiddenDamageCost: 25000,
     areaAverageValue: 1391000,
@@ -3087,7 +4037,12 @@ export const PROPERTY_LIST = [
     minLevel: 48,
     baseValue: 3762000,
     askingPrice: 3936000,
-    renovationCost: 72000,
+    renovationCost: {
+      materials: Math.round(72000 * 0.57),
+      labor: Math.round(72000 * 0.39),
+      permits: Math.round(72000 * 0.04),
+      total: 72000
+    },
     valueIncreaseAfterReno: 197500,
     hiddenDamageCost: 48000,
     areaAverageValue: 4184500,
@@ -3103,7 +4058,12 @@ export const PROPERTY_LIST = [
     minLevel: 49,
     baseValue: 8516000,
     askingPrice: 8676500,
-    renovationCost: 135000,
+    renovationCost: {
+      materials: Math.round(135000 * 0.57),
+      labor: Math.round(135000 * 0.39),
+      permits: Math.round(135000 * 0.04),
+      total: 135000
+    },
     valueIncreaseAfterReno: 397000,
     hiddenDamageCost: 57500,
     areaAverageValue: 8960000,
@@ -3120,7 +4080,12 @@ export const PROPERTY_LIST = [
     minLevel: 53,
     baseValue: 5572000,
     askingPrice: 5636500,
-    renovationCost: 131000,
+    renovationCost: {
+      materials: Math.round(131000 * 0.57),
+      labor: Math.round(131000 * 0.39),
+      permits: Math.round(131000 * 0.04),
+      total: 131000
+    },
     valueIncreaseAfterReno: 303500,
     hiddenDamageCost: 51000,
     areaAverageValue: 5766500,
@@ -3138,7 +4103,12 @@ export const PROPERTY_LIST = [
     minLevel: 52,
     baseValue: 2438500,
     askingPrice: 2510000,
-    renovationCost: 121000,
+    renovationCost: {
+      materials: Math.round(121000 * 0.57),
+      labor: Math.round(121000 * 0.39),
+      permits: Math.round(121000 * 0.04),
+      total: 121000
+    },
     valueIncreaseAfterReno: 368000,
     hiddenDamageCost: 34000,
     areaAverageValue: 2587500,
@@ -3156,7 +4126,12 @@ export const PROPERTY_LIST = [
     minLevel: 40,
     baseValue: 2880500,
     askingPrice: 2968500,
-    renovationCost: 52500,
+    renovationCost: {
+      materials: Math.round(52500 * 0.57),
+      labor: Math.round(52500 * 0.39),
+      permits: Math.round(52500 * 0.04),
+      total: 52500
+    },
     valueIncreaseAfterReno: 319500,
     hiddenDamageCost: 25500,
     areaAverageValue: 3029500,
@@ -3173,7 +4148,12 @@ export const PROPERTY_LIST = [
     minLevel: 46,
     baseValue: 9105500,
     askingPrice: 9211000,
-    renovationCost: 145500,
+    renovationCost: {
+      materials: Math.round(145500 * 0.57),
+      labor: Math.round(145500 * 0.39),
+      permits: Math.round(145500 * 0.04),
+      total: 145500
+    },
     valueIncreaseAfterReno: 349000,
     hiddenDamageCost: 33000,
     areaAverageValue: 9276500,
@@ -3189,7 +4169,12 @@ export const PROPERTY_LIST = [
     minLevel: 57,
     baseValue: 5188500,
     askingPrice: 5281000,
-    renovationCost: 164500,
+    renovationCost: {
+      materials: Math.round(164500 * 0.57),
+      labor: Math.round(164500 * 0.39),
+      permits: Math.round(164500 * 0.04),
+      total: 164500
+    },
     valueIncreaseAfterReno: 388000,
     hiddenDamageCost: 23000,
     areaAverageValue: 5350000,
@@ -3207,7 +4192,12 @@ export const PROPERTY_LIST = [
     minLevel: 59,
     baseValue: 7598000,
     askingPrice: 7664500,
-    renovationCost: 105000,
+    renovationCost: {
+      materials: Math.round(105000 * 0.57),
+      labor: Math.round(105000 * 0.39),
+      permits: Math.round(105000 * 0.04),
+      total: 105000
+    },
     valueIncreaseAfterReno: 222500,
     hiddenDamageCost: 27000,
     areaAverageValue: 7723500,
@@ -3224,7 +4214,12 @@ export const PROPERTY_LIST = [
     minLevel: 54,
     baseValue: 7294000,
     askingPrice: 7403000,
-    renovationCost: 60500,
+    renovationCost: {
+      materials: Math.round(60500 * 0.57),
+      labor: Math.round(60500 * 0.39),
+      permits: Math.round(60500 * 0.04),
+      total: 60500
+    },
     valueIncreaseAfterReno: 226500,
     hiddenDamageCost: 54500,
     areaAverageValue: 7595000,
@@ -3241,7 +4236,12 @@ export const PROPERTY_LIST = [
     minLevel: 38,
     baseValue: 3758500,
     askingPrice: 3834000,
-    renovationCost: 163500,
+    renovationCost: {
+      materials: Math.round(163500 * 0.57),
+      labor: Math.round(163500 * 0.39),
+      permits: Math.round(163500 * 0.04),
+      total: 163500
+    },
     valueIncreaseAfterReno: 354000,
     hiddenDamageCost: 44500,
     areaAverageValue: 4126500,

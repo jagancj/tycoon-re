@@ -21,26 +21,46 @@ const PortfolioScreen = ({ navigation }) => {
     startRenovation,
     listPropertyWithPrice,
     acceptOffer,
+    GAME_DAY_IN_MS,
+    activeLoans 
   } = useContext(GameContext);
 
+  // In PortfolioScreen.js
+
   const handleRenovate = (asset) => {
-    const cost = asset.renovationData?.cost || 0;
+    const costData = asset.renovationCost?.total;
+    console.log("Renovation Cost Data:", asset);
+    // If costData doesn't exist, we can't proceed.
+    if (!costData) {
+      Alert.alert(
+        "Error",
+        "Renovation cost data is missing for this property."
+      );
+      return;
+    }
+
+    // FIX: Directly use the 'total' property for the total cost.
+    const renoCost = asset.renovationCost || {};
+    const totalCost = renoCost.total || 0;
+
     const valueIncrease = asset.renovationData?.valueIncrease || 0;
+
+    // The Alert now directly displays the breakdown from your data object.
     Alert.alert(
       "Confirm Renovation",
-      `Are you sure you want to renovate "${
-        asset.name
-      }"?\n\nCost: $${cost.toLocaleString()}\nValue Increase: +$${valueIncrease.toLocaleString()}`,
+      `Materials: ${(renoCost.materials || 0).toLocaleString()}\nLabor: ${(
+        renoCost.labor || 0
+      ).toLocaleString()}\nPermits: ${(
+        renoCost.permits || 0
+      ).toLocaleString()}\n\nTotal Cost: $${totalCost.toLocaleString()}\nValue Increase: +$${valueIncrease.toLocaleString()}`,
       [
         { text: "Cancel", style: "cancel" },
         {
           text: "Confirm",
           onPress: () => {
-            if (!startRenovation(asset.id)) {
-              Alert.alert(
-                "Not Enough Funds",
-                `You need $${cost.toLocaleString()} to renovate.`
-              );
+            if (!startRenovation(asset)) {
+              // Pass the whole asset object
+              // The alert logic is now handled inside startRenovation
             }
           },
         },
@@ -51,12 +71,21 @@ const PortfolioScreen = ({ navigation }) => {
     // 1. Calculate all the numbers needed for the summary screen
     const totalInvestment = asset.invested || asset.purchasePrice;
     const profitOrLoss = offerAmount - totalInvestment;
+    let capitalGainsTax = 0;
+    if (profitOrLoss > 0) {
+      const holdingDurationDays =
+        (Date.now() - asset.purchaseTimestamp) / GAME_DAY_IN_MS;
+      const taxRate = holdingDurationDays < 10 ? 0.3 : 0.15;
+      capitalGainsTax = Math.round(profitOrLoss * taxRate);
+    }
+
+    // Call the context function to update state
     const summaryData = {
       propertyName: asset.name,
       finalSalePrice: offerAmount,
-      purchasePrice: asset.purchasePrice,
-      totalInvestment: totalInvestment,
-      profitOrLoss: profitOrLoss,
+      grossProfit: profitOrLoss,
+      capitalGainsTax: capitalGainsTax,
+      netProfit: profitOrLoss - capitalGainsTax,
     };
 
     // 2. Call the context function to update the game state (money and assets)
@@ -101,28 +130,11 @@ const PortfolioScreen = ({ navigation }) => {
 
     // Safely get data needed for rendering
     const currentOffers = offers[item.id] || [];
-    const renovationCost = item.renovationData?.cost || 0;
+    console.log(item.renovationData);
+    const renovationCost = item.renovationCost?.total || 0;
+    const canListForSale = item.status === 'Owned' && !item.isMortgaged;
 
     // This function will be called when the user accepts an offer
-    const handleAcceptOffer = (asset, offerAmount) => {
-      const totalInvestment = asset.invested || asset.purchasePrice;
-      const profitOrLoss = offerAmount - totalInvestment;
-      const summaryData = {
-        propertyName: asset.name,
-        finalSalePrice: offerAmount,
-        purchasePrice: asset.purchasePrice,
-        totalInvestment: totalInvestment,
-        profitOrLoss: profitOrLoss,
-      };
-      acceptOffer(asset.id, offerAmount);
-      navigation.reset({
-        index: 1,
-        routes: [
-          { name: "Home" },
-          { name: "TransactionSummary", params: summaryData },
-        ],
-      });
-    };
 
     return (
       <View style={styles.card}>
@@ -182,16 +194,14 @@ const PortfolioScreen = ({ navigation }) => {
                 <Text style={styles.buttonActionText}>Upgrades</Text>
                 <Text style={styles.buttonDetailText}>Add Features</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("ListingDetail", { assetId: item.id })
-                }
-              >
-                <Ionicons name="pricetag-outline" size={24} color="#e63946" />
-                <Text style={styles.buttonActionText}>List for Sale</Text>
-                <Text style={styles.buttonDetailText}>Start Selling</Text>
-              </TouchableOpacity>
+              <TouchableOpacity 
+    style={[styles.button, !canListForSale && styles.disabledButton]} 
+    disabled={!canListForSale}
+    onPress={() => navigation.navigate('ListingDetail', { assetId: item.id })}>
+    <Ionicons name="pricetag-outline" size={24} color={!canListForSale ? '#666' : '#e63946'} />
+    <Text style={styles.buttonActionText}>List for Sale</Text>
+    <Text style={styles.buttonDetailText}>{canListForSale ? 'Start Selling' : 'Mortgaged'}</Text>
+</TouchableOpacity>
             </View>
           )}
 
@@ -283,8 +293,11 @@ const PortfolioScreen = ({ navigation }) => {
           <Ionicons name="chevron-back-outline" size={32} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Portfolio</Text>
-           <TouchableOpacity style={styles.headerButton} onPress={() => navigation.navigate('Home')}>
-            <Ionicons name="home-outline" size={28} color="#fff" />
+        <TouchableOpacity
+          style={styles.headerButton}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Ionicons name="home-outline" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -307,22 +320,22 @@ const styles = StyleSheet.create({
     top: 0,
     height: "100%",
   },
-   header: {
-        paddingVertical: 10,
-        paddingHorizontal: 15, // A little less padding on the sides
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between', // This is the key change
-    },
-    headerTitle: { 
-        color: '#fff', 
-        fontSize: 24, 
-        fontWeight: 'bold',
-        marginLeft: 75
-    },
-    headerButton: {
-        padding: 5, // Add padding to make the touch area larger
-    },
+  header: {
+    paddingVertical: 10,
+    paddingHorizontal: 15, // A little less padding on the sides
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // This is the key change
+  },
+  headerTitle: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginLeft: 75,
+  },
+  headerButton: {
+    padding: 5, // Add padding to make the touch area larger
+  },
   backButton: { position: "absolute", left: 25 },
   card: {
     backgroundColor: "rgba(255,255,255,0.05)",
@@ -448,30 +461,30 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   landIconContainer: {
-        width: '100%',
-        height: 150,
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    // And this style for the "Develop" button
-    developButton: {
-        flex: 1,
-        backgroundColor: 'rgba(67, 233, 123, 0.2)',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: 'rgba(67, 233, 123, 0.5)',
-    },
-    developButtonText: {
-        color: '#43e97b',
-        fontWeight: 'bold',
-        fontSize: 16,
-        marginLeft: 10,
-    }
+    width: "100%",
+    height: 150,
+    backgroundColor: "rgba(0,0,0,0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  // And this style for the "Develop" button
+  developButton: {
+    flex: 1,
+    backgroundColor: "rgba(67, 233, 123, 0.2)",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(67, 233, 123, 0.5)",
+  },
+  developButtonText: {
+    color: "#43e97b",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 10,
+  },
 });
 
 export default PortfolioScreen;

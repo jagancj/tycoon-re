@@ -19,7 +19,8 @@ import LandDetailScreen from "./src/LandDetailScreen";
 import BlueprintSelectionScreen from "./src/BlueprintSelectionScreen";
 import ConstructionScreen from "./src/ConstructionScreen";
 import MarketScreen from "./src/MarketScreen";
-
+import StaffCenterScreen from "./src/StaffCenterScreen";
+import FinanceScreen from "./src/FinanceScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -70,6 +71,8 @@ export default function App() {
           />
           <Stack.Screen name="Construction" component={ConstructionScreen} />
           <Stack.Screen name="Market" component={MarketScreen} />
+          <Stack.Screen name="StaffCenter" component={StaffCenterScreen} />
+          <Stack.Screen name="Finance" component={FinanceScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GameProvider>

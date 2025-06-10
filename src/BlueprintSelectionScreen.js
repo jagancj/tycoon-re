@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GameContext } from '../GameContext';
 import { BLUEPRINT_LIST } from '../data/buildingBlueprints';
@@ -7,21 +7,37 @@ import { Ionicons } from '@expo/vector-icons';
 
 const BlueprintSelectionScreen = ({ route, navigation }) => {
   const { landAsset } = route.params;
-  const { playerLevel, gameMoney, startConstruction } = useContext(GameContext);
+  const { playerLevel, gameMoney, startConstruction, staff } = useContext(GameContext);
+
+  // Check for an available supervisor right at the top
   const idleSupervisor = staff.hired.find(s => s.role === 'Construction' && s.status === 'Idle');
 
-  // Filter blueprints to show only those the player can build on this land
   const availableBlueprints = BLUEPRINT_LIST.filter(bp => 
     playerLevel >= bp.unlockLevel && landAsset.sizeSqFt >= bp.requiredLandSizeSqFt
   );
 
   const handleSelectBlueprint = (blueprint) => {
-    // The startConstruction function now returns true or false
     if (startConstruction(landAsset, blueprint)) {
-      // Navigate to the construction screen, passing the land's unique ID as the projectId
       navigation.replace('Construction', { projectId: landAsset.id });
     }
   };
+
+  // --- NEW: A dedicated component for the "No Staff" message ---
+  const NoStaffAvailable = () => (
+    <View style={styles.emptyContainer}>
+        <Ionicons name="people-circle-outline" size={90} color="#ffae42" />
+        <Text style={styles.emptyTitle}>No Supervisor Available</Text>
+        <Text style={styles.emptySubtitle}>
+            A Construction Supervisor must be hired and idle to start a new project.
+        </Text>
+        <TouchableOpacity 
+            style={styles.actionButton} 
+            onPress={() => navigation.navigate('StaffCenter')}
+        >
+            <Text style={styles.actionButtonText}>Go to Staff Center</Text>
+        </TouchableOpacity>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,34 +48,44 @@ const BlueprintSelectionScreen = ({ route, navigation }) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Choose a Blueprint</Text>
       </View>
-      <FlatList
-        data={availableBlueprints}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ padding: 20 }}
-        renderItem={({ item }) => {
-          const canAfford = gameMoney >= item.phases[0].cost;
-          const canBuild = canAfford && idleSupervisor;
 
-          return (
-            <View style={[styles.card, !canAfford && styles.disabledCard]}>
-              <View style={styles.cardInfo}>
-                <Text style={styles.cardTitle}>{item.name}</Text>
-                <Text style={styles.cardSubtitle}>Type: {item.type}</Text>
-                <Text style={styles.cardSubtitle}>Requires: {item.requiredLandSizeSqFt.toLocaleString()} sq. ft. lot</Text>
-                <Text style={styles.cardSubtitle}>Final Value: ~${item.finalValue.toLocaleString()}</Text>
+      {/* --- NEW: Conditional rendering for the whole screen --- */}
+      {/* If a supervisor is available, show the list. If not, show the call-to-action. */}
+      {!idleSupervisor ? (
+        <NoStaffAvailable />
+      ) : (
+        <FlatList
+          data={availableBlueprints}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ padding: 20 }}
+          renderItem={({ item }) => {
+            const canAfford = gameMoney >= item.phases[0].cost;
+            return (
+              <View style={[styles.card, !canAfford && styles.disabledCard]}>
+                <View style={styles.cardInfo}>
+                  <Text style={styles.cardTitle}>{item.name}</Text>
+                  <Text style={styles.cardSubtitle}>Type: {item.type}</Text>
+                  <Text style={styles.cardSubtitle}>Requires: {item.requiredLandSizeSqFt.toLocaleString()} sq. ft.</Text>
+                  <Text style={styles.cardSubtitle}>Final Value: ~${item.finalValue.toLocaleString()}</Text>
+                </View>
+                <TouchableOpacity 
+                  style={[styles.buildButton, !canAfford && styles.disabledButton]} 
+                  disabled={!canAfford}
+                  onPress={() => handleSelectBlueprint(item)}
+                >
+                  <Text style={styles.buildButtonText}>Build</Text>
+                  <Text style={styles.buildButtonCost}>${item.phases[0].cost.toLocaleString()}</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity 
-                style={[styles.buildButton, !canAfford && styles.disabledButton]} 
-                disabled={!canBuild}
-                onPress={() => handleSelectBlueprint(item)}
-              >
-                <Text style={styles.buildButtonText}>Build</Text>
-                <Text style={styles.buildButtonCost}>${item.phases[0].cost.toLocaleString()}</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        }}
-      />
+            )
+          }}
+          ListEmptyComponent={
+              <View style={styles.emptyContainer}>
+                  <Text style={styles.emptyText}>No blueprints available for this land plot at your current level.</Text>
+              </View>
+          }
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -78,6 +104,38 @@ const styles = StyleSheet.create({
   disabledButton: { backgroundColor: '#666' },
   buildButtonText: { color: 'black', fontWeight: 'bold' },
   buildButtonCost: { color: 'black', fontSize: 12 },
+  emptyContainer: { 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      padding: 20,
+  },
+  emptyTitle: {
+      color: '#ffae42',
+      fontSize: 22,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginTop: 15,
+  },
+  emptySubtitle: {
+      color: '#99a',
+      fontSize: 16,
+      textAlign: 'center',
+      marginTop: 10,
+      marginBottom: 30,
+  },
+  actionButton: {
+      backgroundColor: '#DA70D6', // Using the staff color
+      paddingVertical: 15,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+  },
+  actionButtonText: {
+      color: 'white',
+      fontSize: 18,
+      fontWeight: 'bold',
+  },
+  emptyText: { color: '#999', textAlign: 'center', fontSize: 16 },
 });
 
 export default BlueprintSelectionScreen;
