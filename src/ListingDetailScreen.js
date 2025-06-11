@@ -12,17 +12,16 @@ const ListingDetailScreen = ({ route, navigation }) => {
 
   // Find the asset from the context.
   const asset = playerAssets.find(a => a.id === assetId);
-
   // This useMemo hook calculates key values only when the asset changes.
   const { totalInvestment, initialAskingPrice, maxAskingPrice } = useMemo(() => {
     if (!asset) return { totalInvestment: 0, initialAskingPrice: 0, maxAskingPrice: 0 };
     
     const investment = asset.invested || asset.purchasePrice || 0;
     // Suggest an initial price of 10% profit over the current market value
-    const initialPrice = Math.round(asset.marketValue * 1.10);
+    const marketValue = asset.marketValue || asset.areaAverageValue;
+    const initialPrice = Math.round(marketValue * 1.10);
     // Set a reasonable max list price to 150% of market value
-    const maxPrice = Math.round(asset.marketValue * 1.50);
-
+    const maxPrice = Math.round(marketValue * 1.50);
     return { 
       totalInvestment: investment, 
       // Ensure the initial slider value is at least the investment cost
@@ -33,7 +32,8 @@ const ListingDetailScreen = ({ route, navigation }) => {
   
   // State for the slider, initialized by the memoized value.
   const [askingPrice, setAskingPrice] = useState(initialAskingPrice);
-
+  console.log(`ListingDetailScreen: assetId=${assetId}, askingPrice=${askingPrice}`);
+  console.log(`Asset details: ${JSON.stringify(asset, null, 2)}`);
   // This effect runs if the asset disappears (e.g., sold) to prevent crashes.
   useEffect(() => {
     if (asset === undefined) {
@@ -95,8 +95,8 @@ const ListingDetailScreen = ({ route, navigation }) => {
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Set Your Asking Price</Text>
-          <Text style={styles.label}>Current Market Value: ${asset.marketValue.toLocaleString()}</Text>
-          
+          <Text style={styles.label}>Current Market Average: ${(asset.marketValue || asset.areaAverageValue).toLocaleString()}</Text>
+
           <Text style={styles.askingPriceValue}>${askingPrice.toLocaleString()}</Text>
           <Slider
             style={{width: '100%', height: 40}}

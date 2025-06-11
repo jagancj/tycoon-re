@@ -31,14 +31,23 @@ const getImagePoolForType = (type = '') => {
   return IMAGE_POOLS.HOUSE; // Default fallback
 };
 
-// This function gets a random image from a given pool.
+// This is the new, stable image selection function.
 export const getDynamicPropertyImage = (property) => {
-    if (!property || !property.type) {
-        // Return a default placeholder if property or type is missing
+    // Failsafe for invalid data
+    if (!property || !property.id || !property.type) {
         return IMAGE_POOLS.HOUSE[0]; 
     }
+    
+    // 1. Get the correct pool of images based on the property's type.
     const pool = getImagePoolForType(property.type);
-    // Use the property ID to make the "random" choice consistent for the same property
+
+    // 2. Create a simple, deterministic "hash" from the property's unique ID.
+    // This ensures that the same property ID will always produce the same number.
     const hash = property.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return pool[hash % pool.length];
+    
+    // 3. Use the hash to pick a consistent index from the pool.
+    // The '%' (modulo) operator guarantees the index is always valid.
+    const index = hash % pool.length;
+    
+    return pool[index];
 };

@@ -13,7 +13,7 @@ export const BANK_LIST = [
       // NEW: Mortgage Terms
       mortgage: {
         maxLoanPercentage: 0.70, // Can borrow up to 70% of total property value
-        baseInterestRate: 5.5,   // Lower interest rate than personal loans
+        baseInterestRate: 9.5,   // Lower interest rate than personal loans
       }
     },
   },
@@ -30,7 +30,7 @@ export const BANK_LIST = [
       },
       mortgage: {
         maxLoanPercentage: 0.75, // 75% LTV
-        baseInterestRate: 4.8,
+        baseInterestRate: 6.8,
       }
     },
   },
@@ -47,7 +47,7 @@ export const BANK_LIST = [
       },
       mortgage: {
         maxLoanPercentage: 0.80, // 80% LTV
-        baseInterestRate: 4.2,
+        baseInterestRate: 5.2,
       }
     },
   },

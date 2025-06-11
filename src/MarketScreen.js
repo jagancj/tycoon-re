@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import PropertyMarketScreen from './PropertyMarketScreen';
 import LandMarketScreen from './LandMarketScreen';
@@ -15,6 +14,7 @@ const MarketScreen = ({ navigation }) => {
     { key: 'land', title: 'Land' },
   ]);
 
+  // SceneMap remains the same
   const renderScene = SceneMap({
     properties: PropertyMarketScreen,
     land: LandMarketScreen,
@@ -24,19 +24,20 @@ const MarketScreen = ({ navigation }) => {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: '#FFD700' }}
-      style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
+      style={{ backgroundColor: '#1a2a6c' }} // A solid color for the tab bar itself
       labelStyle={{ fontWeight: 'bold' }}
     />
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#1a2a6c', '#0f2027']} style={styles.background} />
+      {/* The LinearGradient has been removed from here */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={32} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Marketplace</Text>
+        <View style={{width: 42}}/>
       </View>
       <TabView
         navigationState={{ index, routes }}
@@ -50,10 +51,9 @@ const MarketScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
-    background: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%', backgroundColor: 'rgba(255,255,255,0.05)' },
-    header: { paddingVertical: 10, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-    backButton: { position: 'absolute', left: 15 },
+    container: { flex: 1, backgroundColor: '#0f2027' }, // Main container gets a fallback dark color
+    header: { paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#1a2a6c' },
+    backButton: { padding: 5 },
     headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
 });
 

@@ -6,8 +6,6 @@ import { getDynamicPropertyImage } from '../utils/imageHelpers';
 import TransactionModal from './TransactionModal';
 import { Ionicons } from '@expo/vector-icons';
 
-const AGENT_FEE = 2500; // Define the agent fee constant
-
 const PropertyDetailScreen = ({ route, navigation }) => {
   const { property } = route.params;
   // FIX: Get agent-related data and functions from the context
@@ -15,18 +13,19 @@ const PropertyDetailScreen = ({ route, navigation }) => {
   
   const [offerPrice, setOfferPrice] = useState(property.askingPrice);
   const [modalState, setModalState] = useState({ isVisible: false, status: '', details: {} });
+  const agentFee = 1000 + Math.round(property.askingPrice * 0.005); 
 
   // Check if a report for this specific property exists
   const report = agentReports[property.id];
 
   // FIX: The handler function for the "Hire Agent" button
   const handleHireAgent = () => {
-    if (gameMoney < AGENT_FEE) {
+    if (gameMoney < agentFee) {
       Alert.alert("Insufficient Funds", "You can't afford the agent's fee.");
       return;
     }
     // Call the context function to hire the agent
-    hireAgent(property.id, AGENT_FEE);
+    hireAgent(property, agentFee);
   };
 
   const makeOffer = () => {
@@ -89,13 +88,13 @@ const PropertyDetailScreen = ({ route, navigation }) => {
                     {/* --- FIX: UI for Agent feature is re-integrated --- */}
                     {!report ? (
                       <TouchableOpacity style={styles.agentButton} onPress={handleHireAgent}>
-                        <Text style={styles.agentButtonText}>Hire Agent to Inspect (${AGENT_FEE.toLocaleString()})</Text>
+                        <Text style={styles.agentButtonText}>Hire Agent to Inspect (${agentFee.toLocaleString()})</Text>
                       </TouchableOpacity>
                     ) : (
                       <View style={styles.reportCard}>
                           <Text style={styles.reportTitle}>Agent's Report</Text>
                           <Text style={styles.reportText}>- Hidden Damage Repairs: <Text style={styles.reportValueRed}>${report.hiddenDamage.toLocaleString()}</Text></Text>
-                          <Text style={styles.reportText}>- Renovated Area Value: <Text style={styles.reportValueGreen}>${report.areaAverage.toLocaleString()}</Text></Text>
+                          <Text style={styles.reportText}>- Location Average: <Text style={styles.reportValueGreen}>${report.areaAverage.toLocaleString()}</Text></Text>
                       </View>
                     )}
 

@@ -5,6 +5,8 @@ import { PROPERTY_LIST } from '../data/properties';
 import { useNavigation } from '@react-navigation/native';
 import { getDynamicPropertyImage } from '../utils/imageHelpers';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from "expo-linear-gradient";
+
 
 // --- HELPER FUNCTIONS (Full Implementation) ---
 
@@ -31,21 +33,23 @@ const PROPERTIES_TO_SHOW = 7;
 
 const PropertyMarketScreen = () => {
   const navigation = useNavigation();
-  const { playerLevel, playerAssets } = useContext(GameContext);
+  const { playerLevel, playerAssets, soldPropertiesLog } = useContext(GameContext);
 
   const availableProperties = useMemo(() => {
+    const soldPropertyOriginalIds = soldPropertiesLog.map(log => log.id.split("_")[0]);
+
+    // Filter out properties that have been sold
+    const AVL_PROPERTY_LIST = PROPERTY_LIST.filter(p => !soldPropertyOriginalIds.includes(p.id));
     const ownedPropertyIds = playerAssets.map(asset => asset.id.split('_')[0]);
     const priceRange = getPriceRangeForLevel(playerLevel);
+    const eligibleProperties = AVL_PROPERTY_LIST.filter(p => {
 
-    const eligibleProperties = PROPERTY_LIST.filter(p => {
       const isOwned = ownedPropertyIds.includes(p.id);
       // Ensure priceRange is valid before using it
-      const inPriceRange = priceRange && p.baseValue >= priceRange.min && p.baseValue <= priceRange.max;
       const meetsLevelRequirement = playerLevel >= p.minLevel;
       
-      return !isOwned && inPriceRange && meetsLevelRequirement;
+      return !isOwned && meetsLevelRequirement;
     });
-
     const shuffled = shuffleArray(eligibleProperties);
     return shuffled.slice(0, PROPERTIES_TO_SHOW);
 
@@ -60,6 +64,8 @@ const PropertyMarketScreen = () => {
 
   return (
     <View style={styles.sceneContainer}>
+      <LinearGradient colors={['#0f2027', '#1D2B64']} style={styles.background} />
+
       <FlatList
           data={availableProperties}
           keyExtractor={item => item.id}
@@ -82,7 +88,6 @@ const PropertyMarketScreen = () => {
 const styles = StyleSheet.create({
     sceneContainer: {
         flex: 1,
-        backgroundColor: '#0f2027',
     },
     itemCard: { height: 200, borderRadius: 15, overflow: 'hidden', marginBottom: 15, elevation: 5, backgroundColor: '#334' },
     itemImage: { width: '100%', height: '100%' },

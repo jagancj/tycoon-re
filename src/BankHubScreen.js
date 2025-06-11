@@ -17,7 +17,7 @@ const BankHubScreen = ({ navigation }) => {
       `Are you sure you want to pay off your ${loan.type} loan? This will cost $${totalPayoff.toLocaleString()} (including fees).`,
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Confirm", onPress: () => preCloseLoan(loan.type) }
+        { text: "Confirm", onPress: () => preCloseLoan(loan) }
       ]
     );
   };
@@ -32,7 +32,7 @@ const BankHubScreen = ({ navigation }) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}><View style={styles.cardHeader}><Ionicons name="stats-chart" size={28} color="#FFD700" /><Text style={styles.sectionTitle}>Financial Center</Text></View><Text style={styles.cardDescription}>Review statements and property history.</Text><Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} /></TouchableOpacity>
+        {/* <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}><View style={styles.cardHeader}><Ionicons name="stats-chart" size={28} color="#FFD700" /><Text style={styles.sectionTitle}>Financial Center</Text></View><Text style={styles.cardDescription}>Review statements and property history.</Text><Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} /></TouchableOpacity> */}
 
       {activeLoanArray.length > 0 && (
           <View style={styles.sectionCard}>

@@ -29,7 +29,6 @@ const PortfolioScreen = ({ navigation }) => {
 
   const handleRenovate = (asset) => {
     const costData = asset.renovationCost?.total;
-    console.log("Renovation Cost Data:", asset);
     // If costData doesn't exist, we can't proceed.
     if (!costData) {
       Alert.alert(
@@ -130,7 +129,6 @@ const PortfolioScreen = ({ navigation }) => {
 
     // Safely get data needed for rendering
     const currentOffers = offers[item.id] || [];
-    console.log(item.renovationData);
     const renovationCost = item.renovationCost?.total || 0;
     const canListForSale = item.status === 'Owned' && !item.isMortgaged;
 
@@ -161,7 +159,7 @@ const PortfolioScreen = ({ navigation }) => {
           <Text style={styles.cardSubtitle}>
             {item.assetType === "Land"
               ? `Size: ${(item?.sizeSqFt || 0).toLocaleString()} sq. ft.`
-              : `Market Value: $${(item?.marketValue || 0).toLocaleString()}`}
+              : `Market Value: $${(item?.areaAverageValue || 0).toLocaleString()}`}
           </Text>
           {item.purchasePrice != null && (
             <Text style={styles.cardSubtitle}>
@@ -247,15 +245,9 @@ const PortfolioScreen = ({ navigation }) => {
           {/* === RENDER IF ASSET IS LAND === */}
           {item.assetType === "Land" && item.status === "Owned" && (
             <View style={styles.actions}>
-              <TouchableOpacity
-                style={styles.developButton}
-                onPress={() =>
-                  navigation.navigate("BlueprintSelection", { landAsset: item })
-                }
-              >
-                <Ionicons name="business-outline" size={24} color="#43e97b" />
-                <Text style={styles.developButtonText}>Develop Property</Text>
-              </TouchableOpacity>
+<TouchableOpacity style={styles.developButton} onPress={() => navigation.navigate('ArchitectSelection', { landAsset: item })}>
+    <Text style={styles.developButtonText}>Develop Property</Text>
+</TouchableOpacity>
             </View>
           )}
 

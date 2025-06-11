@@ -100,7 +100,6 @@ const FinanceScreen = ({ navigation }) => {
 
 // --- Helper to process transactions ---
 function processTransactions(log) {
-    console.log("Processing transaction log:", log);
     if (!log || log.length === 0) return { revenue: 0, expenses: 0, net: 0 };
     const revenue = log.filter(tx => tx.amount > 0).reduce((sum, tx) => sum + tx.amount, 0);
     const expenses = log.filter(tx => tx.amount < 0).reduce((sum, tx) => sum + Math.abs(tx.amount), 0);

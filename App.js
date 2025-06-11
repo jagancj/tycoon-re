@@ -15,12 +15,12 @@ import AddOnScreen from "./src/AddOnScreen";
 import ListingDetailScreen from "./src/ListingDetailScreen";
 import TransactionSummaryScreen from "./src/TransactionSummaryScreen";
 import LandMarketScreen from "./src/LandMarketScreen";
-import LandDetailScreen from "./src/LandDetailScreen";
 import BlueprintSelectionScreen from "./src/BlueprintSelectionScreen";
 import ConstructionScreen from "./src/ConstructionScreen";
 import MarketScreen from "./src/MarketScreen";
 import StaffCenterScreen from "./src/StaffCenterScreen";
 import FinanceScreen from "./src/FinanceScreen";
+import ArchitectSelectionScreen from "./src/ArchitectSelectionScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -64,7 +64,7 @@ export default function App() {
             component={TransactionSummaryScreen}
           />
           <Stack.Screen name="LandMarket" component={LandMarketScreen} />
-          <Stack.Screen name="LandDetail" component={LandDetailScreen} />
+          <Stack.Screen name="ArchitectSelection" component={ArchitectSelectionScreen} />
           <Stack.Screen
             name="BlueprintSelection"
             component={BlueprintSelectionScreen}

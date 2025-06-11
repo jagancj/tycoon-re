@@ -27,6 +27,7 @@ const HomePage = ({ navigation }) => {
     playerAssets,
     offers,
     constructionProjects,
+    soldPropertiesLog
   } = useContext(GameContext);
 
   const [featuredDeal, setFeaturedDeal] = useState(null);
@@ -35,17 +36,24 @@ const HomePage = ({ navigation }) => {
     xpForNextLevel > 0 ? (playerXp / xpForNextLevel) * 100 : 0;
 
   useEffect(() => {
+    const soldPropertyOriginalIds = soldPropertiesLog.map(log => log.id.split("_")[0]);
     const ownedAssetIds = playerAssets.map((asset) => asset.id.split("_")[0]);
     const allPossibleAssets = [
       ...PROPERTY_LIST.map((p) => ({ ...p, assetType: "Property" })),
       ...LAND_PLOT_LIST.map((l) => ({ ...l, assetType: "Land" })),
     ];
-    const eligibleAssets = allPossibleAssets.filter(
-      (asset) =>
-        playerLevel >= asset.minLevel &&
-        gameMoney >= asset.askingPrice &&
-        !ownedAssetIds.includes(asset.id)
-    );
+    const eligibleAssets = allPossibleAssets.filter((asset) => {
+        // --- NEW VALIDATION: Check if the property has ever been sold ---
+        const hasBeenSold = soldPropertyOriginalIds.includes(asset.id);
+
+        return (
+            playerLevel >= asset.minLevel &&
+            gameMoney >= asset.askingPrice &&
+            !ownedAssetIds.includes(asset.id) &&
+            !hasBeenSold // <-- The crucial new check
+        );
+    });
+
     if (eligibleAssets.length > 0) {
       eligibleAssets.forEach((asset) => {
         asset.bargainScore =
@@ -54,7 +62,7 @@ const HomePage = ({ navigation }) => {
       eligibleAssets.sort((a, b) => b.bargainScore - a.bargainScore);
       setFeaturedDeal(eligibleAssets[0]);
     }
-  }, [playerAssets, playerLevel, gameMoney]);
+  }, [playerAssets, playerLevel, gameMoney, soldPropertiesLog]);
 
   const activeProjects = useMemo(() => {
     return playerAssets.filter(
@@ -164,14 +172,14 @@ const HomePage = ({ navigation }) => {
           style={styles.dealCard}
           onPress={() => navigation.navigate(destination, params)}
         >
-          {isLand ? (
+          {/* {isLand ? (
             <Ionicons name="map-outline" size={80} color="#43e97b" />
           ) : (
             <Image
               source={getDynamicPropertyImage(featuredDeal)}
               style={styles.dealImage}
             />
-          )}
+          )} */}
           <View style={styles.dealInfo}>
             <Text style={styles.dealName}>{featuredDeal.name}</Text>
             <Text style={styles.dealSubtitle}>
@@ -257,12 +265,6 @@ const HomePage = ({ navigation }) => {
             iconName="people-outline"
             iconColor="#DA70D6" // A new color for Staff
             text="Staff"
-          />{" "}
-          <NavButton
-            onPress={() => alert("Settings Clicked!")}
-            iconName="cog-outline"
-            iconColor="#A9A9A9"
-            text="Settings"
           />
         </View>
       </SafeAreaView>
