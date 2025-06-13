@@ -1,11 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+// import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View,StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from "./src/HomePage";
 import BankHubScreen from "./src/BankHubScreen";
 import LoanScreen from "./src/LoanScreen";
 import React, { useContext } from "react";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GameProvider } from "./GameContext"; // Import the GameContext
 import SelectAssetScreen from "./src/SelectAssetScreen";
 import PortfolioScreen from "./src/PortfolioScreen";
@@ -25,6 +26,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <SafeAreaProvider>
     <GameProvider>
       <NavigationContainer>
         <Stack.Navigator
@@ -34,12 +36,13 @@ export default function App() {
             
             // This makes the screen's container transparent, allowing our
             // LinearGradient backgrounds on each screen to be visible.
-            contentStyle: { backgroundColor: 'transparent' },
+            contentStyle: { backgroundColor: 'transparent', },
             
             // This animation looks much better with transparent screens
             // than the default slide animation.
             animation: 'fade', 
           }}
+          style={styles.container}
         >
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="BankHub" component={BankHubScreen} />
@@ -76,6 +79,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </GameProvider>
+    </SafeAreaProvider>
   );
 }
 
@@ -85,5 +89,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: StatusBar.currentHeight || 0
   },
 });

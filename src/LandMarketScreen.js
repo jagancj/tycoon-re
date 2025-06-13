@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GameContext } from '../GameContext';
@@ -8,18 +8,6 @@ import Slider from '@react-native-community/slider';
 
 const LandMarketScreen = ({ navigation }) => {
   const { playerLevel, playerAssets, buyLand, gameMoney } = useContext(GameContext);
-
-  // State to manage the pop-up modal
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedLand, setSelectedLand] = useState(null);
-  const [offerPrice, setOfferPrice] = useState(0);
-  const PROPERTIES_TO_SHOW = 7;
-  const ownedLandIds = playerAssets.filter(asset => asset.assetType === 'Land').map(asset => asset.id.split('_')[0]);
-  const filteredPlots = LAND_PLOT_LIST.filter(
-    plot => plot.minLevel <= playerLevel && !ownedLandIds.includes(plot.id)
-  );
-    const availablePlots = shuffleArray(eligibleProperties).slice(0, PROPERTIES_TO_SHOW);
-  // --- Modal & Purchase Functions ---
 const shuffleArray = (array) => {
   let currentIndex = array.length, randomIndex;
   while (currentIndex > 0) {
@@ -29,6 +17,23 @@ const shuffleArray = (array) => {
   }
   return array;
 };
+  // State to manage the pop-up modal
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedLand, setSelectedLand] = useState(null);
+  const [offerPrice, setOfferPrice] = useState(0);
+  const PROPERTIES_TO_SHOW = 7;
+  const ownedLandIds = playerAssets.filter(asset => asset.assetType === 'Land').map(asset => asset.id.split('_')[0]);
+
+  // --- Modal & Purchase Functions ---
+   const availableProperties = useMemo(() => {
+    const filteredPlots = LAND_PLOT_LIST.filter(
+    plot => plot.minLevel <= playerLevel && !ownedLandIds.includes(plot.id)
+  );
+  const availablePlots = shuffleArray(filteredPlots).slice(0, PROPERTIES_TO_SHOW);
+      // Filter out properties that have been sold
+      return availablePlots;
+  
+    }, [playerLevel, playerAssets]);
   const handleOpenModal = (landPlot) => {
     setSelectedLand(landPlot);
     setOfferPrice(landPlot.askingPrice); // Default offer to asking price
@@ -107,7 +112,7 @@ const shuffleArray = (array) => {
       </Modal>
 
       <FlatList
-        data={availablePlots}
+        data={availableProperties}
         keyExtractor={item => item.id}
         contentContainerStyle={{ padding: 20, flexGrow: 1 }}
         ListEmptyComponent={<Text style={styles.emptyText}>No land available at your current level.</Text>}

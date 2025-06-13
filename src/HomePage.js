@@ -195,14 +195,15 @@ const HomePage = ({ navigation }) => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="auto" hidden={true}/>
+
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
       <LinearGradient
         colors={["#1a2a6c", "#b21f1f", "#fdbb2d"]}
         style={styles.background}
       />
 
-      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.topBar}>
           <View style={styles.moneyContainer}>
             <Image
@@ -267,14 +268,15 @@ const HomePage = ({ navigation }) => {
             text="Staff"
           />
         </View>
-      </SafeAreaView>
     </View>
+    </SafeAreaView>
+
   );
 };
 
 // --- This is the complete stylesheet ---
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, paddingTop: StatusBar.currentHeight || 0 },
   background: {
     position: "absolute",
     left: 0,
