@@ -22,9 +22,12 @@ import MarketScreen from "./src/MarketScreen";
 import StaffCenterScreen from "./src/StaffCenterScreen";
 import FinanceScreen from "./src/FinanceScreen";
 import ArchitectSelectionScreen from "./src/ArchitectSelectionScreen";
+import TutorialScreen from "./src/TutorialScreen";
+import InitialLoadingScreen from "./src/InitialLoadingScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
   return (
     <SafeAreaProvider>
     <GameProvider>
@@ -43,6 +46,8 @@ export default function App() {
             animation: 'fade', 
           }}
           style={styles.container}
+          initialRouteName="InitialLoading" 
+          
         >
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="BankHub" component={BankHubScreen} />
@@ -76,6 +81,9 @@ export default function App() {
           <Stack.Screen name="Market" component={MarketScreen} />
           <Stack.Screen name="StaffCenter" component={StaffCenterScreen} />
           <Stack.Screen name="Finance" component={FinanceScreen} />
+          <Stack.Screen name="Tutorial" component={TutorialScreen} />
+          <Stack.Screen name="InitialLoading" component={InitialLoadingScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </GameProvider>

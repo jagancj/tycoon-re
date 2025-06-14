@@ -32,8 +32,7 @@ const ListingDetailScreen = ({ route, navigation }) => {
   
   // State for the slider, initialized by the memoized value.
   const [askingPrice, setAskingPrice] = useState(initialAskingPrice);
-  console.log(`ListingDetailScreen: assetId=${assetId}, askingPrice=${askingPrice}`);
-  console.log(`Asset details: ${JSON.stringify(asset, null, 2)}`);
+
   // This effect runs if the asset disappears (e.g., sold) to prevent crashes.
   useEffect(() => {
     if (asset === undefined) {

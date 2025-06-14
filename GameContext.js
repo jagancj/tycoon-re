@@ -67,7 +67,7 @@ const updateRenovationProgress = (currentProjects, hiredStaff) => {
 
 // --- INITIAL STATE ---
 const initialState = {
-  gameMoney: 1000000,
+  gameMoney: 0, 
   playerLevel: 1,
   playerXp: 0,
   playerAssets: [],
@@ -85,6 +85,7 @@ const initialState = {
     firstProfit: false,
     gotFirstLoan: false,
   },
+  hasCompletedTutorial: false,
 };
 
 // --- MAIN GAME PROVIDER COMPONENT ---
@@ -93,8 +94,9 @@ export const GameProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
   const [gameTick, setGameTick] = useState(0);
+  const [lastLogin, setLastLogin] = useState(Date.now());
 
-  const { gameMoney, playerLevel, playerXp, playerAssets, activeLoans, offers, constructionProjects, renovationProjects, staff, agentReports, transactionLog, soldPropertiesLog, achievements } = state;
+  const { gameMoney, playerLevel, playerXp, playerAssets, activeLoans, offers, constructionProjects, renovationProjects, staff, agentReports, transactionLog, soldPropertiesLog, achievements, hasCompletedTutorial  } = state;
   const xpForNextLevel = LEVEL_UP_THRESHOLDS[playerLevel] || 99999;
   
   // --- GAME LOOPS ---
@@ -109,12 +111,30 @@ export const GameProvider = ({ children }) => {
       } catch (e) { console.error("Failed to load state.", e); }
       finally { setIsLoading(false); }
     };
+    const checkDailyEvents = async () => {
+        const now = Date.now();
+        const lastLoginTime = await AsyncStorage.getItem('@lastLogin'); // Using AsyncStorage for persistence
+        const oneDay = 24 * 60 * 60 * 1000;
+
+        if (lastLoginTime) {
+            const daysPassed = Math.floor((now - parseInt(lastLoginTime, 10)) / oneDay);
+            if (daysPassed > 0) {
+                console.log(`Player was away for ${daysPassed} real-world day(s).`);
+                // Deduct expenses for each day the player was away
+                for (let i = 0; i < daysPassed; i++) {
+                    handleDailyFinancials(); 
+                }
+            }
+        }
+        await AsyncStorage.setItem('@lastLogin', now.toString());
+    };
+    checkDailyEvents();
     loadState();
   }, []);
 
   useEffect(() => {
     if (!isLoading) {
-      const stateToSave = { gameMoney, playerLevel, playerXp, playerAssets, activeLoans, staff, achievements, soldPropertiesLog, agentReports };
+      const stateToSave = { gameMoney, playerLevel, playerXp, playerAssets, activeLoans, staff, achievements, soldPropertiesLog, agentReports, hasCompletedTutorial };
       AsyncStorage.setItem(SAVE_GAME_KEY, JSON.stringify(stateToSave));
     }
   }, [state, isLoading]);
@@ -183,20 +203,68 @@ export const GameProvider = ({ children }) => {
     const newTransaction = { id: `TXN_${Date.now()}`, date: Date.now(), description, amount, category };
     setState(prev => ({ ...prev, transactionLog: [newTransaction, ...prev.transactionLog].slice(0, 100) }));
   };
+  const completeTutorial = () => {
+    setState(prev => ({ ...prev, hasCompletedTutorial: true }));
+    console.log("Tutorial completed!");
+  };
+// In GameContext.js
 
   const handleDailyFinancials = () => {
-    let totalDailyCost = 0;
-    const totalSalary = state.staff.hired.reduce((sum, member) => sum + member.salaryPerDay, 0);
-    if (totalSalary > 0) {
-      totalDailyCost += totalSalary;
-      logTransaction('Staff Salaries', -totalSalary, 'Expenses');
-    }
-    const totalEmi = state.activeLoans.reduce((sum, loan) => sum + loan.emi, 0);
-    if (totalEmi > 0) {
-      totalDailyCost += totalEmi;
-      logTransaction('Loan Payments', -totalEmi, 'Expenses');
-    }
-    if (totalDailyCost > 0) setState(prev => ({ ...prev, gameMoney: prev.gameMoney - totalDailyCost }));
+    setState(prev => {
+      let newMoney = prev.gameMoney;
+      let newTransactionLog = [...prev.transactionLog];
+      let updatedActiveLoans = [...prev.activeLoans];
+      let updatedPlayerAssets = [...prev.playerAssets];
+
+      // 1. Pay Salaries
+      const totalSalary = prev.staff.hired.reduce((sum, member) => sum + member.salaryPerDay, 0);
+      if (totalSalary > 0 && newMoney >= totalSalary) {
+        newMoney -= totalSalary;
+        newTransactionLog.unshift({ id: `TXN_${Date.now()}_sal`, date: Date.now(), description: 'Staff Salaries', amount: -totalSalary, category: 'Expenses' });
+      }
+
+      // 2. Process Loan Payments Individually
+      if (updatedActiveLoans.length > 0) {
+        const paidOffLoanIds = [];
+
+        updatedActiveLoans = updatedActiveLoans.map(loan => {
+          if (newMoney >= loan.emi) {
+            newMoney -= loan.emi;
+            const newPrincipal = loan.outstandingPrincipal - loan.emi;
+
+            if (newPrincipal <= 0) {
+              // Loan is paid off
+              paidOffLoanIds.push(loan.id);
+              logTransaction(`Loan Paid Off: ${loan.type}`, -loan.emi, 'Loan');
+              
+              // If it was a mortgage, free the property
+              if (loan.type === 'Mortgage' && loan.assetId) {
+                  updatedPlayerAssets = updatedPlayerAssets.map(asset => 
+                      asset.id === loan.assetId ? { ...asset, isMortgaged: false } : asset
+                  );
+              }
+              return null; // Mark for removal
+            }
+            // Return the loan with the updated principal
+            return { ...loan, outstandingPrincipal: newPrincipal };
+          }
+          return loan; // Not enough money to pay, return unchanged
+        }).filter(Boolean); // Filter out the null (paid off) loans
+
+        if (paidOffLoanIds.length > 0) {
+            Alert.alert("Loan(s) Paid Off!", "You have successfully paid off one or more loans.");
+        }
+      }
+      
+      // Return the new, complete state object
+      return {
+        ...prev,
+        gameMoney: newMoney,
+        activeLoans: updatedActiveLoans,
+        playerAssets: updatedPlayerAssets,
+        transactionLog: newTransactionLog.slice(0, 100),
+      };
+    });
   };
 
   const handleCompletedRenovations = (completedProjectIds, currentState) => {
@@ -662,6 +730,9 @@ export const GameProvider = ({ children }) => {
   };
   const startConstruction = (landAsset, blueprint, architect, supervisor) => {
     // This part of the logic is correct
+    const firstPhaseDurationMinutes = modifiedPhases[0].duration;
+    const startTime = Date.now();
+    const endTime = startTime + firstPhaseDurationMinutes * 60 * 1000;
     const finalCostModifier = architect.costModifier * (supervisor.costModifier || 1);
     const finalEfficiencyModifier = architect.efficiencyModifier * (supervisor.efficiencyModifier || 1);
     const modifiedPhases = blueprint.phases.map(phase => ({
@@ -697,6 +768,8 @@ export const GameProvider = ({ children }) => {
           architectId: architect.id,
           qualityModifier: architect.qualityModifier * (supervisor.qualityModifier || 1),
           modifiedPhases: modifiedPhases,
+          phaseStartTime: startTime,
+          phaseEndTime: endTime,
         }
       };
 
@@ -888,12 +961,8 @@ export const GameProvider = ({ children }) => {
     xpForNextLevel,
     logTransaction, addXp, triggerAchievement, hireStaff, takeLoan, preCloseLoan,
     buyProperty, buyLand, startRenovation, listPropertyWithPrice, acceptOffer,
-    installAddOn, startConstruction, advanceConstructionPhase, hireAgent,
+    installAddOn, startConstruction, advanceConstructionPhase, hireAgent, completeTutorial
   };
-
-  if (isLoading) {
-    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0f2027' }}><ActivityIndicator size="large" color="#FFD700" /></View>;
-  }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };

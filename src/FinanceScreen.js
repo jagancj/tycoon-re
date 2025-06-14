@@ -79,8 +79,10 @@ const FinanceScreen = ({ navigation }) => {
   });
 
   return (
+    <View style={{ flex: 1 }}>
+    <LinearGradient colors={['#1D2B64', '#0f2027']} style={styles.background} />
+
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#1D2B64', '#0f2027']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerButton} onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={32} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>Financial Center</Text>
@@ -94,6 +96,7 @@ const FinanceScreen = ({ navigation }) => {
         renderTabBar={props => <TabBar {...props} indicatorStyle={{backgroundColor: '#FFD700'}} style={{backgroundColor: 'transparent'}} />}
       />
     </SafeAreaView>
+    </View>
   );
 };
 

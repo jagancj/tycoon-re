@@ -23,8 +23,10 @@ const BankHubScreen = ({ navigation }) => {
   };
 
   return (
+    <View style={{ flex: 1 }}>
+    <LinearGradient colors={['#0f2027', '#2c5364']} style={styles.background} />
+
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#0f2027', '#2c5364']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerButton} onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={32} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>Banking Hub</Text>
@@ -32,7 +34,7 @@ const BankHubScreen = ({ navigation }) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}><View style={styles.cardHeader}><Ionicons name="stats-chart" size={28} color="#FFD700" /><Text style={styles.sectionTitle}>Financial Center</Text></View><Text style={styles.cardDescription}>Review statements and property history.</Text><Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} /></TouchableOpacity> */}
+        <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}><View style={styles.cardHeader}><Ionicons name="stats-chart" size={28} color="#FFD700" /><Text style={styles.sectionTitle}>Financial Center</Text></View><Text style={styles.cardDescription}>Review statements and property history.</Text><Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} /></TouchableOpacity>
 
       {activeLoanArray.length > 0 && (
           <View style={styles.sectionCard}>
@@ -79,6 +81,7 @@ const BankHubScreen = ({ navigation }) => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 

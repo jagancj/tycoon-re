@@ -22,7 +22,7 @@ const PortfolioScreen = ({ navigation }) => {
     listPropertyWithPrice,
     acceptOffer,
     GAME_DAY_IN_MS,
-    activeLoans 
+    activeLoans,
   } = useContext(GameContext);
 
   // In PortfolioScreen.js
@@ -130,7 +130,7 @@ const PortfolioScreen = ({ navigation }) => {
     // Safely get data needed for rendering
     const currentOffers = offers[item.id] || [];
     const renovationCost = item.renovationCost?.total || 0;
-    const canListForSale = item.status === 'Owned' && !item.isMortgaged;
+    const canListForSale = item.status === "Owned" && !item.isMortgaged;
 
     // This function will be called when the user accepts an offer
 
@@ -159,7 +159,9 @@ const PortfolioScreen = ({ navigation }) => {
           <Text style={styles.cardSubtitle}>
             {item.assetType === "Land"
               ? `Size: ${(item?.sizeSqFt || 0).toLocaleString()} sq. ft.`
-              : `Market Value: $${(item?.areaAverageValue || 0).toLocaleString()}`}
+              : `Market Value: $${(
+                  item?.areaAverageValue || 0
+                ).toLocaleString()}`}
           </Text>
           {item.purchasePrice != null && (
             <Text style={styles.cardSubtitle}>
@@ -192,14 +194,26 @@ const PortfolioScreen = ({ navigation }) => {
                 <Text style={styles.buttonActionText}>Upgrades</Text>
                 <Text style={styles.buttonDetailText}>Add Features</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
-    style={[styles.button, !canListForSale && styles.disabledButton]} 
-    disabled={!canListForSale}
-    onPress={() => navigation.navigate('ListingDetail', { assetId: item.id })}>
-    <Ionicons name="pricetag-outline" size={24} color={!canListForSale ? '#666' : '#e63946'} />
-    <Text style={styles.buttonActionText}>List for Sale</Text>
-    <Text style={styles.buttonDetailText}>{canListForSale ? 'Start Selling' : 'Mortgaged'}</Text>
-</TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  !canListForSale && styles.disabledButton,
+                ]}
+                disabled={!canListForSale}
+                onPress={() =>
+                  navigation.navigate("ListingDetail", { assetId: item.id })
+                }
+              >
+                <Ionicons
+                  name="pricetag-outline"
+                  size={24}
+                  color={!canListForSale ? "#666" : "#e63946"}
+                />
+                <Text style={styles.buttonActionText}>List for Sale</Text>
+                <Text style={styles.buttonDetailText}>
+                  {canListForSale ? "Start Selling" : "Mortgaged"}
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
 
@@ -245,9 +259,14 @@ const PortfolioScreen = ({ navigation }) => {
           {/* === RENDER IF ASSET IS LAND === */}
           {item.assetType === "Land" && item.status === "Owned" && (
             <View style={styles.actions}>
-<TouchableOpacity style={styles.developButton} onPress={() => navigation.navigate('ArchitectSelection', { landAsset: item })}>
-    <Text style={styles.developButtonText}>Develop Property</Text>
-</TouchableOpacity>
+              <TouchableOpacity
+                style={styles.developButton}
+                onPress={() =>
+                  navigation.navigate("ArchitectSelection", { landAsset: item })
+                }
+              >
+                <Text style={styles.developButtonText}>Develop Property</Text>
+              </TouchableOpacity>
             </View>
           )}
 
@@ -272,11 +291,13 @@ const PortfolioScreen = ({ navigation }) => {
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <LinearGradient
         colors={["#141E30", "#243B55"]}
         style={styles.background}
       />
+    <SafeAreaView style={styles.container}>
+
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -300,6 +321,7 @@ const PortfolioScreen = ({ navigation }) => {
         ListEmptyComponent={ListEmptyMessage}
       />
     </SafeAreaView>
+    </View>
   );
 };
 

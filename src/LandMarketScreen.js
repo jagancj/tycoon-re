@@ -69,7 +69,7 @@ const shuffleArray = (array) => {
 
   return (
     <View style={styles.sceneContainer}>
-      <LinearGradient colors={['#0f2027', '#1D2B64']} style={styles.background} />
+      {/* <LinearGradient colors={['#0f2027', '#1D2B64']} style={styles.background} /> */}
 
       {/* --- The Negotiation and Purchase Modal --- */}
       <Modal visible={isModalVisible} transparent={true} animationType="slide">

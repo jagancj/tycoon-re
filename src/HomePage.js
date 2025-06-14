@@ -195,14 +195,15 @@ const HomePage = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle="auto" hidden={true}/>
-
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <LinearGradient
         colors={["#1a2a6c", "#b21f1f", "#fdbb2d"]}
         style={styles.background}
       />
+      <StatusBar barStyle="light-content" />
+    <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.container}>
+
 
         <View style={styles.topBar}>
           <View style={styles.moneyContainer}>
@@ -270,8 +271,8 @@ const HomePage = ({ navigation }) => {
         </View>
     </View>
     </SafeAreaView>
-
-  );
+    </View>
+  );  
 };
 
 // --- This is the complete stylesheet ---

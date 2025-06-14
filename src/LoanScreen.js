@@ -46,6 +46,9 @@ const LoanScreen = ({ navigation, route }) => {
   useEffect(() => {
     setAmount(minLoan);
   }, [minLoan]);
+  useEffect(() => { 
+    console.log(playerAssets, 'Player Assets');
+  },[])
 
   const { interestRate, emi } = useMemo(() => {
     if (!terms || amount === 0 || tenure === 0) return { interestRate: terms?.baseInterestRate || 0, emi: 0 };
@@ -120,7 +123,7 @@ const LoanScreen = ({ navigation, route }) => {
                 <Image source={getDynamicPropertyImage(prop)} style={styles.propertyImage} />
                 <View style={{flex: 1}}>
                     <Text style={styles.cardTitle}>{prop.name}</Text>
-                    <Text style={styles.cardSubtitle}>Value: ${prop.marketValue.toLocaleString()}</Text>
+                    <Text style={styles.cardSubtitle}>Value: ${(prop.marketValue || prop.areaAverageValue ).toLocaleString()}</Text>
                 </View>
                 <Ionicons name="chevron-forward" size={24} color="#fff" />
             </TouchableOpacity>
@@ -152,9 +155,11 @@ const LoanScreen = ({ navigation, route }) => {
   );
 
   return (
+    <View style={{ flex: 1 }}>
+    <LinearGradient colors={['#232526', '#414345']} style={styles.background} />
+
     <SafeAreaView style={styles.container}>
       <TransactionModal isVisible={modalState.isVisible} status={modalState.status} details={modalState.details} onClose={handleCloseModal} onConfirm={handleConfirmLoan} />
-      <LinearGradient colors={['#232526', '#414345']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={32} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>{bank.name}</Text>
@@ -177,6 +182,7 @@ const LoanScreen = ({ navigation, route }) => {
         )}
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 

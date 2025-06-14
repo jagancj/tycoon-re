@@ -97,8 +97,9 @@ const StaffCenterScreen = ({ navigation }) => {
   );
 
   return (
+    <View style={{ flex: 1 }}>
+          <LinearGradient colors={['#232526', '#414345']} style={styles.background} />
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#232526', '#414345']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerButton} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back-outline" size={32} color="#fff" />
@@ -114,13 +115,14 @@ const StaffCenterScreen = ({ navigation }) => {
         renderTabBar={renderTabBar}
       />
     </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
   background: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%' },
-  sceneContainer: { flex: 1, backgroundColor: '#1c1c1c' }, // Dark BG for tabs
+  sceneContainer: { flex: 1,}, // Dark BG for tabs
   header: { paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
   headerButton: { padding: 5 },
