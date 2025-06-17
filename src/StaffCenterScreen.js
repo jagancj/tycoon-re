@@ -7,8 +7,40 @@ import { GameContext } from '../GameContext';
 
 // --- Tab 1: "My Team" Component ---
 const MyTeamRoute = () => {
-  const { staff } = useContext(GameContext);
+  const { staff, fireStaff, returnAllStaffToHiringAgency } = useContext(GameContext);
   
+  const handleReturnAllStaff = () => {
+    Alert.alert(
+      "Return All Staff",
+      "Are you sure you want to return all staff to the hiring agency?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Return All", 
+          style: "destructive",
+          onPress: returnAllStaffToHiringAgency
+        }
+      ]
+    );
+  };
+
+  const handleFireStaff = (staffMember) => {
+    Alert.alert(
+      "Confirm Fire Staff",
+      `Are you sure you want to fire ${staffMember.name}? You'll need to pay severance equal to half their hiring cost ($${Math.round(staffMember.hireCost * 0.5).toLocaleString()}).`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Fire", 
+          style: "destructive",
+          onPress: () => {
+            fireStaff(staffMember);
+          }
+        }
+      ]
+    );
+  };
+
   const renderHiredMember = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.cardInfo}>
@@ -16,15 +48,33 @@ const MyTeamRoute = () => {
         <Text style={styles.cardSubtitle}>{item.role} - {item.specialty}</Text>
         <Text style={styles.salaryText}>Salary: ${item.salaryPerDay.toLocaleString()}/day</Text>
       </View>
-      <View style={styles.statusContainer}>
-        <View style={[styles.statusIndicator, { backgroundColor: item.status === 'Idle' ? '#43e97b' : '#ffae42' }]} />
-        <Text style={styles.statusText}>{item.status}</Text>
+      <View style={styles.actionContainer}>
+        <View style={styles.statusContainer}>
+          <View style={[styles.statusIndicator, { backgroundColor: item.status === 'Idle' ? '#43e97b' : '#ffae42' }]} />
+          <Text style={styles.statusText}>{item.status}</Text>
+        </View>
+        {item.status === 'Idle' && (
+          <TouchableOpacity
+            style={styles.fireButton}
+            onPress={() => handleFireStaff(item)}
+          >
+            <Ionicons name="close-circle-outline" size={24} color="#ff4444" />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
 
   return (
     <View style={styles.sceneContainer}>
+      {staff.hired.length > 0 && (
+        <TouchableOpacity
+          style={styles.returnAllButton}
+          onPress={handleReturnAllStaff}
+        >
+          <Text style={styles.returnAllButtonText}>Return All Staff to Agency</Text>
+        </TouchableOpacity>
+      )}
       <FlatList
         data={staff.hired}
         renderItem={renderHiredMember}
@@ -37,10 +87,23 @@ const MyTeamRoute = () => {
 };
 
 // --- Tab 2: "Hiring Agency" Component ---
-const HiringAgencyRoute = () => {
+const HiringAgencyRoute = () => {  
   const { staff, playerLevel, gameMoney, hireStaff } = useContext(GameContext);
   
-  const availableToHire = staff.availableToHire.filter(s => playerLevel >= s.unlockLevel);
+  console.log('Player Level:', playerLevel);
+  console.log('Available Staff:', staff.availableToHire);
+  console.log('Hired Staff:', staff.hired);
+  
+  // Filter staff that are:
+  // 1. At or below player's level
+  // 2. Not already hired
+  const availableToHire = staff.availableToHire.filter(s => 
+    playerLevel >= s.unlockLevel && 
+    !staff.hired.some(hired => hired.id === s.id)
+  );
+
+  console.log('Filtered Staff:', availableToHire);
+  console.log('Renovation Staff:', availableToHire.filter(s => s.role === 'Renovation'));
 
   return (
     <View style={styles.sceneContainer}>
@@ -131,7 +194,10 @@ const styles = StyleSheet.create({
   cardTitle: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
   cardSubtitle: { color: '#ccc', fontSize: 14, marginTop: 4 },
   salaryText: { color: '#DA70D6', fontSize: 12, fontStyle: 'italic', marginTop: 4 },
-  statusContainer: { alignItems: 'center', marginLeft: 10 },
+  statusContainer: { 
+    alignItems: 'center',
+    marginLeft: 10 
+  },
   statusIndicator: { width: 12, height: 12, borderRadius: 6, marginBottom: 4 },
   statusText: { color: '#fff', fontSize: 12 },
   hireButton: { backgroundColor: '#DA70D6', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, alignItems: 'center' },
@@ -140,6 +206,27 @@ const styles = StyleSheet.create({
   disabledCard: { opacity: 0.4 },
   disabledButton: { backgroundColor: '#555' },
   emptyText: { color: '#999', textAlign: 'center', marginTop: 50, fontSize: 16 },
+  actionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  fireButton: {
+    marginLeft: 15,
+    padding: 5,
+  },
+  returnAllButton: {
+    backgroundColor: '#ff4444',
+    margin: 20,
+    marginBottom: 0,
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center'
+  },
+  returnAllButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16
+  },
 });
 
 export default StaffCenterScreen;

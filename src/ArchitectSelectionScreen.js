@@ -12,8 +12,9 @@ const ArchitectSelectionScreen = ({ route, navigation }) => {
   const availableFirms = ARCHITECT_FIRMS.filter(firm => playerLevel >= firm.unlockLevel);
 
   return (
+    <View style={{ flex: 1 }}>
+            <LinearGradient colors={['#0f2027', '#2c5364']} style={styles.background} />
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#0f2027', '#2c5364']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerButton} onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={32} color="#fff" />
@@ -60,6 +61,7 @@ const ArchitectSelectionScreen = ({ route, navigation }) => {
         }}
       />
     </SafeAreaView>
+    </View>
   );
 };
 

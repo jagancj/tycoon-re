@@ -14,6 +14,20 @@ import { GameContext } from "../GameContext";
 import { Ionicons } from "@expo/vector-icons";
 import { getDynamicPropertyImage } from "../utils/imageHelpers";
 
+const formatTimeRemaining = (timeMs) => {
+  const seconds = Math.floor(timeMs / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  
+  if (hours > 0) {
+    return `${hours}h ${minutes % 60}m`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${seconds % 60}s`;
+  } else {
+    return `${seconds}s`;
+  }
+};
+
 const PortfolioScreen = ({ navigation }) => {
   const {
     playerAssets,
@@ -23,10 +37,10 @@ const PortfolioScreen = ({ navigation }) => {
     acceptOffer,
     GAME_DAY_IN_MS,
     activeLoans,
+    soldPropertiesLog, // <-- Add this line
   } = useContext(GameContext);
 
   // In PortfolioScreen.js
-
   const handleRenovate = (asset) => {
     const costData = asset.renovationCost?.total;
     // If costData doesn't exist, we can't proceed.
@@ -42,7 +56,8 @@ const PortfolioScreen = ({ navigation }) => {
     const renoCost = asset.renovationCost || {};
     const totalCost = renoCost.total || 0;
 
-    const valueIncrease = asset.renovationData?.valueIncrease || 0;
+    // Get value increase from property data
+    const valueIncrease = asset.valueIncreaseAfterReno || 0;
 
     // The Alert now directly displays the breakdown from your data object.
     Alert.alert(
@@ -54,11 +69,9 @@ const PortfolioScreen = ({ navigation }) => {
       ).toLocaleString()}\n\nTotal Cost: $${totalCost.toLocaleString()}\nValue Increase: +$${valueIncrease.toLocaleString()}`,
       [
         { text: "Cancel", style: "cancel" },
-        {
-          text: "Confirm",
+        {          text: "Confirm",
           onPress: () => {
-            if (!startRenovation(asset)) {
-              // Pass the whole asset object
+            if (!startRenovation(asset, { navigation })) {
               // The alert logic is now handled inside startRenovation
             }
           },
@@ -67,8 +80,24 @@ const PortfolioScreen = ({ navigation }) => {
     );
   };
   const handleAcceptOffer = (asset, offerAmount) => {
-    // 1. Calculate all the numbers needed for the summary screen
-    const totalInvestment = asset.invested || asset.purchasePrice;
+    // Verify the asset isn't already sold
+    const originalId = asset.id.split("_")[0];
+    if (soldPropertiesLog.some((sp) => sp.id.split("_")[0] === originalId)) {
+      Alert.alert("Error", "This property has already been sold.");
+      return;
+    }
+
+    // Verify the offer still exists
+    const currentOffers = offers[asset.id] || [];
+    const offerStillValid = currentOffers.some(
+      (offer) => offer.amount === offerAmount
+    );
+    if (!offerStillValid) {
+      Alert.alert("Error", "This offer is no longer valid.");
+      return;
+    }    // 1. Calculate all the numbers needed for the summary screen
+    // Use totalInvestment for constructed properties, fallback to invested/purchasePrice for regular properties
+    const totalInvestment = asset.totalInvestment || asset.invested || asset.purchasePrice;
     const profitOrLoss = offerAmount - totalInvestment;
     let capitalGainsTax = 0;
     if (profitOrLoss > 0) {
@@ -78,7 +107,6 @@ const PortfolioScreen = ({ navigation }) => {
       capitalGainsTax = Math.round(profitOrLoss * taxRate);
     }
 
-    // Call the context function to update state
     const summaryData = {
       propertyName: asset.name,
       finalSalePrice: offerAmount,
@@ -87,22 +115,17 @@ const PortfolioScreen = ({ navigation }) => {
       netProfit: profitOrLoss - capitalGainsTax,
     };
 
-    // 2. Call the context function to update the game state (money and assets)
-    acceptOffer(asset.id, offerAmount);
-
-    // 3. Use navigation.reset to create a fresh, clean navigation stack.
-    // This completely removes the old Portfolio and ListingDetail screens from history,
-    // preventing all race conditions and dead ends.
-    navigation.reset({
-      index: 1, // The active screen will be the one at index 1 in the routes array
-      routes: [
-        { name: "Home" }, // The Home screen is now at the bottom of the stack
-        {
-          name: "TransactionSummary", // The summary screen is on top
-          params: summaryData, // Pass the financial data to it
-        },
-      ],
-    });
+    // 2. Accept the offer through the context
+    if (acceptOffer(asset.id, offerAmount)) {
+      // 3. Reset navigation stack to prevent back-navigation to sold property
+      navigation.reset({
+        index: 1,
+        routes: [
+          { name: "Home" },
+          { name: "TransactionSummary", params: summaryData },
+        ],
+      });
+    }
   };
   const ListEmptyMessage = () => (
     <View style={styles.emptyContainer}>
@@ -135,10 +158,9 @@ const PortfolioScreen = ({ navigation }) => {
     // This function will be called when the user accepts an offer
 
     return (
-      <View style={styles.card}>
-        {/* --- IMAGE SECTION --- */}
-        {/* It now correctly displays an image for a Property or an icon for Land */}
-        {item.assetType === "Land" ? (
+      <View style={styles.card}>        {/* --- IMAGE SECTION --- */}
+        {/* Show land icon for undeveloped land, property image for developed properties and completed construction */}
+        {item.assetType === "Land" && !item.constructionCompleted ? (
           <View style={styles.landIconContainer}>
             <Ionicons
               name="map-outline"
@@ -153,14 +175,13 @@ const PortfolioScreen = ({ navigation }) => {
           />
         )}
 
-        <View style={styles.cardBody}>
-          {/* --- DETAILS SECTION (Works for both Land and Properties) --- */}
+        <View style={styles.cardBody}>          {/* --- DETAILS SECTION (Works for both Land and Properties) --- */}
           <Text style={styles.cardTitle}>{item?.name || "Unknown Asset"}</Text>
           <Text style={styles.cardSubtitle}>
-            {item.assetType === "Land"
+            {item.assetType === "Land" && !item.constructionCompleted
               ? `Size: ${(item?.sizeSqFt || 0).toLocaleString()} sq. ft.`
               : `Market Value: $${(
-                  item?.areaAverageValue || 0
+                  item?.marketValue || item?.areaAverageValue || 0
                 ).toLocaleString()}`}
           </Text>
           {item.purchasePrice != null && (
@@ -168,22 +189,149 @@ const PortfolioScreen = ({ navigation }) => {
               Purchase Price: ${(item?.purchasePrice || 0).toLocaleString()}
             </Text>
           )}
+          {item.constructionCompleted && item.type && (
+            <Text style={styles.cardSubtitle}>
+              Property Type: {item.type}
+            </Text>
+          )}
 
-          {/* --- ACTION SECTION (Conditionally renders the correct buttons) --- */}
-
-          {/* === RENDER IF ASSET IS A PROPERTY === */}
+          {/* --- ACTION SECTION (Conditionally renders the correct buttons) --- */}          {/* === RENDER IF ASSET IS A PROPERTY === */}
           {item.assetType !== "Land" && item?.status === "Owned" && (
             <View style={styles.actions}>
+              {!item.renovationCompleted && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => handleRenovate(item)}
+                >
+                  <Ionicons name="construct-outline" size={24} color="#3a7bd5" />
+                  <Text style={styles.buttonActionText}>Renovate</Text>
+                  <Text style={styles.buttonDetailText}>
+                    Cost: ${renovationCost.toLocaleString()}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {item.renovationCompleted && (
+                <View style={[styles.button, styles.disabledButton]}>
+                  <Ionicons name="checkmark-circle" size={24} color="#43e97b" />
+                  <Text style={[styles.buttonActionText, { color: '#43e97b' }]}>Renovated</Text>
+                  <Text style={styles.buttonDetailText}>
+                    +${(item.lastRenovationValue || 0).toLocaleString()} value
+                  </Text>
+                </View>
+              )}
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => handleRenovate(item)}
+                onPress={() =>
+                  navigation.navigate("AddOns", { assetId: item.id })
+                }
               >
-                <Ionicons name="construct-outline" size={24} color="#3a7bd5" />
-                <Text style={styles.buttonActionText}>Renovate</Text>
+                <Ionicons name="add-circle-outline" size={24} color="#ffae42" />
+                <Text style={styles.buttonActionText}>Upgrades</Text>
+                <Text style={styles.buttonDetailText}>Add Features</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  !canListForSale && styles.disabledButton,
+                ]}
+                disabled={!canListForSale}
+                onPress={() =>
+                  navigation.navigate("ListingDetail", { assetId: item.id })
+                }
+              >
+                <Ionicons
+                  name="pricetag-outline"
+                  size={24}
+                  color={!canListForSale ? "#666" : "#e63946"}
+                />
+                <Text style={styles.buttonActionText}>List for Sale</Text>
                 <Text style={styles.buttonDetailText}>
-                  Cost: ${renovationCost.toLocaleString()}
+                  {canListForSale ? "Start Selling" : "Mortgaged"}
                 </Text>
               </TouchableOpacity>
+            </View>
+          )}          {item.assetType !== "Land" && item?.status === "Renovating" && (
+            <View style={styles.renoStatus}>
+              <View style={styles.renoHeader}>
+                <Text style={styles.renoText}>Renovating...</Text>
+                <Text style={styles.progressPercentage}>
+                  {Math.floor(item?.renovationProgress || 0)}%
+                </Text>
+              </View>
+              {item.renovationTimeRemaining > 0 && (
+                <Text style={styles.timeRemaining}>
+                  Time remaining: {formatTimeRemaining(item.renovationTimeRemaining)}
+                </Text>
+              )}
+              <View style={styles.progressBar}>
+                <View
+                  style={[
+                    styles.progressBarFill,
+                    { width: `${item?.renovationProgress || 0}%` },
+                  ]}
+                />
+              </View>
+            </View>
+          )}          {/* Show offers for regular properties and completed construction projects */}
+          {((item.assetType !== "Land") || (item.assetType === "Land" && item.constructionCompleted)) && item?.status === "For Sale" && (
+            <View style={styles.forSaleContainer}>
+              <Text style={styles.forSaleText}>
+                Listed on Market. Awaiting Offers...
+              </Text>
+              {currentOffers.length > 0 ? (
+                currentOffers.map((offer) => (
+                  <View key={offer.id} style={styles.offerRow}>
+                    <Text style={styles.offerText}>
+                      Offer: ${offer.amount.toLocaleString()}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.acceptButton}
+                      onPress={() => handleAcceptOffer(item, offer.amount)}
+                    >
+                      <Text style={styles.buttonText}>Accept</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noOffersText}>No current offers.</Text>
+              )}
+            </View>
+          )}{/* === RENDER IF ASSET IS LAND === */}
+          {/* Land that hasn't been developed yet */}
+          {item.assetType === "Land" && item.status === "Owned" && !item.constructionCompleted && (
+            <View style={styles.actions}>
+              <TouchableOpacity
+                style={styles.developButton}
+                onPress={() =>
+                  navigation.navigate("ArchitectSelection", { landAsset: item })
+                }
+              >
+                <Text style={styles.developButtonText}>Develop Property</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {/* Land under construction */}
+          {item.assetType === "Land" &&
+            item.status === "Under Construction" && (
+              <View style={styles.actions}>
+                <TouchableOpacity
+                  style={styles.developButton}
+                  onPress={() =>
+                    navigation.navigate("Construction", { projectId: item.id })
+                  }
+                >
+                  <Ionicons name="hammer-outline" size={24} color="#ffae42" />
+                  <Text style={styles.developButtonText}>
+                    View Construction
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          {/* Land with completed construction - treat as developed property */}
+          {item.assetType === "Land" && item.status === "Owned" && item.constructionCompleted && (
+            <View style={styles.actions}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() =>
@@ -216,76 +364,6 @@ const PortfolioScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           )}
-
-          {item.assetType !== "Land" && item?.status === "Renovating" && (
-            <View style={styles.renoStatus}>
-              <Text style={styles.renoText}>Renovating...</Text>
-              <View style={styles.progressBar}>
-                <View
-                  style={[
-                    styles.progressBarFill,
-                    { width: `${item?.renovationProgress || 0}%` },
-                  ]}
-                />
-              </View>
-            </View>
-          )}
-
-          {item.assetType !== "Land" && item?.status === "For Sale" && (
-            <View style={styles.forSaleContainer}>
-              <Text style={styles.forSaleText}>
-                Listed on Market. Awaiting Offers...
-              </Text>
-              {currentOffers.length > 0 ? (
-                currentOffers.map((offer) => (
-                  <View key={offer.id} style={styles.offerRow}>
-                    <Text style={styles.offerText}>
-                      Offer: ${offer.amount.toLocaleString()}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.acceptButton}
-                      onPress={() => handleAcceptOffer(item, offer.amount)}
-                    >
-                      <Text style={styles.buttonText}>Accept</Text>
-                    </TouchableOpacity>
-                  </View>
-                ))
-              ) : (
-                <Text style={styles.noOffersText}>No current offers.</Text>
-              )}
-            </View>
-          )}
-
-          {/* === RENDER IF ASSET IS LAND === */}
-          {item.assetType === "Land" && item.status === "Owned" && (
-            <View style={styles.actions}>
-              <TouchableOpacity
-                style={styles.developButton}
-                onPress={() =>
-                  navigation.navigate("ArchitectSelection", { landAsset: item })
-                }
-              >
-                <Text style={styles.developButtonText}>Develop Property</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {item.assetType === "Land" &&
-            item.status === "Under Construction" && (
-              <View style={styles.actions}>
-                <TouchableOpacity
-                  style={styles.developButton}
-                  onPress={() =>
-                    navigation.navigate("Construction", { projectId: item.id })
-                  }
-                >
-                  <Ionicons name="hammer-outline" size={24} color="#ffae42" />
-                  <Text style={styles.developButtonText}>
-                    View Construction
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
         </View>
       </View>
     );
@@ -492,12 +570,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: "rgba(67, 233, 123, 0.5)",
-  },
-  developButtonText: {
+  },  developButtonText: {
     color: "#43e97b",
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 10,
+  },
+  disabledButton: {
+    opacity: 0.7,
+  },
+  renoHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 5,
+  },
+  progressPercentage: {
+    color: "#ffae42",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  timeRemaining: {
+    color: "#aaa",
+    fontSize: 12,
+    marginBottom: 8,
+    textAlign: "center",
   },
 });
 

@@ -27,24 +27,36 @@ const PropertyDetailScreen = ({ route, navigation }) => {
     // Call the context function to hire the agent
     hireAgent(property, agentFee);
   };
-
   const makeOffer = () => {
-    if (offerPrice < property.baseValue) {
-      Alert.alert("Offer Rejected!", "Your offer is too low for the seller to even consider.");
-      return;
+    console.log(report);
+    if(report) {
+      const feePercentage = 0.02 + Math.random() * 0.03;
+      const acquisitionFee = Math.round(report.agentPrice * feePercentage);
+      const totalCost = report.agentPrice + acquisitionFee;
+      setOfferPrice(report.agentPrice);
+      setModalState({
+        isVisible: true,
+        status: 'confirm',
+        details: { itemName: property.name, itemPrice: report.agentPrice, fee: acquisitionFee, totalCost: totalCost }
+      });
+    } else {
+      if (offerPrice < property.baseValue) {
+        Alert.alert("Offer Rejected!", "Your offer is too low for the seller to even consider.");
+        return;
+      }
+      const feePercentage = 0.02 + Math.random() * 0.03;
+      const acquisitionFee = Math.round(offerPrice * feePercentage);
+      const totalCost = offerPrice + acquisitionFee;
+      setModalState({
+        isVisible: true,
+        status: 'confirm',
+        details: { itemName: property.name, itemPrice: offerPrice, fee: acquisitionFee, totalCost: totalCost }
+      });
     }
-    const feePercentage = 0.02 + Math.random() * 0.03;
-    const acquisitionFee = Math.round(offerPrice * feePercentage);
-    const totalCost = offerPrice + acquisitionFee;
-    setModalState({
-      isVisible: true,
-      status: 'confirm',
-      details: { itemName: property.name, itemPrice: offerPrice, fee: acquisitionFee, totalCost: totalCost }
-    });
   };
-
   const handleConfirmPurchase = () => {
-    if (buyProperty(property, offerPrice)) {
+    const purchasePrice = modalState.details.itemPrice;
+    if (buyProperty(property, purchasePrice)) {
       setModalState(prev => ({ ...prev, status: 'success' }));
     } else {
       const totalCost = modalState.details.totalCost;
@@ -85,31 +97,33 @@ const PropertyDetailScreen = ({ route, navigation }) => {
                     <Text style={styles.label}>Asking Price</Text>
                     <Text style={styles.value}>${property.askingPrice.toLocaleString()}</Text>
                     
-                    {/* --- FIX: UI for Agent feature is re-integrated --- */}
-                    {!report ? (
-                      <TouchableOpacity style={styles.agentButton} onPress={handleHireAgent}>
-                        <Text style={styles.agentButtonText}>Hire Agent to Inspect (${agentFee.toLocaleString()})</Text>
-                      </TouchableOpacity>
+                    {/* --- FIX: UI for Agent feature is re-integrated --- */}                    {!report ? (
+                      <View>
+                        <TouchableOpacity style={styles.agentButton} onPress={handleHireAgent}>
+                          <Text style={styles.agentButtonText}>Hire Agent to Negotiate (${agentFee.toLocaleString()})</Text>                        </TouchableOpacity>
+
+                        <Text style={styles.label}>Your Offer</Text>
+                        <Text style={styles.value}>${offerPrice.toLocaleString()}</Text>
+                        <Slider
+                            minimumValue={property.baseValue * 0.9}
+                            maximumValue={property.askingPrice * 1.05}
+                            step={100}
+                            value={offerPrice}
+                            onValueChange={setOfferPrice}
+                            minimumTrackTintColor="#43e97b"
+                            maximumTrackTintColor="rgba(255,255,255,0.3)"
+                            thumbTintColor="#fff"
+                        />
+                      </View>
                     ) : (
                       <View style={styles.reportCard}>
-                          <Text style={styles.reportTitle}>Agent's Report</Text>
-                          <Text style={styles.reportText}>- Hidden Damage Repairs: <Text style={styles.reportValueRed}>${report.hiddenDamage.toLocaleString()}</Text></Text>
-                          <Text style={styles.reportText}>- Location Average: <Text style={styles.reportValueGreen}>${report.areaAverage.toLocaleString()}</Text></Text>
+                          <Text style={styles.reportTitle}>Agent's Deal</Text>
+                          <Text style={styles.reportText}>- Agent Negotiated Price: <Text style={styles.reportValueRed}>${report.agentPrice.toLocaleString()}</Text></Text>
+                          <Text style={styles.reportSubText}>Agent got a discount of <Text style={styles.reportValueRed}>${(property.askingPrice - report.agentPrice).toLocaleString()} </Text>from the asking price.</Text>
                       </View>
                     )}
 
-                    <Text style={styles.label}>Your Offer</Text>
-                    <Text style={styles.value}>${offerPrice.toLocaleString()}</Text>
-                    <Slider
-                        minimumValue={property.baseValue * 0.9}
-                        maximumValue={property.askingPrice * 1.05}
-                        step={100}
-                        value={offerPrice}
-                        onValueChange={setOfferPrice}
-                        minimumTrackTintColor="#43e97b"
-                        maximumTrackTintColor="rgba(255,255,255,0.3)"
-                        thumbTintColor="#fff"
-                    />
+                
                     <TouchableOpacity 
                         style={[styles.button, offerPrice > gameMoney && {backgroundColor: '#666'}]} 
                         onPress={makeOffer}
@@ -145,6 +159,7 @@ const styles = StyleSheet.create({
     reportCard: { backgroundColor: 'rgba(0,0,0,0.3)', padding: 15, borderRadius: 10, marginBottom: 20 },
     reportTitle: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 5 },
     reportText: { color: '#ccc', fontSize: 16, marginBottom: 3 },
+    reportSubText: { color: '#ccc', fontSize: 14, marginBottom: 3 },
     reportValueRed: { color: '#e63946', fontWeight: 'bold' },
     reportValueGreen: { color: '#43e97b', fontWeight: 'bold' },
 });

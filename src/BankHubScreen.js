@@ -34,11 +34,21 @@ const BankHubScreen = ({ navigation }) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}><View style={styles.cardHeader}><Ionicons name="stats-chart" size={28} color="#FFD700" /><Text style={styles.sectionTitle}>Financial Center</Text></View><Text style={styles.cardDescription}>Review statements and property history.</Text><Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} /></TouchableOpacity>
+        <TouchableOpacity style={styles.sectionCard} onPress={() => navigation.navigate('Finance')}>
+          <View style={styles.cardHeader}>
+            <Ionicons name="stats-chart" size={28} color="#FFD700" />
+            <Text style={styles.sectionTitle}>Financial Center</Text>
+          </View>
+          <Text style={styles.cardDescription}>Review statements and property history.</Text>
+          <Ionicons name="chevron-forward" size={24} color="#FFD700" style={styles.chevron} />
+        </TouchableOpacity>
 
       {activeLoanArray.length > 0 && (
           <View style={styles.sectionCard}>
-            <View style={styles.cardHeader}><Ionicons name="document-text-outline" size={28} color="#00BFFF" /><Text style={styles.sectionTitle}>Your Loan Portfolio</Text></View>
+            <View style={styles.cardHeader}>
+              <Ionicons name="document-text-outline" size={28} color="#00BFFF" />
+              <Text style={styles.sectionTitle}>Your Loan Portfolio</Text>
+            </View>
             <View style={styles.loanListContainer}>
               {activeLoanArray.map(loan => (
                 // --- NEW, REDESIGNED LOAN ITEM STRUCTURE ---
@@ -60,7 +70,10 @@ const BankHubScreen = ({ navigation }) => {
         )}
 
         <View style={styles.sectionCard}>
-          <View style={styles.cardHeader}><Ionicons name="cash-outline" size={28} color="#43e97b" /><Text style={styles.sectionTitle}>Loan Services</Text></View>
+          <View style={styles.cardHeader}>
+            <Ionicons name="cash-outline" size={28} color="#43e97b" />
+            <Text style={styles.sectionTitle}>Loan Services</Text>
+          </View>
           {BANK_LIST.map(bank => {
             const isUnlocked = playerLevel >= bank.unlockLevel;
             return (

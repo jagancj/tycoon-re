@@ -9,17 +9,41 @@ const AddOnScreen = ({ route, navigation }) => {
   const { playerAssets, installAddOn, gameMoney } = useContext(GameContext);
   const asset = playerAssets.find(a => a.id === assetId);
 
+  // Handle case where asset is not found
+  if (!asset) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="chevron-back" size={32} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Property Not Found</Text>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles.emptyText}>Property not found. Please go back and try again.</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   const handleInstall = (addOn) => {
     if (gameMoney < addOn.cost) {
       Alert.alert("Insufficient Funds", "You can't afford this add-on right now.");
       return;
     }
-    installAddOn(assetId, addOn);
+    
+    const success = installAddOn(assetId, addOn);
+    if (success) {
+      Alert.alert(
+        "Add-on Installed!", 
+        `${addOn.name} has been successfully installed. Property value increased by $${addOn.valueIncrease.toLocaleString()}.`
+      );
+    }
   };
 
-  const availableAddOns = asset.availableAddOns.filter(
+  const availableAddOns = asset.availableAddOns?.filter(
     addOn => !(asset.installedAddOns || []).includes(addOn.id)
-  );
+  ) || [];
 
   return (
     <SafeAreaView style={styles.container}>

@@ -12,35 +12,91 @@ const BlueprintSelectionScreen = ({ route, navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedBlueprint, setSelectedBlueprint] = useState(null);
 
-  const idleSupervisors = staff.hired.filter(s => s.role === 'Construction' && s.status === 'Idle');
+  const idleSupervisors = staff.hired.filter(s => s.role === 'Construction' && (!s.status || s.status === 'Idle'));
 
   const availableBlueprints = useMemo(() => 
     BLUEPRINT_LIST.filter(bp => 
       playerLevel >= bp.unlockLevel && landAsset.sizeSqFt >= bp.requiredLandSizeSqFt
     ), 
     [playerLevel, landAsset]
-  );
+  );  const handleSelectBlueprint = (blueprint) => {
+    console.log('BlueprintSelectionScreen - handleSelectBlueprint:', {
+      blueprintExists: !!blueprint,
+      blueprintName: blueprint ? blueprint.name : 'undefined',
+      blueprintPhasesExists: blueprint ? !!blueprint.phases : false,
+      blueprintPhasesLength: blueprint && blueprint.phases ? blueprint.phases.length : 0
+    });
 
-  const handleSelectBlueprint = (blueprint) => {
-    if (idleSupervisors.length === 0) {
+    // Check if we have idle supervisors (already hired)
+    if (idleSupervisors.length > 0) {
+      // Show modal to select from idle supervisors
+      setSelectedBlueprint(blueprint);
+      setModalVisible(true);
+      return;
+    }
+
+    // No idle supervisors, check if we have available supervisors to hire
+    const availableSupervisors = staff.availableToHire.filter(s => 
+      s.role === 'Construction' &&
+      !staff.hired.some(hired => hired.id === s.id)
+    );
+
+    if (availableSupervisors.length === 0) {
       Alert.alert(
         "No Supervisor Available",
-        "You must hire a Construction Supervisor or wait for one to finish their current project.",
+        "You must hire a Construction Supervisor for this project.",
         [
-          { text: "OK" },
-          { text: "Go to Staff Center", onPress: () => navigation.navigate('StaffCenter') }
+          { text: "OK" }
         ]
+      );
+      return;    }
+
+    // Validate blueprint has phases
+    if (!blueprint || !blueprint.phases || blueprint.phases.length === 0) {
+      Alert.alert(
+        "Blueprint Error",
+        "Invalid blueprint data. Please try selecting a different blueprint."
       );
       return;
     }
-    setSelectedBlueprint(blueprint);
-    setModalVisible(true);
-  };
 
+    // Calculate initial phase cost
+    const firstPhaseCost = blueprint.phases[0].cost;
+    if (gameMoney < firstPhaseCost) {
+      Alert.alert(
+        "Insufficient Funds",
+        `You need ${firstPhaseCost.toLocaleString()} for the first phase.`
+      );
+      return;
+    }    navigation.navigate('StaffSelection', {
+      projectId: landAsset.id,
+      projectType: 'Construction',
+      requiredRole: 'Construction',
+      phases: blueprint.phases,
+      blueprint: blueprint,
+      landAsset: landAsset,
+      architectFirm: architectFirm
+    });
+  };
   const handleConfirmConstruction = (blueprint, supervisor) => {
-    if (startConstruction(landAsset, blueprint, architectFirm, supervisor)) {
+    console.log('BlueprintSelectionScreen - handleConfirmConstruction:', {
+      blueprintExists: !!blueprint,
+      blueprintName: blueprint ? blueprint.name : 'undefined',
+      supervisorExists: !!supervisor,
+      supervisorName: supervisor ? supervisor.name : 'undefined'
+    });
+
+    if (!blueprint || !supervisor) {
+      Alert.alert("Error", "Missing blueprint or supervisor data.");
+      return;
+    }    // Start construction with the selected blueprint and supervisor
+    const architectCost = architectFirm?.hireCost || 0;
+    const success = startConstruction(landAsset, blueprint, supervisor, architectCost);
+    
+    if (success) {
+      // Close modal and navigate to construction screen
       setModalVisible(false);
-      navigation.replace('Construction', { projectId: landAsset.id });
+      navigation.navigate('Construction', { projectId: landAsset.id });
     }
   };
 
@@ -79,9 +135,8 @@ const BlueprintSelectionScreen = ({ route, navigation }) => {
             </TouchableOpacity>
             <Text style={styles.modalTitle}>Assign a Supervisor</Text>
             <Text style={styles.modalSubtitle}>for {selectedBlueprint?.name}</Text>
-            
-            {idleSupervisors.map(supervisor => {
-              if (!selectedBlueprint) return null;
+              {idleSupervisors.map(supervisor => {
+              if (!selectedBlueprint || !selectedBlueprint.phases) return null;
               const totalCost = selectedBlueprint.phases.reduce((sum, phase) => sum + (phase.cost * (architectFirm.costModifier * (supervisor.costModifier || 1))), 0);
               const canAfford = gameMoney >= totalCost;
 

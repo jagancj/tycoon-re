@@ -1,101 +1,254 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { GameContext } from '../GameContext';
-import { PROPERTY_LIST } from '../data/properties';
 import { useNavigation } from '@react-navigation/native';
 import { getDynamicPropertyImage } from '../utils/imageHelpers';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
 
-
-// --- HELPER FUNCTIONS (Full Implementation) ---
-
-const getPriceRangeForLevel = (level) => {
-  if (level < 5) return { min: 40000, max: 150000 };
-  if (level < 10) return { min: 100000, max: 500000 };
-  if (level < 25) return { min: 400000, max: 1500000 };
-  if (level < 40) return { min: 1000000, max: 4000000 };
-  return { min: 3000000, max: 10000000 };
-};
-
-const shuffleArray = (array) => {
-  let currentIndex = array.length, randomIndex;
-  while (currentIndex > 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
-  return array;
-};
-
-// --- CONSTANTS ---
-const PROPERTIES_TO_SHOW = 7;
-
 const PropertyMarketScreen = () => {
   const navigation = useNavigation();
-  const { playerLevel, playerAssets, soldPropertiesLog } = useContext(GameContext);
+  const { 
+    currentMarketplaceBatch = [], 
+    marketplaceBatchPurchased = [], 
+    generateNewMarketplaceBatch, 
+    isCurrentBatchCompleted 
+  } = useContext(GameContext);
 
-  const availableProperties = useMemo(() => {
-    const soldPropertyOriginalIds = soldPropertiesLog.map(log => log.id.split("_")[0]);
+  // Check if we should show the "Show Properties" button
+  const shouldShowButton = currentMarketplaceBatch.length === 0 || isCurrentBatchCompleted();
 
-    // Filter out properties that have been sold
-    const AVL_PROPERTY_LIST = PROPERTY_LIST.filter(p => !soldPropertyOriginalIds.includes(p.id));
-    const ownedPropertyIds = playerAssets.map(asset => asset.id.split('_')[0]);
-    const priceRange = getPriceRangeForLevel(playerLevel);
-    const eligibleProperties = AVL_PROPERTY_LIST.filter(p => {
+  // Get available properties from current batch (those not yet purchased)
+  const availableProperties = currentMarketplaceBatch.filter(
+    property => !marketplaceBatchPurchased.includes(property.id)
+  );
 
-      const isOwned = ownedPropertyIds.includes(p.id);
-      // Ensure priceRange is valid before using it
-      const meetsLevelRequirement = playerLevel >= p.minLevel;
-      
-      return !isOwned && meetsLevelRequirement;
-    });
-    const shuffled = shuffleArray(eligibleProperties);
-    return shuffled.slice(0, PROPERTIES_TO_SHOW);
+  const handleShowProperties = () => {
+    generateNewMarketplaceBatch();
+  };
 
-  }, [playerLevel, playerAssets]);
-
-  const ListEmptyMessage = () => (
-    <View style={styles.emptyContainer}>
-        <Ionicons name="sad-outline" size={60} color="#667" />
-        <Text style={styles.emptyText}>No new properties available at your current level or price range.</Text>
+  const ShowPropertiesButton = () => (
+    <View style={styles.buttonContainer}>      <TouchableOpacity 
+        style={styles.showPropertiesButton} 
+        onPress={handleShowProperties}
+        testID="show-properties-button"
+      >
+        <Ionicons name="eye-outline" size={24} color="#000" style={styles.buttonIcon} />
+        <Text style={styles.showPropertiesButtonText}>
+          {currentMarketplaceBatch.length === 0 ? 'Show Properties' : 'Show New Properties'}
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.buttonSubtext}>
+        Discover 5 new properties on the market
+      </Text>
     </View>
   );
 
-  return (
-    <View style={styles.sceneContainer}>
-      <LinearGradient colors={['#0f2027', '#1D2B64']} style={styles.background} />
+  const ListEmptyMessage = () => (
+    <View style={styles.emptyContainer}>
+      <Ionicons name="storefront-outline" size={80} color="#667" />
+      <Text style={styles.emptyTitle}>No Properties Available</Text>
+      <Text style={styles.emptySubtitle}>
+        All properties from the current batch have been purchased.
+      </Text>
+      <Text style={styles.emptyHint}>
+        Use the "Show New Properties" button to see more options.
+      </Text>
+    </View>
+  );  return (
+    <View style={styles.sceneContainer} testID="property-market-container">
+      {/* Background now provided by parent MarketScreen */}
 
-      <FlatList
+      {shouldShowButton ? (
+        <ShowPropertiesButton />
+      ) : (
+        <FlatList
           data={availableProperties}
           keyExtractor={item => item.id}
           contentContainerStyle={{ paddingHorizontal: 15, paddingTop: 20, flexGrow: 1 }}
           ListEmptyComponent={ListEmptyMessage}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.itemCard} onPress={() => navigation.navigate('PropertyDetail', { property: item })}>
+            <TouchableOpacity 
+              style={styles.itemCard} 
+              onPress={() => navigation.navigate('PropertyDetail', { property: item })}
+              testID={`property-card-${item.id}`}
+            >
               <Image source={getDynamicPropertyImage(item)} style={styles.itemImage} />
               <View style={styles.itemOverlay}>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemPrice}>Asking: ${item.askingPrice.toLocaleString()}</Text>
+                <Text style={styles.itemType}>{item.type}</Text>
               </View>
+              {marketplaceBatchPurchased.includes(item.id) && (
+                <View style={styles.soldOverlay}>
+                  <Text style={styles.soldText}>SOLD</Text>
+                </View>
+              )}
             </TouchableOpacity>
           )}
         />
+      )}      {/* Batch Progress Indicator */}
+      {currentMarketplaceBatch.length > 0 && !shouldShowButton && (
+        <View style={styles.progressContainer}>
+          <Text style={styles.progressText}>
+            Properties: {marketplaceBatchPurchased.length} / {currentMarketplaceBatch.length} sold
+          </Text>
+          <View style={styles.progressBar}>
+            <View 
+              style={[
+                styles.progressBarFill, 
+                { width: `${(marketplaceBatchPurchased.length / currentMarketplaceBatch.length) * 100}%` }
+              ]} 
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    sceneContainer: {
-        flex: 1,
-    },
-    itemCard: { height: 200, borderRadius: 15, overflow: 'hidden', marginBottom: 15, elevation: 5, backgroundColor: '#334' },
-    itemImage: { width: '100%', height: '100%' },
-    itemOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.6)', padding: 10 },
-    itemName: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-    itemPrice: { color: '#43e97b', fontSize: 16 },
-    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-    emptyText: { color: '#99a', fontSize: 18, textAlign: 'center', marginTop: 10 },
+  sceneContainer: {
+    flex: 1,
+    backgroundColor: 'transparent', // Transparent to show parent background
+  },
+  // Removed background style since it's no longer needed
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+  },
+  showPropertiesButton: {
+    backgroundColor: '#43e97b',
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  buttonIcon: {
+    marginRight: 12,
+  },
+  showPropertiesButtonText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  buttonSubtext: {
+    color: '#99a',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 15,
+    fontStyle: 'italic',
+  },  itemCard: { 
+    height: 200, 
+    borderRadius: 15, 
+    overflow: 'hidden', 
+    marginBottom: 15, 
+    elevation: 5, 
+    backgroundColor: 'rgba(51, 51, 68, 0.8)', // Adjusted to blend better with gradient
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    position: 'relative',
+  },
+  itemImage: { 
+    width: '100%', 
+    height: '100%' 
+  },
+  itemOverlay: { 
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0, 
+    right: 0, 
+    backgroundColor: 'rgba(0,0,0,0.6)', 
+    padding: 10 
+  },
+  itemName: { 
+    color: '#fff', 
+    fontSize: 18, 
+    fontWeight: 'bold' 
+  },
+  itemPrice: { 
+    color: '#43e97b', 
+    fontSize: 16 
+  },
+  itemType: {
+    color: '#ccc',
+    fontSize: 14,
+    marginTop: 2,
+  },
+  soldOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  soldText: {
+    color: '#ff4444',
+    fontSize: 24,
+    fontWeight: 'bold',
+    transform: [{ rotate: '-15deg' }],
+  },
+  emptyContainer: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20 
+  },
+  emptyTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 15,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    color: '#99a',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  emptyHint: {
+    color: '#43e97b',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 15,
+    fontStyle: 'italic',
+  },  progressContainer: {
+    backgroundColor: 'rgba(44, 83, 100, 0.6)', // Match gradient bottom color with transparency
+    padding: 15,
+    margin: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  progressText: {
+    color: '#fff',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  progressBar: {
+    height: 6,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#43e97b',
+    borderRadius: 3,
+  },
 });
 
 export default PropertyMarketScreen;

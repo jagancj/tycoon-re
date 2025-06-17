@@ -11,6 +11,13 @@ const ConstructionScreen = ({ route, navigation }) => {
 
   const project = constructionProjects[projectId];
 
+  console.log('ConstructionScreen Debug:', {
+    projectId,
+    projectExists: !!project,
+    blueprintId: project ? project.blueprint?.id : 'undefined',
+    constructionProjectsCount: Object.keys(constructionProjects || {}).length
+  });
+
   // This effect will run when the project is completed and removed from the context state.
   // It safely navigates the user back to their portfolio.
   useEffect(() => {
@@ -18,18 +25,49 @@ const ConstructionScreen = ({ route, navigation }) => {
       navigation.navigate('Portfolio');
     }
   }, [project, navigation]);
-  
-  // Guard clause to prevent crashes while the state is updating.
+    // Guard clause to prevent crashes while the state is updating.
   if (!project) {
-    return <SafeAreaView style={styles.container}><Text style={styles.loadingText}>Loading Project...</Text></SafeAreaView>;
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.loadingText}>Loading Project...</Text>
+      </SafeAreaView>
+    );  }
+
+  // Use the blueprint stored in the project, fallback to lookup if needed
+  let blueprint = project.blueprint;
+  if (!blueprint && project.blueprintId) {
+    blueprint = BLUEPRINT_LIST.find(b => b.id === project.blueprintId);
+  }
+  
+  // Safety check: ensure blueprint exists
+  if (!blueprint) {
+    console.log('ConstructionScreen: Blueprint not found:', {
+      storedBlueprint: !!project.blueprint,
+      blueprintId: project.blueprintId,
+      availableBlueprints: BLUEPRINT_LIST.map(b => b.id)
+    });
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.loadingText}>Blueprint not found. Returning to Portfolio...</Text>
+      </SafeAreaView>
+    );
+  }
+  
+  // Safety check: ensure blueprint has phases
+  if (!blueprint.phases || blueprint.phases.length === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.loadingText}>Invalid blueprint data. Returning to Portfolio...</Text>
+      </SafeAreaView>
+    );
   }
 
-  const blueprint = BLUEPRINT_LIST.find(b => b.id === project.blueprintId);
   const isLastPhase = project.currentPhaseIndex === blueprint.phases.length - 1;
 
   return (
+    <View style={{ flex: 1 }}>
+    <LinearGradient colors={['#434343', '#000000']} style={styles.background} />
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#434343', '#000000']} style={styles.background} />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('Portfolio')}><Ionicons name="close-outline" size={32} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>{blueprint.name}</Text>
@@ -66,6 +104,7 @@ const ConstructionScreen = ({ route, navigation }) => {
         })}
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 

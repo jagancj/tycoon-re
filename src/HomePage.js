@@ -43,15 +43,13 @@ const HomePage = ({ navigation }) => {
       ...LAND_PLOT_LIST.map((l) => ({ ...l, assetType: "Land" })),
     ];
     const eligibleAssets = allPossibleAssets.filter((asset) => {
-        // --- NEW VALIDATION: Check if the property has ever been sold ---
-        const hasBeenSold = soldPropertyOriginalIds.includes(asset.id);
+      // Check multiple conditions for eligibility
+      const hasBeenSold = soldPropertyOriginalIds.includes(asset.id);
+      const isOwned = ownedAssetIds.includes(asset.id);
+      const meetsLevelRequirement = playerLevel >= asset.minLevel;
+      const canAfford = gameMoney >= asset.askingPrice;
 
-        return (
-            playerLevel >= asset.minLevel &&
-            gameMoney >= asset.askingPrice &&
-            !ownedAssetIds.includes(asset.id) &&
-            !hasBeenSold // <-- The crucial new check
-        );
+      return meetsLevelRequirement && canAfford && !isOwned && !hasBeenSold;
     });
 
     if (eligibleAssets.length > 0) {
@@ -109,11 +107,12 @@ const HomePage = ({ navigation }) => {
       );
     }
 
-    if (item.status === "Under Construction") {
-      const project = constructionProjects[item.id];
-      const blueprint = BLUEPRINT_LIST.find(
-        (b) => b.id === project?.blueprintId
-      );
+    if (item.status === "Under Construction") {      const project = constructionProjects[item.id];
+      // Use stored blueprint or fallback to lookup
+      let blueprint = project?.blueprint;
+      if (!blueprint && project?.blueprintId) {
+        blueprint = BLUEPRINT_LIST.find(b => b.id === project.blueprintId);
+      }
 
       return (
         <TouchableOpacity
@@ -240,9 +239,7 @@ const HomePage = ({ navigation }) => {
             }}
             ListEmptyComponent={<FeaturedDealCard />}
           />
-        </View>
-
-        {/* --- BOTTOM NAVIGATION BAR (Restored and Complete) --- */}
+        </View>        {/* --- BOTTOM NAVIGATION BAR (Restored and Complete) --- */}
         <View style={styles.bottomNavBar}>
           <NavButton
             onPress={() => navigation.navigate("Market")} // The new unified Market button
@@ -261,12 +258,6 @@ const HomePage = ({ navigation }) => {
             iconName="shield-checkmark-outline"
             iconColor="#FFD700"
             text="Bank"
-          />
-          <NavButton
-            onPress={() => navigation.navigate("StaffCenter")} // <-- THE NEW BUTTON
-            iconName="people-outline"
-            iconColor="#DA70D6" // A new color for Staff
-            text="Staff"
           />
         </View>
     </View>

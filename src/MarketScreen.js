@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import PropertyMarketScreen from './PropertyMarketScreen';
 import LandMarketScreen from './LandMarketScreen';
@@ -18,41 +19,42 @@ const MarketScreen = ({ navigation }) => {
   const renderScene = SceneMap({
     properties: PropertyMarketScreen,
     land: LandMarketScreen,
-  });
-
-  const renderTabBar = props => (
+  });  const renderTabBar = props => (
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: '#FFD700' }}
-      style={{ backgroundColor: '#1a2a6c' }} // A solid color for the tab bar itself
-      labelStyle={{ fontWeight: 'bold' }}
+      style={{ backgroundColor: 'transparent' }} // Transparent to show main gradient
+      labelStyle={{ fontWeight: 'bold', color: '#fff' }}
+      testID="market-tab-bar"
     />
-  );
-
-  return (
+  );return (
+    <View style={{ flex: 1 }} testID="market-container">
+            <LinearGradient colors={['#0f2027', '#203a43', '#2c5364']} style={styles.background} testID="background-gradient" />
     <SafeAreaView style={styles.container}>
-      {/* The LinearGradient has been removed from here */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <View style={styles.header} testID="market-header">
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()} testID="back-button">
             <Ionicons name="chevron-back-outline" size={32} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Marketplace</Text>
         <View style={{width: 42}}/>
-      </View>
-      <TabView
+      </View>      <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={initialLayout}
         renderTabBar={renderTabBar}
+        style={{ backgroundColor: 'transparent' }}
+        testID="market-tab-view"
       />
     </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#0f2027' }, // Main container gets a fallback dark color
-    header: { paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#1a2a6c' },
+    container: { flex: 1, backgroundColor: '#0f2027' }, // Fallback background color
+    background: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%' }, // Full screen background
+    header: { paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent' }, // Transparent to show gradient
     backButton: { padding: 5 },
     headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
 });

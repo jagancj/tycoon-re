@@ -1,39 +1,65 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GameContext } from '../GameContext';
-import { LAND_PLOT_LIST } from '../data/landPlots';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 
 const LandMarketScreen = ({ navigation }) => {
-  const { playerLevel, playerAssets, buyLand, gameMoney } = useContext(GameContext);
-const shuffleArray = (array) => {
-  let currentIndex = array.length, randomIndex;
-  while (currentIndex > 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
-  return array;
-};
+  const { 
+    currentLandBatch = [], 
+    landBatchPurchased = [], 
+    generateNewLandBatch, 
+    isCurrentLandBatchCompleted,
+    buyLand, 
+    gameMoney 
+  } = useContext(GameContext);
   // State to manage the pop-up modal
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedLand, setSelectedLand] = useState(null);
   const [offerPrice, setOfferPrice] = useState(0);
-  const PROPERTIES_TO_SHOW = 7;
-  const ownedLandIds = playerAssets.filter(asset => asset.assetType === 'Land').map(asset => asset.id.split('_')[0]);
 
-  // --- Modal & Purchase Functions ---
-   const availableProperties = useMemo(() => {
-    const filteredPlots = LAND_PLOT_LIST.filter(
-    plot => plot.minLevel <= playerLevel && !ownedLandIds.includes(plot.id)
+  // Check if we should show the "Show Land Plots" button
+  const shouldShowButton = currentLandBatch.length === 0 || isCurrentLandBatchCompleted();
+
+  // Get available land plots from current batch (those not yet purchased)
+  const availableLandPlots = currentLandBatch.filter(
+    plot => !landBatchPurchased.includes(plot.id)
   );
-  const availablePlots = shuffleArray(filteredPlots).slice(0, PROPERTIES_TO_SHOW);
-      // Filter out properties that have been sold
-      return availablePlots;
-  
-    }, [playerLevel, playerAssets]);
+
+  const handleShowLandPlots = () => {
+    generateNewLandBatch();
+  };
+
+  const ShowLandPlotsButton = () => (
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity 
+        style={styles.showLandPlotsButton} 
+        onPress={handleShowLandPlots}
+      >
+        <Ionicons name="map-outline" size={24} color="#000" style={styles.buttonIcon} />
+        <Text style={styles.showLandPlotsButtonText}>
+          {currentLandBatch.length === 0 ? 'Show Land Plots' : 'Show New Land Plots'}
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.buttonSubtext}>
+        Discover 5 new land plots sorted by price
+      </Text>
+    </View>
+  );
+
+  const ListEmptyMessage = () => (
+    <View style={styles.emptyContainer}>
+      <Ionicons name="map-outline" size={80} color="#667" />
+      <Text style={styles.emptyTitle}>No Land Plots Available</Text>
+      <Text style={styles.emptySubtitle}>
+        All land plots from the current batch have been purchased.
+      </Text>
+      <Text style={styles.emptyHint}>
+        Use the "Show New Land Plots" button to see more options.
+      </Text>
+    </View>
+  );
   const handleOpenModal = (landPlot) => {
     setSelectedLand(landPlot);
     setOfferPrice(landPlot.askingPrice); // Default offer to asking price
@@ -65,11 +91,52 @@ const shuffleArray = (array) => {
     } else {
       Alert.alert("Offer Rejected!", "The seller decided to hold out for a better price. Try offering more.");
     }
-  };
-
-  return (
+  };  return (
     <View style={styles.sceneContainer}>
-      {/* <LinearGradient colors={['#0f2027', '#1D2B64']} style={styles.background} /> */}
+      {/* Background now provided by parent MarketScreen */}
+
+      {shouldShowButton ? (
+        <ShowLandPlotsButton />
+      ) : (
+        <FlatList
+          data={availableLandPlots}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingHorizontal: 15, paddingTop: 20, flexGrow: 1 }}
+          ListEmptyComponent={ListEmptyMessage}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.card} onPress={() => handleOpenModal(item)}>
+              <Ionicons name="map-outline" size={40} color="#43e97b" />
+              <View style={styles.cardInfo}>
+                <Text style={styles.cardTitle}>{item.name}</Text>
+                <Text style={styles.cardSubtitle}>{item.locationType} - {item.sizeSqFt.toLocaleString()} sq. ft.</Text>
+              </View>
+              <Text style={styles.cardPrice}>${item.askingPrice.toLocaleString()}</Text>
+              {landBatchPurchased.includes(item.id) && (
+                <View style={styles.soldOverlay}>
+                  <Text style={styles.soldText}>SOLD</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          )}
+        />
+      )}
+
+      {/* Batch Progress Indicator */}
+      {currentLandBatch.length > 0 && !shouldShowButton && (
+        <View style={styles.progressContainer}>
+          <Text style={styles.progressText}>
+            Land Plots: {landBatchPurchased.length} / {currentLandBatch.length} sold
+          </Text>
+          <View style={styles.progressBar}>
+            <View 
+              style={[
+                styles.progressBarFill, 
+                { width: `${(landBatchPurchased.length / currentLandBatch.length) * 100}%` }
+              ]} 
+            />
+          </View>
+        </View>
+      )}
 
       {/* --- The Negotiation and Purchase Modal --- */}
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
@@ -110,50 +177,218 @@ const shuffleArray = (array) => {
           </LinearGradient>
         </View>
       </Modal>
-
-      <FlatList
-        data={availableProperties}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ padding: 20, flexGrow: 1 }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No land available at your current level.</Text>}
-        renderItem={({ item }) => (
-          // The onPress now opens the modal instead of navigating
-          <TouchableOpacity style={styles.card} onPress={() => handleOpenModal(item)}>
-            <Ionicons name="map-outline" size={40} color="#43e97b" />
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
-              <Text style={styles.cardSubtitle}>{item.locationType} - {item.sizeSqFt.toLocaleString()} sq. ft.</Text>
-            </View>
-            <Text style={styles.cardPrice}>${item.askingPrice.toLocaleString()}</Text>
-          </TouchableOpacity>
-        )}
-      />
     </View>
   );
 };
 
-// Stylesheet now includes modal styles
+// Stylesheet now includes modal styles and batch system styles
 const styles = StyleSheet.create({
-    sceneContainer: { flex: 1 },
-    background: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%' },
-    card: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.05)', padding: 20, borderRadius: 10, marginBottom: 15 },
-    cardInfo: { flex: 1, marginHorizontal: 15 },
-    cardTitle: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-    cardSubtitle: { color: '#ccc', fontSize: 14, marginTop: 4 },
-    cardPrice: { color: '#43e97b', fontSize: 18, fontWeight: 'bold' },
-    emptyText: { color: '#ccc', textAlign: 'center', marginTop: 50, fontSize: 16 },
-    // Modal Styles
-    modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'center', alignItems: 'center', padding: 20 },
-    modalContainer: { width: '100%', padding: 20, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },
-    closeButton: { alignSelf: 'flex-end', marginBottom: 10 },
-    modalTitle: { fontSize: 24, fontWeight: 'bold', color: '#fff', textAlign: 'center' },
-    modalSubtitle: { fontSize: 16, color: '#ccc', textAlign: 'center', marginBottom: 20 },
-    modalCard: { backgroundColor: 'rgba(0,0,0,0.3)', padding: 20, borderRadius: 15, width: '100%' },
-    label: { color: '#ccc', fontSize: 16 },
-    value: { color: '#fff', fontWeight: 'bold' },
-    offerValue: { color: '#43e97b', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginVertical: 10 },
-    confirmButton: { backgroundColor: '#43e97b', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 20 },
-    confirmButtonText: { color: 'black', fontSize: 18, fontWeight: 'bold' },
+  sceneContainer: { 
+    flex: 1,
+    backgroundColor: 'transparent' // Transparent to show parent background
+  },
+  // Removed background style since it's no longer needed
+  
+  // Button Container Styles
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20
+  },
+  showLandPlotsButton: {
+    backgroundColor: '#43e97b',
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    borderRadius: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8
+  },
+  buttonIcon: {
+    marginRight: 12
+  },
+  showLandPlotsButtonText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  buttonSubtext: {
+    color: '#ccc',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 15,
+    paddingHorizontal: 20
+  },
+
+  // Empty State Styles
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40
+  },
+  emptyTitle: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  emptySubtitle: {
+    color: '#ccc',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+    lineHeight: 24
+  },
+  emptyHint: {
+    color: '#43e97b',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 15,
+    fontStyle: 'italic'
+  },
+  // Card Styles
+  card: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    backgroundColor: 'rgba(32, 58, 67, 0.7)', // Blend with gradient middle color 
+    padding: 20, 
+    borderRadius: 10, 
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    position: 'relative'
+  },
+  cardInfo: { 
+    flex: 1, 
+    marginHorizontal: 15 
+  },
+  cardTitle: { 
+    color: '#fff', 
+    fontSize: 18, 
+    fontWeight: 'bold' 
+  },
+  cardSubtitle: { 
+    color: '#ccc', 
+    fontSize: 14, 
+    marginTop: 4 
+  },
+  cardPrice: { 
+    color: '#43e97b', 
+    fontSize: 18, 
+    fontWeight: 'bold' 
+  },
+
+  // Sold Overlay
+  soldOverlay: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255, 0, 0, 0.8)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 5
+  },
+  soldText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold'
+  },
+  // Progress Indicator
+  progressContainer: {
+    padding: 20,
+    backgroundColor: 'rgba(44, 83, 100, 0.6)', // Match gradient bottom color with transparency
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  progressText: {
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 10,
+    fontSize: 16
+  },
+  progressBar: {
+    height: 6,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 3,
+    overflow: 'hidden'
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#43e97b',
+    borderRadius: 3
+  },
+
+  // Modal Styles
+  modalBackdrop: { 
+    flex: 1, 
+    backgroundColor: 'rgba(0,0,0,0.7)', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20 
+  },
+  modalContainer: { 
+    width: '100%', 
+    padding: 20, 
+    borderRadius: 20, 
+    borderWidth: 1, 
+    borderColor: 'rgba(255,255,255,0.2)' 
+  },
+  closeButton: { 
+    alignSelf: 'flex-end', 
+    marginBottom: 10 
+  },
+  modalTitle: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    color: '#fff', 
+    textAlign: 'center' 
+  },
+  modalSubtitle: { 
+    fontSize: 16, 
+    color: '#ccc', 
+    textAlign: 'center', 
+    marginBottom: 20 
+  },
+  modalCard: { 
+    backgroundColor: 'rgba(0,0,0,0.3)', 
+    padding: 20, 
+    borderRadius: 15, 
+    width: '100%' 
+  },
+  label: { 
+    color: '#ccc', 
+    fontSize: 16 
+  },
+  value: { 
+    color: '#fff', 
+    fontWeight: 'bold' 
+  },
+  offerValue: { 
+    color: '#43e97b', 
+    fontSize: 28, 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
+    marginVertical: 10 
+  },
+  confirmButton: { 
+    backgroundColor: '#43e97b', 
+    padding: 15, 
+    borderRadius: 10, 
+    alignItems: 'center', 
+    marginTop: 20 
+  },
+  confirmButtonText: { 
+    color: 'black', 
+    fontSize: 18, 
+    fontWeight: 'bold' 
+  },
 });
 
 export default LandMarketScreen;

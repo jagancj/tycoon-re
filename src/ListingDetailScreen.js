@@ -9,24 +9,29 @@ import { getDynamicPropertyImage } from '../utils/imageHelpers';
 const ListingDetailScreen = ({ route, navigation }) => {
   const { assetId } = route.params;
   const { playerAssets, listPropertyWithPrice } = useContext(GameContext);
-
   // Find the asset from the context.
   const asset = playerAssets.find(a => a.id === assetId);
+  
   // This useMemo hook calculates key values only when the asset changes.
   const { totalInvestment, initialAskingPrice, maxAskingPrice } = useMemo(() => {
     if (!asset) return { totalInvestment: 0, initialAskingPrice: 0, maxAskingPrice: 0 };
+      // Calculate total investments - use totalInvestment for completed construction projects
+    const investment = asset.totalInvestment || asset.invested || asset.purchasePrice || 0;
     
-    const investment = asset.invested || asset.purchasePrice || 0;
-    // Suggest an initial price of 10% profit over the current market value
-    const marketValue = asset.marketValue || asset.areaAverageValue;
-    const initialPrice = Math.round(marketValue * 1.10);
-    // Set a reasonable max list price to 150% of market value
-    const maxPrice = Math.round(marketValue * 1.50);
+    // Calculate current market value including all improvements
+    const baseMarketValue = asset.marketValue || asset.areaAverageValue || investment;
+    const marketValue = baseMarketValue + (asset.addedValue || 0); // Include value from add-ons
+    
+    // Suggest an initial price of 110% of investment (10% profit)
+    const initialPrice = Math.round(investment * 1.10);
+    
+    // Set max list price to 150% of total investment value
+    const maxPrice = Math.round(investment * 1.50);
+    
     return { 
-      totalInvestment: investment, 
-      // Ensure the initial slider value is at least the investment cost
+      totalInvestment: investment,
       initialAskingPrice: Math.max(investment, initialPrice),
-      maxAskingPrice: maxPrice,
+      maxAskingPrice: maxPrice
     };
   }, [asset]);
   
@@ -60,42 +65,75 @@ const ListingDetailScreen = ({ route, navigation }) => {
       Alert.alert("Invalid Price", "Please set a valid asking price.");
       return;
     }
-    listPropertyWithPrice(assetId, askingPrice);
+    listPropertyWithPrice(asset, askingPrice);
     navigation.navigate('Home');
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={{ flex: 1 }}>
       <LinearGradient colors={['#0f2027', '#203a43']} style={styles.background} />
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={32} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>List Your Property</Text>
-      </View>
-      <ScrollView contentContainerStyle={styles.content}>
+      </View>      <ScrollView contentContainerStyle={styles.content}>
         <Image source={getDynamicPropertyImage(asset)} style={styles.image} />
         <Text style={styles.title}>{asset.name}</Text>
-
+        
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Financial Summary</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Purchase Price:</Text>
-            <Text style={styles.value}>${(asset.purchasePrice || 0).toLocaleString()}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Invested (Reno/Upgrades):</Text>
-            <Text style={styles.value}>${((asset.invested || 0) - (asset.purchasePrice || 0)).toLocaleString()}</Text>
-          </View>
+            {/* Show different breakdown for completed construction vs regular properties */}
+          {asset.constructionCompleted ? (
+            <>
+              <View style={styles.row}>
+                <Text style={styles.label}>Land Cost:</Text>
+                <Text style={styles.value}>${(asset.landCost || asset.purchasePrice || 0).toLocaleString()}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Architect Fee:</Text>
+                <Text style={styles.value}>${(asset.architectCost || 0).toLocaleString()}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Construction Cost:</Text>
+                <Text style={styles.value}>${(asset.constructionCost || 0).toLocaleString()}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Supervisor Fee:</Text>
+                <Text style={styles.value}>${(asset.supervisorFee || 0).toLocaleString()}</Text>
+              </View>
+              {asset.addedValue > 0 && (
+                <View style={styles.row}>
+                  <Text style={styles.label}>Upgrades Value:</Text>
+                  <Text style={styles.value}>${asset.addedValue.toLocaleString()}</Text>
+                </View>
+              )}
+            </>
+          ) : (
+            <>
+              <View style={styles.row}>
+                <Text style={styles.label}>Purchase Price:</Text>
+                <Text style={styles.value}>${(asset.purchasePrice || 0).toLocaleString()}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Invested (Reno/Upgrades):</Text>
+                <Text style={styles.value}>${((asset.invested || 0) - (asset.purchasePrice || 0)).toLocaleString()}</Text>
+              </View>
+            </>
+          )}
+          
           <View style={styles.separator} />
           <View style={styles.row}>
             <Text style={styles.labelTotal}>Total Investment:</Text>
-            <Text style={styles.valueTotal}>${(asset.invested || 0).toLocaleString()}</Text>
+            <Text style={styles.valueTotal}>${totalInvestment.toLocaleString()}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.labelTotal}>Market Value:</Text>
+            <Text style={styles.valueTotal}>${(asset.marketValue || 0).toLocaleString()}</Text>
           </View>
         </View>
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Set Your Asking Price</Text>
-          <Text style={styles.label}>Current Market Average: ${(asset.marketValue || asset.areaAverageValue).toLocaleString()}</Text>
-
           <Text style={styles.askingPriceValue}>${askingPrice.toLocaleString()}</Text>
           <Slider
             style={{width: '100%', height: 40}}
@@ -122,6 +160,7 @@ const ListingDetailScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 

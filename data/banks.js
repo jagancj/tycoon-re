@@ -55,7 +55,7 @@ export const BANK_LIST = [
     id: 'BANK04',
     name: 'Offshore Holdings Ltd.',
     description: 'Ask no questions, we hear no lies.',
-    unlockLevel: 40,
+    unlockLevel: 20,
     loanTerms: {
       personal: {
         maxLoan: 10000000,

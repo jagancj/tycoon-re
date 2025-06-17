@@ -24,6 +24,7 @@ import FinanceScreen from "./src/FinanceScreen";
 import ArchitectSelectionScreen from "./src/ArchitectSelectionScreen";
 import TutorialScreen from "./src/TutorialScreen";
 import InitialLoadingScreen from "./src/InitialLoadingScreen";
+import StaffSelectionScreen from './src/StaffSelectionScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -83,6 +84,7 @@ export default function App() {
           <Stack.Screen name="Finance" component={FinanceScreen} />
           <Stack.Screen name="Tutorial" component={TutorialScreen} />
           <Stack.Screen name="InitialLoading" component={InitialLoadingScreen} />
+          <Stack.Screen name="StaffSelection" component={StaffSelectionScreen} />
 
         </Stack.Navigator>
       </NavigationContainer>

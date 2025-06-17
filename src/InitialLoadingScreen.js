@@ -6,19 +6,33 @@ import { LinearGradient } from 'expo-linear-gradient';
 const InitialLoadingScreen = ({ navigation }) => {
   // We get the whole context value. We don't destructure here yet
   // to avoid the crash if the context value is still undefined on the very first render.
-  const gameContext = useContext(GameContext);
-  
-  useEffect(() => {
+  const gameContext = useContext(GameContext);    useEffect(() => {
     // This effect runs when the context value is finally available and not loading.
     if (gameContext && !gameContext.isLoading) {
-      const destination = gameContext.hasCompletedTutorial ? 'Home' : 'Tutorial';
-      console.log(gameContext.hasCompletedTutorial);
-      // Reset the entire navigation stack to the correct starting screen.
-      // This prevents the user from ever being able to go "back" to the loading screen.
-      navigation.reset({
-        index: 0,
-        routes: [{ name: destination }],
-      });
+      // Add a small delay to ensure all data is properly loaded and state is synchronized
+      const navigationTimeout = setTimeout(() => {
+        // Use explicit boolean check to ensure we have a definitive value
+        const hasCompletedTutorial = gameContext.hasCompletedTutorial === true;
+        const destination = hasCompletedTutorial ? 'Home' : 'Tutorial';
+        
+        console.log('Navigation decision:', {
+          hasCompletedTutorial: gameContext.hasCompletedTutorial,
+          explicitCheck: hasCompletedTutorial,
+          destination: destination,
+          contextKeys: Object.keys(gameContext || {}),
+          playerLevel: gameContext.playerLevel,
+          gameMoney: gameContext.gameMoney,
+        });
+        
+        // Reset the entire navigation stack to the correct starting screen.
+        // This prevents the user from ever being able to go "back" to the loading screen.
+        navigation.reset({
+          index: 0,
+          routes: [{ name: destination }],
+        });
+      }, 300); // Increased delay to ensure state is fully synchronized
+
+      return () => clearTimeout(navigationTimeout);
     }
   }, [gameContext, navigation]); // Depend on the entire context object
 
