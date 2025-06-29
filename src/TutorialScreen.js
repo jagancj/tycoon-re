@@ -62,33 +62,33 @@ const tutorialPages = [
         'Go to the Bank Hub, then the Financial Center.',
         'Review your Balance Sheet to see your Net Worth.',
         'Check the Property Ledger for your profit/loss history.',
-    ],
-  },
+    ],  },
 ];
-
-const { width } = Dimensions.get('window');
-
-// --- Tutorial Page Component (remains the same) ---
-const TutorialPage = ({ item }) => (
-    <View style={styles.page}>
-        <Ionicons name={item.icon} size={100} color="#FFD700" />
-        <Text style={styles.title}>{item.title}</Text>
-        {item.steps.map((step, index) => (
-            <View key={index} style={styles.stepRow}>
-                <Text style={styles.stepNumber}>{index + 1}.</Text>
-                <Text style={styles.stepText}>{step}</Text>
-            </View>
-        ))}
-    </View>
-);
 
 // --- Main Tutorial Screen (with new logic) ---
 const TutorialScreen = ({ navigation }) => {
   const { completeTutorial } = useContext(GameContext); // Using the helper hook
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Get screen width inside the component
+  const { width } = Dimensions.get('window') || { width: 375 };
+
   // --- NEW: Create a ref for the FlatList ---
   const flatListRef = useRef(null);
+
+  // --- Tutorial Page Component (with width prop) ---
+  const TutorialPage = ({ item }) => (
+      <View style={[styles.page, { width }]} testID={`tutorial-page-${item.key}`}>
+          <Ionicons name={item.icon} size={100} color="#FFD700" testID={`tutorial-icon-${item.icon}`} />
+          <Text style={styles.title}>{item.title}</Text>
+          {item.steps.map((step, index) => (
+              <View key={index} style={styles.stepRow} testID={`tutorial-step-${item.key}-${index}`}>
+                  <Text style={styles.stepNumber}>{index + 1}.</Text>
+                  <Text style={styles.stepText}>{step}</Text>
+              </View>
+          ))}
+      </View>
+  );
 
   const handleScroll = (event) => {
     const index = Math.round(event.nativeEvent.contentOffset.x / width);
@@ -116,10 +116,9 @@ const TutorialScreen = ({ navigation }) => {
       flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
     }
   };
-
   return (
-    <View style={{ flex: 1 }}>
-          <LinearGradient colors={['#141E30', '#243B55']} style={styles.background} />
+    <View style={{ flex: 1 }} testID="tutorial-container">
+          <LinearGradient colors={['#141E30', '#243B55']} style={styles.background} testID="tutorial-background" />
 
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -131,15 +130,16 @@ const TutorialScreen = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
+        testID="tutorial-flatlist"
       />
-      <View style={styles.pagination}>
+      <View style={styles.pagination} testID="tutorial-pagination">
         {tutorialPages.map((_, i) => (
-          <View key={i} style={[styles.dot, i === activeIndex && styles.activeDot]} />
+          <View key={i} style={[styles.dot, i === activeIndex && styles.activeDot]} testID={`tutorial-dot-${i}`} />
         ))}
       </View>
       
       {/* --- UPDATE: The button now uses the new handler and dynamic text --- */}
-      <TouchableOpacity style={styles.actionButton} onPress={handleNextPress}>
+      <TouchableOpacity style={styles.actionButton} onPress={handleNextPress} testID="tutorial-action-button">
         <Text style={styles.actionButtonText}>
           {activeIndex === tutorialPages.length - 1 ? "Let's Go!" : "Next"}
         </Text>
@@ -152,7 +152,7 @@ const TutorialScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   background: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%' },
-  page: { width: width, padding: 30, justifyContent: 'center', alignItems: 'center' },
+  page: { padding: 30, justifyContent: 'center', alignItems: 'center' },
   title: { color: '#fff', fontSize: 32, fontWeight: 'bold', textAlign: 'center', marginVertical: 20 },
   stepRow: { flexDirection: 'row', width: '90%', marginVertical: 8, alignItems: 'flex-start' },
   stepNumber: { color: '#FFD700', fontSize: 18, fontWeight: 'bold', marginRight: 10 },

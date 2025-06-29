@@ -34,13 +34,14 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.2.0",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
     "jest-expo": "^53.0.7",
     "react-native-testing-library": "^2.2.0",
-    "react-test-renderer": "^19.1.0"
+    "react-test-renderer": "^19.0.0"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -56,7 +57,8 @@
       "\\.(js|jsx)$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^react-native$": "<rootDir>/__mocks__/react-native.js"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
@@ -66,10 +68,16 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      },
+      "src/TutorialScreen.js": {
+        "branches": 85,
+        "functions": 85,
+        "lines": 85,
+        "statements": 85
       }
     }
   },
