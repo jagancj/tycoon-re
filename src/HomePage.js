@@ -9,8 +9,8 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "react-native-linear-gradient";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { GameContext } from "../GameContext";
 import CircularProgress from "./CircularProgress";
 import { BLUEPRINT_LIST } from "../data/buildingBlueprints";

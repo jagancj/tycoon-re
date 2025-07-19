@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import { GameContext } from '../GameContext';
 import { useNavigation } from '@react-navigation/native';
 import { getDynamicPropertyImage } from '../utils/imageHelpers';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from "expo-linear-gradient";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from "react-native-linear-gradient";
 
 const PropertyMarketScreen = () => {
   const navigation = useNavigation();

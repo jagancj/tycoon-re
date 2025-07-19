@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'react-native-linear-gradient';
 import { GameContext } from '../GameContext';
 import { BLUEPRINT_LIST } from '../data/buildingBlueprints';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ConstructionScreen = ({ route, navigation }) => {
   const { projectId } = route.params;

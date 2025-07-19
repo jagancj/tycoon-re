@@ -1,5 +1,5 @@
 {
   "presets": [
-    "babel-preset-expo"
+    "module:@react-native/babel-preset"
   ]
 }

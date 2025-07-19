@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "react-native-linear-gradient";
 import { GameContext } from "../GameContext";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { getDynamicPropertyImage } from "../utils/imageHelpers";
 
 const formatTimeRemaining = (timeMs) => {

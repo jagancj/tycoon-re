@@ -4,7 +4,7 @@ import { GameContext } from '../GameContext';
 import Slider from '@react-native-community/slider';
 import { getDynamicPropertyImage } from '../utils/imageHelpers';
 import TransactionModal from './TransactionModal';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PropertyDetailScreen = ({ route, navigation }) => {
   const { property } = route.params;

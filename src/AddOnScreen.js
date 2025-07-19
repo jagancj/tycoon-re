@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { GameContext } from '../GameContext';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AddOnScreen = ({ route, navigation }) => {
   const { assetId } = route.params;

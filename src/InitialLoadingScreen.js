@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { GameContext } from '../GameContext';
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'react-native-linear-gradient';
 
 const InitialLoadingScreen = ({ navigation }) => {
   // We get the whole context value. We don't destructure here yet

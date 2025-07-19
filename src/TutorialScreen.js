@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from 'react'; // Import useRef
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GameContext } from '../GameContext'; // Assuming you have useGame hook
 
 // --- Tutorial Content Data (remains the same) ---

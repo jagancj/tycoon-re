@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { GameContext } from '../GameContext';
 import { ARCHITECT_FIRMS } from '../data/architectFirms';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'react-native-linear-gradient';
 
 const ArchitectSelectionScreen = ({ route, navigation }) => {
   const { landAsset } = route.params;
